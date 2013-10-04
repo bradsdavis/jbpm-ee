@@ -1,7 +1,5 @@
 package org.jbpm.ee.service.core;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,14 +9,12 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.TransactionManager;
 
 import org.drools.KnowledgeBaseFactory;
-import org.drools.SessionConfiguration;
 import org.drools.persistence.jpa.JPAKnowledgeService;
 import org.drools.runtime.Environment;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.process.ProcessRuntime;
-import org.drools.runtime.process.WorkItemHandler;
 import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.service.startup.JBPMTimerService;
 import org.jbpm.ee.service.startup.KnowledgeAgentManagerBean;
@@ -84,7 +80,7 @@ public class JBPMServiceBean {
 		environment.set( EnvironmentName.TRANSACTION_MANAGER, transactionManager);
 
 		//create a session configuration that delegates timers.
-		KnowledgeSessionConfiguration knowledgeSessionConfiguration = new EnterpriseSessionConfiguration();
+		KnowledgeSessionConfiguration knowledgeSessionConfiguration = null; //TODO: finish timer service and enable: new EnterpriseSessionConfiguration();
 		
 		StatefulKnowledgeSession knowledgeSession = JPAKnowledgeService.newStatefulKnowledgeSession( knowledgeAgentManager.getKnowledgeBase(), knowledgeSessionConfiguration, environment);
 		
@@ -115,8 +111,7 @@ public class JBPMServiceBean {
 	 * @throws SessionException
 	 */
 	public ProcessRuntime getProcessRuntime() throws SessionException {
-		StatefulKnowledgeSession sks = this.getKnowledgeSession();
-		return sks;
+		return this.getKnowledgeSession();
 	}
 	
 }
