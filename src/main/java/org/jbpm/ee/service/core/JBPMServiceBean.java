@@ -42,11 +42,11 @@ import org.slf4j.LoggerFactory;
 public class JBPMServiceBean {
 	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBean.class);
 	
-	@EJB
-	JBPMTimerService timerService;
+	@PersistenceContext(name="org.jbpm.task", unitName="org.jbpm.task")
+	EntityManager entityManagerTask;
 	
-	@PersistenceContext
-	EntityManager entityManager;
+	@PersistenceContext(name="org.jbpm.persistence.jpa", unitName="org.jbpm.persistence.jpa")
+	EntityManager entityManagerMain;
 
 	@EJB
 	KnowledgeAgentManagerBean knowledgeAgentManager;
@@ -55,7 +55,7 @@ public class JBPMServiceBean {
 	private TransactionManager transactionManager;
 
 	public TaskService getTaskService() {
-		org.jbpm.task.service.TaskService taskService = new org.jbpm.task.service.TaskService(entityManager.getEntityManagerFactory(), new SLF4JSystemEventLogger());
+		org.jbpm.task.service.TaskService taskService = new org.jbpm.task.service.TaskService(entityManagerTask.getEntityManagerFactory(), new SLF4JSystemEventLogger());
 		TaskService localTaskService = new LocalTaskService(taskService);
 		
 		//register disconnect at commit / fail of session.
@@ -76,7 +76,7 @@ public class JBPMServiceBean {
 	 */
 	public StatefulKnowledgeSession getKnowledgeSession() throws SessionException {
 		Environment environment = KnowledgeBaseFactory.newEnvironment();
-		environment.set( EnvironmentName.ENTITY_MANAGER_FACTORY, entityManager);
+		environment.set( EnvironmentName.ENTITY_MANAGER_FACTORY, entityManagerMain.getEntityManagerFactory());
 		environment.set( EnvironmentName.TRANSACTION_MANAGER, transactionManager);
 
 		//create a session configuration that delegates timers.

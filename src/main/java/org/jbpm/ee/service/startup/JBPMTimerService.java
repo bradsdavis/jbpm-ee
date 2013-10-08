@@ -1,6 +1,5 @@
 package org.jbpm.ee.service.startup;
 
-import java.io.NotSerializableException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -11,7 +10,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
 import org.drools.command.CommandService;
-import org.drools.time.AcceptsTimerJobFactoryManager;
 import org.drools.time.InternalSchedulerService;
 import org.drools.time.Job;
 import org.drools.time.JobContext;
@@ -23,8 +21,6 @@ import org.jbpm.ee.support.timer.QuartzJobHandle;
 import org.jbpm.process.instance.timer.TimerManager.ProcessJobContext;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
-import org.quartz.JobPersistenceException;
-import org.quartz.ScheduleBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
