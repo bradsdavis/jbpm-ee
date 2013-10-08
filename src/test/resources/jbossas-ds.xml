@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
         http://www.jboss.org/ironjacamar/schema
         http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
-        
-    <datasource enabled="true"
-        jndi-name="jdbc/arquillian-jbpmtask"
-        pool-name="ArquillianEmbeddedH2Pool">
-        <connection-url>jdbc:h2:mem:arquillian-jbpmtask;DB_CLOSE_DELAY=-1</connection-url>
-        <driver>h2</driver>
-    </datasource>
-    
-    <datasource enabled="true"
-        jndi-name="jdbc/arquillian-jbpmmain"
-        pool-name="ArquillianEmbeddedH2Pool">
-        <connection-url>jdbc:h2:mem:arquillian-jbpmmain;DB_CLOSE_DELAY=-1</connection-url>
-        <driver>h2</driver>
-    </datasource>
+
+		<xa-datasource jndi-name="jdbc/arquillian-jbpmtask" pool-name="JbpmTaskDS">
+			<driver>mysql</driver>
+			<xa-datasource-property name="ServerName">localhost</xa-datasource-property>
+			<xa-datasource-property name="DatabaseName">jbpm-task</xa-datasource-property>
+			<security>
+				<user-name>root</user-name>
+				<password>root</password>
+			</security>
+			<validation>
+				<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
+				<exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"></exception-sorter>
+			</validation>
+		</xa-datasource>
+		<xa-datasource jndi-name="jdbc/arquillian-jbpmmain" pool-name="JbpmMainDS">
+			<driver>mysql</driver>
+			<xa-datasource-property name="ServerName">localhost</xa-datasource-property>
+			<xa-datasource-property name="DatabaseName">jbpm-main</xa-datasource-property>
+			<security>
+				<user-name>root</user-name>
+				<password>root</password>
+			</security>
+			<validation>
+				<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
+				<exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"></exception-sorter>
+			</validation>
+		</xa-datasource>
+		<drivers>
+			<driver name="mysql" module="com.mysql">
+				<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+			</driver>
+		</drivers>
 </datasources>

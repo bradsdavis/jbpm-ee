@@ -88,6 +88,13 @@
 			<scope>test</scope>
 			<version>${version.arquillian_core}</version>
 		</dependency>
+				
+		<dependency>
+		  <groupId>org.jboss.arquillian.extension</groupId>
+		  <artifactId>arquillian-persistence-impl</artifactId>
+		  <version>1.0.0.Alpha6</version>
+		  <scope>test</scope>
+		</dependency>
 		
 
 		<!-- JUnit -->

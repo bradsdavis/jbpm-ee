@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.TransactionManager;
@@ -39,6 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 @Stateless
 @LocalBean
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class JBPMServiceBean {
 	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBean.class);
 	
@@ -51,7 +54,7 @@ public class JBPMServiceBean {
 	@EJB
 	KnowledgeAgentManagerBean knowledgeAgentManager;
 	
-	@Resource 
+	@Resource(mappedName="java:jboss/TransactionManager")
 	private TransactionManager transactionManager;
 
 	public TaskService getTaskService() {
@@ -79,6 +82,8 @@ public class JBPMServiceBean {
 		environment.set( EnvironmentName.ENTITY_MANAGER_FACTORY, entityManagerMain.getEntityManagerFactory());
 		environment.set( EnvironmentName.TRANSACTION_MANAGER, transactionManager);
 
+		System.out.println("TransactionManager: "+transactionManager);
+		
 		//create a session configuration that delegates timers.
 		KnowledgeSessionConfiguration knowledgeSessionConfiguration = null; //TODO: finish timer service and enable: new EnterpriseSessionConfiguration();
 		

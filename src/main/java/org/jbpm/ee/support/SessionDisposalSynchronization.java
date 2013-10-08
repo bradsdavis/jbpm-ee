@@ -22,7 +22,7 @@ public class SessionDisposalSynchronization implements Synchronization {
 	}
 	
 	public void afterCompletion(int val) {
-		knowledgeSession.dispose();
+		System.out.println("Disposed: "+knowledgeSession);
 	}
 
 	//do nothing.

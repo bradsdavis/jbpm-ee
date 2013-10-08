@@ -7,6 +7,8 @@ import javax.ejb.EJB;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.osgi.spi.OSGiManifestBuilder;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
@@ -15,6 +17,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jbpm.ee.service.startup.KnowledgeAgentManagerBean;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +31,9 @@ public class JBPMServiceBeanTest {
 	
 	@EJB
 	JBPMServiceBean jbpmServiceBean;
+	
+	@EJB
+	KnowledgeAgentManagerBean knowledgeAgentManagerBean;
 	
 	@Deployment
 	public static WebArchive createDeployment() throws Exception {
@@ -59,21 +65,25 @@ public class JBPMServiceBeanTest {
 		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-flow-builder").resolveAsFiles());
 		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-bpmn2").resolveAsFiles());
 		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-persistence-jpa").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-human-task-core").resolveAsFiles());
 		archive.addAsLibraries(resolver.artifact("org.quartz-scheduler:quartz").resolveAsFiles());
+		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-human-task-core").resolveAsFiles());
 		
 		return archive;
 	}
 	
 	
 	@Test
+	@Transactional(value=TransactionMode.DEFAULT)
 	public void testJBPMServiceLookup() throws Exception {
 		Assert.assertTrue(jbpmServiceBean != null);
 		
 		LOG.info("Hello world!");
-		StatefulKnowledgeSession sns = jbpmServiceBean.getKnowledgeSession();
-		LOG.info(sns.toString());
-		Assert.assertNotNull(sns);
 		
+		StatefulKnowledgeSession sns1 = jbpmServiceBean.getKnowledgeSession();
+		StatefulKnowledgeSession sns2 = jbpmServiceBean.getKnowledgeSession();
+		
+		Assert.assertTrue(sns1 != sns2);
+		
+		LOG.info("IDs: "+sns1.getId()+" , "+sns2.getId());
 	}
 }
