@@ -10,8 +10,8 @@
 			<xa-datasource-property name="ServerName">localhost</xa-datasource-property>
 			<xa-datasource-property name="DatabaseName">jbpm-task</xa-datasource-property>
 			<security>
-				<user-name>root</user-name>
-				<password>root</password>
+				<user-name>jbpm</user-name>
+				<password>jbpm</password>
 			</security>
 			<validation>
 				<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
@@ -23,8 +23,8 @@
 			<xa-datasource-property name="ServerName">localhost</xa-datasource-property>
 			<xa-datasource-property name="DatabaseName">jbpm-main</xa-datasource-property>
 			<security>
-				<user-name>root</user-name>
-				<password>root</password>
+				<user-name>jbpm</user-name>
+				<password>jbpm</password>
 			</security>
 			<validation>
 				<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
