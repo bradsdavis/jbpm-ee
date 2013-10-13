@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import org.drools.runtime.process.ProcessInstance;
@@ -20,6 +21,7 @@ import org.drools.runtime.process.WorkItemManager;
  */
 @Stateless
 @LocalBean
+@Remote(ProcessRuntime.class)
 public class ProcessRuntimeBean implements ProcessRuntime {
 
 	@EJB

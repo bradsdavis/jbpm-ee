@@ -16,8 +16,8 @@ import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 
-import org.drools.command.Command;
 import org.jbpm.ee.remote.RemoteCommandExecutor;
+import org.jbpm.ee.remote.RemoteResponseCommand;
 import org.mvel2.sh.CommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
 	
 	
 	@Override
-	public String execute(Command command) {
+	public String execute(RemoteResponseCommand<?> command) {
 		
 		String uuid = UUID.randomUUID().toString();
 		try {
@@ -82,6 +82,7 @@ public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
 				return null;
 			}
 			else {
+				LOG.debug("Recieved message for correlation: "+correlation);
 				return ((ObjectMessage)response).getObject();
 			}
 		}
