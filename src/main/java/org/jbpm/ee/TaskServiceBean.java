@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.core;
+package org.jbpm.ee;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@ import org.drools.SessionConfiguration;
 import org.drools.time.TimerService;
 import org.drools.time.impl.TimerJobFactoryManager;
 import org.jbpm.ee.exception.LocatorException;
-import org.jbpm.ee.service.startup.JBPMTimerService;
+import org.jbpm.ee.startup.JBPMTimerService;
 
 /**
  * Returns the TimerService Singleton, in place of setting it by property.
@@ -27,11 +27,11 @@ public class EnterpriseSessionConfiguration extends SessionConfiguration {
 		return lookupJBPMTimerService();
 	}
 	
-	protected org.jbpm.ee.service.startup.JBPMTimerService lookupJBPMTimerService() {
+	protected org.jbpm.ee.startup.JBPMTimerService lookupJBPMTimerService() {
 		InitialContext ic;
 		try {
 			ic = new InitialContext();
-			return (org.jbpm.ee.service.startup.JBPMTimerService)ic.lookup(JBPM_TIMER_SERVICE);
+			return (org.jbpm.ee.startup.JBPMTimerService)ic.lookup(JBPM_TIMER_SERVICE);
 		} catch (NamingException e) {
 			throw new LocatorException("Exception locating "+JBPM_TIMER_SERVICE, e);
 		}

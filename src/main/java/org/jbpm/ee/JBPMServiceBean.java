@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.core;
+package org.jbpm.ee;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -18,10 +18,8 @@ import org.drools.runtime.KnowledgeSessionConfiguration;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.process.ProcessRuntime;
 import org.jbpm.ee.exception.SessionException;
-import org.jbpm.ee.service.startup.JBPMTimerService;
-import org.jbpm.ee.service.startup.KnowledgeAgentManagerBean;
+import org.jbpm.ee.startup.KnowledgeAgentManagerBean;
 import org.jbpm.ee.support.AwareStatefulKnowledgeSession;
-import org.jbpm.ee.support.EnterpriseSessionConfiguration;
 import org.jbpm.ee.support.SLF4JSystemEventLogger;
 import org.jbpm.ee.support.SessionDisposalSynchronization;
 import org.jbpm.ee.support.TaskServiceDisconnectSynchronization;

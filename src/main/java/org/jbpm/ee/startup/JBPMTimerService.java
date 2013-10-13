@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.startup;
+package org.jbpm.ee.startup;
 
 import java.util.Collection;
 import java.util.Date;

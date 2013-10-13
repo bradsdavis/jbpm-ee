@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.startup;
+package org.jbpm.ee.startup;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import org.apache.commons.lang.StringUtils;
 import org.drools.KnowledgeBase;
 import org.drools.PropertiesConfiguration;
 import org.drools.agent.KnowledgeAgent;
@@ -15,7 +16,6 @@ import org.drools.io.ResourceChangeScannerConfiguration;
 import org.drools.io.ResourceFactory;
 import org.drools.io.impl.ClassPathResource;
 import org.jbpm.ee.support.SLF4JSystemEventLogger;
-import org.jbpm.ee.support.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,22 +64,22 @@ public class KnowledgeAgentManagerBean {
 	@PostConstruct
 	private void setup() {
 		//setup the knowledge agent name.
-		knowledgeAgentName = StringUtils.defaultOnEmpty(knowledgeAgentName, DEFAULT_AGENT_NAME);
-		changeSetClasspathReference = StringUtils.defaultOnEmpty(changeSetClasspathReference, DEFAULT_CHANGESET);
+		knowledgeAgentName = StringUtils.defaultIfEmpty(knowledgeAgentName, DEFAULT_AGENT_NAME);
+		changeSetClasspathReference = StringUtils.defaultIfEmpty(changeSetClasspathReference, DEFAULT_CHANGESET);
 		
 		KnowledgeAgentConfiguration agentConfiguration = KnowledgeAgentFactory.newKnowledgeAgentConfiguration();
-		setProperty("drools.agent.scan.resources", droolsAgentScanResources, agentConfiguration);
-		setProperty("drools.agent.scan.directories", droolsAgentScanDirectories, agentConfiguration);
-		setProperty("drools.agent.new.instance", droolsAgentNewInstance, agentConfiguration);
-		setProperty("drools.agent.monitorChangeSetEvents", droolsAgentMonitorChangeSetEvents, agentConfiguration);
-		setProperty("drools.agent.useKBaseClassLoaderForCompiling", droolsAgentUseKBaseClassLoaderForCompiling, agentConfiguration);
-		setProperty("drools.agent.validationTimeout", droolsAgentValidationTimeout, agentConfiguration);
+		setDefaultingProperty("drools.agent.scan.resources", droolsAgentScanResources, agentConfiguration);
+		setDefaultingProperty("drools.agent.scan.directories", droolsAgentScanDirectories, agentConfiguration);
+		setDefaultingProperty("drools.agent.new.instance", droolsAgentNewInstance, agentConfiguration);
+		setDefaultingProperty("drools.agent.monitorChangeSetEvents", droolsAgentMonitorChangeSetEvents, agentConfiguration);
+		setDefaultingProperty("drools.agent.useKBaseClassLoaderForCompiling", droolsAgentUseKBaseClassLoaderForCompiling, agentConfiguration);
+		setDefaultingProperty("drools.agent.validationTimeout", droolsAgentValidationTimeout, agentConfiguration);
 
 		//setup agent.
 		knowledgeAgent = KnowledgeAgentFactory.newKnowledgeAgent(knowledgeAgentName, agentConfiguration);
 		
 		ResourceChangeScannerConfiguration config = ResourceFactory.getResourceChangeScannerService().newResourceChangeScannerConfiguration();
-		setProperty("drools.resource.scanner.interval", droolsResourceScannerInterval, config);
+		setDefaultingProperty("drools.resource.scanner.interval", droolsResourceScannerInterval, config);
 		
 		ResourceFactory.getResourceChangeScannerService().configure(config);
 		
@@ -104,20 +104,20 @@ public class KnowledgeAgentManagerBean {
 	}
 	
 
-	private static void setProperty(String name, String val, PropertiesConfiguration config) {
+	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {
 		if(val == null) return;
 
 		LOG.debug("Setting property: "+name+" to value: "+val);
 		config.setProperty(name, val);
 	}
-	private static void setProperty(String name, Boolean val, PropertiesConfiguration config) {
+	private static void setDefaultingProperty(String name, Boolean val, PropertiesConfiguration config) {
 		if(val == null) return;
 
 		String value = Boolean.toString(val);
 		LOG.debug("Setting property: "+name+" to value: "+value);
 		config.setProperty(name, value);
 	}
-	private static void setProperty(String name, Integer val, PropertiesConfiguration config) {
+	private static void setDefaultingProperty(String name, Integer val, PropertiesConfiguration config) {
 		if(val == null) return;
 
 		String value = Integer.toString(val);

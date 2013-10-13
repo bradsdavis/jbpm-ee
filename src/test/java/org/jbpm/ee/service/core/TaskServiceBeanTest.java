@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.EJB;
 
 import org.jboss.arquillian.junit.Arquillian;
+import org.jbpm.ee.TaskServiceBean;
 import org.jbpm.task.query.TaskSummary;
 import org.junit.Assert;
 import org.junit.Test;
