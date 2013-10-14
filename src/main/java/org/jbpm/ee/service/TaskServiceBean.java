@@ -1,4 +1,4 @@
-package org.jbpm.ee.remote;
+package org.jbpm.ee.service;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +9,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jbpm.ee.cdi.TaskServiceConfig;
+import org.jbpm.ee.service.remote.TaskServiceRemote;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;

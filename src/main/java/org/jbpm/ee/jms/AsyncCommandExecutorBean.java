@@ -17,8 +17,8 @@ import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 
-import org.jbpm.ee.remote.RemoteCommandExecutor;
-import org.jbpm.ee.remote.RemoteResponseCommand;
+import org.jbpm.ee.service.remote.RemoteCommandExecutor;
+import org.jbpm.ee.service.remote.RemoteResponseCommand;
 import org.jbpm.ee.support.KieReleaseId;
 import org.mvel2.sh.CommandException;
 import org.slf4j.Logger;

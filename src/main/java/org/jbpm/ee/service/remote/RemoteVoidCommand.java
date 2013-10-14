@@ -1,4 +1,4 @@
-package org.jbpm.ee.remote;
+package org.jbpm.ee.service.remote;
 
 import org.drools.core.command.impl.GenericCommand;
 
