@@ -5,7 +5,7 @@ import javax.ejb.EJB;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jbpm.ee.JBPMServiceBean;
+import org.jbpm.ee.cdi.JBPMServiceBean;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.junit.Assert;
 import org.junit.Test;

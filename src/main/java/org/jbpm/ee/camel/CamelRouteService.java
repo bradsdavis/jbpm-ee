@@ -12,7 +12,7 @@ import org.apache.camel.Route;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
-import org.jbpm.ee.JBPMServiceBean;
+import org.jbpm.ee.cdi.JBPMServiceBean;
 
 @Stateless
 public class CamelRouteService {

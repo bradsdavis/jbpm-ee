@@ -1,4 +1,4 @@
-package org.jbpm.ee;
+package org.jbpm.ee.cdi;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
@@ -8,9 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.TransactionManager;
 
-import org.jbpm.ee.cdi.KieSessionConfig;
-import org.jbpm.ee.cdi.ProcessRuntimeConfig;
-import org.jbpm.ee.cdi.TaskServiceConfig;
 import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.AwareStatefulKnowledgeSession;
