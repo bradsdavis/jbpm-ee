@@ -3,10 +3,10 @@
     <hornetq-server>
         <jms-destinations>
             <jms-queue name="JBPMCommandRequestQueue">
-                <entry name="/jms/JBPMCommandRequestQueue"/>
+                <entry name="jms/JBPMCommandRequestQueue"/>
             </jms-queue>
             <jms-topic name="JBPMCommandResponseQueue">
-                <entry name="/jms/JBPMCommandResponseQueue"/>
+                <entry name="jms/JBPMCommandResponseQueue"/>
             </jms-topic>
         </jms-destinations>
     </hornetq-server>

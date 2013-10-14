@@ -31,16 +31,16 @@ public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AsyncCommandExecutorBean.class);
 	
-	@Resource
+	@Resource(mappedName = "java:/JmsXA")
 	private ConnectionFactory connectionFactory;
 
-	@Resource(mappedName = "jms/JBPMCommandRequestQueue")
+	@Resource(mappedName = "java:/jms/JBPMCommandRequestQueue")
 	private Queue requestQueue;
 
 	@Inject
 	private KieReleaseId releaseId;
 
-	@Resource(mappedName = "jms/JBPMCommandResponseQueue")
+	@Resource(mappedName = "java:/jms/JBPMCommandResponseQueue")
 	private Queue responseQueue;
 
 	private Connection connection;

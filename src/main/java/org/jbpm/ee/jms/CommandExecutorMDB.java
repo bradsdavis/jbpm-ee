@@ -27,14 +27,14 @@ import org.slf4j.LoggerFactory;
 
 @MessageDriven(name = "CommandRequestMDB", activationConfig = {
 		 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		 @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/JBPMCommandRequestQueue"),
-		 @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+		 @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/JBPMCommandRequestQueue")
+})
 
 public class CommandExecutorMDB implements MessageListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CommandExecutorMDB.class);
 
-	@Resource
+	@Resource(mappedName = "java:/JmsXA")
 	private ConnectionFactory connectionFactory;
 
 	private Connection connection;

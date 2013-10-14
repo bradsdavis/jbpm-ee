@@ -18,9 +18,9 @@ import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
 @Stateful
-@Remote
+@Remote(TaskServiceRemote.class)
 @RequestScoped
-public class TaskServiceRemoteBean implements TaskService, TaskServiceRemote {
+public class TaskServiceBean implements TaskService, TaskServiceRemote {
 
 	@Inject @TaskServiceConfig
 	private TaskService taskService;

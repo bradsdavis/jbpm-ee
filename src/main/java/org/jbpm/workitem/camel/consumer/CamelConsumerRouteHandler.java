@@ -1,10 +1,9 @@
 package org.jbpm.workitem.camel.consumer;
 
-import java.util.Map;
-
 import org.apache.camel.Route;
+import org.kie.api.runtime.process.WorkItem;
 
 public interface CamelConsumerRouteHandler {
-	public Route createCamelRoute(String workItemName, Long workItemId, Long processInstanceId, Map<String, Object> parameters);
-	public Route cancelCamelRoute(String workItemName, Long workItemId, Long processInstanceId, Map<String, Object> parameters);
+	public Route createCamelRoute(WorkItem workItem);
+	public Route cancelCamelRoute(WorkItem workItem);
 }

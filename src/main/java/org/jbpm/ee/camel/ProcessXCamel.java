@@ -5,18 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 import org.drools.persistence.info.WorkItemInfo;
 
 @Entity
-public class ProcessXConsumerURI {
+@SequenceGenerator(name="processXCamelSeq", sequenceName="PROCESS_X_CAMEL_SEQ", allocationSize=1)
+public class ProcessXCamel {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator="processXCamelRouteId")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator="processXCamelSeq")
 	private Long id;
 	
-	private WorkItemInfo workItem;
+	@OneToOne
+	private org.drools.persistence.info.WorkItemInfo workItem;
 	
     @Version
     @Column(name = "OPTLOCK")

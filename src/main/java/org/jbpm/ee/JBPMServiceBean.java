@@ -40,9 +40,6 @@ import org.slf4j.LoggerFactory;
 public class JBPMServiceBean {
 	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBean.class);
 	
-	@PersistenceContext(name="org.jbpm.task", unitName="org.jbpm.task")
-	EntityManager entityManagerTask;
-	
 	@PersistenceContext(name="org.jbpm.persistence.jpa", unitName="org.jbpm.persistence.jpa")
 	EntityManager entityManagerMain;
 
@@ -58,7 +55,7 @@ public class JBPMServiceBean {
 	@Produces @TaskServiceConfig
 	public TaskService getTaskService() {
 		HumanTaskServiceFactory htsf = new HumanTaskServiceFactory();
-		htsf.setEntityManagerFactory(entityManagerTask.getEntityManagerFactory());
+		htsf.setEntityManagerFactory(entityManagerMain.getEntityManagerFactory());
 		
 		JbpmJTATransactionManager transactionManager = new JbpmJTATransactionManager();
 		htsf.setJbpmServicesTransactionManager(transactionManager);

@@ -34,12 +34,7 @@ public class BaseJBPMServiceTest {
 		JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test-jbpm-services.jar")
 	        .addPackages(true, "org.jbpm")
 	        .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-	        .addAsManifestResource("test-persistence.xml", "persistence.xml")
-	        
-	        .addAsManifestResource("META-INF/jbpm-task-orm.xml", "jbpm-task-orm.xml")
-	        .addAsManifestResource("META-INF/jbpm-main-orm.xml", "jbpm-main-orm.xml")
-	        
-	    	.addAsResource("test-changeset.xml", "jbpm-changeset.xml");
+	        .addAsManifestResource("test-persistence.xml", "persistence.xml");
 	    
 		archive.addAsLibraries(jar);
 		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-flow").resolveAsFiles());
@@ -48,7 +43,7 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-persistence-jpa").resolveAsFiles());
 		archive.addAsLibraries(resolver.artifact("org.quartz-scheduler:quartz").resolveAsFiles());
 		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-human-task-core").resolveAsFiles());
-		
+		archive.addAsLibraries(resolver.artifact("org.apache.camel:camel-cdi").resolveAsFiles());
 		return archive;
 	}
 

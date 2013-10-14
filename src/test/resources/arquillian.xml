@@ -10,6 +10,7 @@
 
 	<container qualifier="jbossas-7-managed" default="true">
 		<configuration>
+			<property name="serverConfig">standalone-full.xml</property>
 			<property name="jbossHome">/Users/bradsdavis/JBoss/jboss-eap-6.1</property>
 		</configuration>
 	</container>
