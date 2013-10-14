@@ -3,6 +3,7 @@ package org.jbpm.ee.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
@@ -18,6 +19,7 @@ import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
+@LocalBean
 @Stateful
 @Remote(TaskServiceRemote.class)
 @RequestScoped
