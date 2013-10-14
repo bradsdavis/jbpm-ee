@@ -21,6 +21,8 @@ public class BaseJBPMServiceTest {
 	
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class, "test-jbpm-services.war");
 		archive.addAsManifestResource("jbossas-ds.xml");
+		archive.addAsManifestResource("hornetq-jms.xml");
+		
 		archive.setManifest(new Asset() {  
 	         public InputStream openStream() {  
 	             OSGiManifestBuilder builder = OSGiManifestBuilder.newInstance();  

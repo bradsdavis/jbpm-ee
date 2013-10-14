@@ -2,9 +2,9 @@ package org.jbpm.ee.remote;
 
 import java.util.Map;
 
-import org.drools.process.instance.WorkItem;
+import org.kie.api.runtime.process.WorkItem;
 
-public interface WorkItemService {
+public interface WorkItemRemote {
 	
 	public void completeWorkItem(long id, Map<String, Object> results);
 	public void abortWorkItem(long id);

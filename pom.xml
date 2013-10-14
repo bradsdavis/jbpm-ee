@@ -8,7 +8,7 @@
 	
 	<properties>
 		<drools.version>6.0.0.CR1</drools.version>
-		<jbpm.version>5.3.0.Final</jbpm.version>
+		<jbpm.version>6.0.0.CR1</jbpm.version>
 		<junit.version>4.8.1</junit.version>
   		<cxf.version>2.2.3</cxf.version>
 		<camel.version>2.11.1</camel.version>
@@ -20,6 +20,11 @@
         <version.junit>4.8.1</version.junit>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.2.6.Final</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-flow</artifactId>
@@ -96,6 +101,13 @@
 		  <scope>test</scope>
 		</dependency>
 		
+		<!-- Fuse ESB -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		
 
 		<!-- JUnit -->
 		<dependency>
@@ -114,6 +126,11 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-cdi</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 	</dependencies>
 

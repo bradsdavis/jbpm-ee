@@ -13,4 +13,7 @@ where
     eventTypes = :type
           </query>
       </named-query>
+     
+      
+      
 </entity-mappings>

@@ -1,6 +1,6 @@
 package org.jbpm.ee.support;
 
-import org.drools.SystemEventListener;
+import org.kie.internal.SystemEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

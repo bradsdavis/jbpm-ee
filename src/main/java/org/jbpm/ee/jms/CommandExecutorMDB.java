@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.EJB;
+import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -14,17 +15,21 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
-import javax.jms.Queue;
 import javax.jms.Session;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.drools.command.Command;
-import org.jbpm.ee.CommandExecutorBean;
+import org.jbpm.ee.cdi.KieSessionConfig;
 import org.jbpm.ee.exception.CommandException;
+import org.kie.api.command.Command;
+import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@MessageDriven
+@MessageDriven(name = "CommandRequestMDB", activationConfig = {
+		 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+		 @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/JBPMCommandRequestQueue"),
+		 @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+
 public class CommandExecutorMDB implements MessageListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CommandExecutorMDB.class);
@@ -32,15 +37,11 @@ public class CommandExecutorMDB implements MessageListener {
 	@Resource
 	private ConnectionFactory connectionFactory;
 
-	@Resource(mappedName = "jms/JBPMCommandRequestQueue")
-	private Queue queue;
-	
 	private Connection connection;
 	private Session session;
 
-	@EJB
-	private CommandExecutorBean commandService;
-
+	@Inject @KieSessionConfig
+	private KieSession commandService;
 
     @PostConstruct
     public void init() throws JMSException {
@@ -68,7 +69,7 @@ public class CommandExecutorMDB implements MessageListener {
 						throw new CommandException("Unable to send response for command, since it is not serializable.");
 					}
 					
-			        MessageProducer producer = session.createProducer(queue);
+			        MessageProducer producer = session.createProducer(responseQueue);
 			        
 					ObjectMessage responseMessage = session.createObjectMessage();
 					responseMessage.setObject((Serializable)commandResponse);

@@ -37,8 +37,8 @@ import org.slf4j.LoggerFactory;
  *
  */
 @RequestScoped
-public class JBPMServiceBean {
-	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBean.class);
+public class JBPMServiceBeanFactory {
+	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBeanFactory.class);
 	
 	@PersistenceContext(name="org.jbpm.task", unitName="org.jbpm.task")
 	EntityManager entityManagerTask;
