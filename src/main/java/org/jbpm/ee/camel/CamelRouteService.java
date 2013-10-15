@@ -50,7 +50,7 @@ public class CamelRouteService {
 			String workItemHandlerClass = routeXWorkItem.getWorkItemHandler();
 			
 			//look up the WorkItemHandler from the WorkItemManager.
-			DefaultWorkItemManager wim = (DefaultWorkItemManager)jbpmServiceBean.getWorkItemService();
+			DefaultWorkItemManager wim = null;//(DefaultWorkItemManager)jbpmServiceBean.getWorkItemService();
 			org.kie.api.runtime.process.WorkItemHandler handler = wim.getWorkItemHandler(workItemHandlerClass);
 			
 			WorkItem workItem = wim.getWorkItem(routeXWorkItem.getWorkItem().getId());

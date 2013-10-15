@@ -1,7 +1,7 @@
 package org.jbpm.ee.cdi;
 
 import javax.annotation.Resource;
-import javax.enterprise.context.RequestScoped;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author bradsdavis
  *
  */
-@RequestScoped
+@Stateless
 public class JBPMServiceBean {
 	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBean.class);
 	
@@ -47,9 +47,8 @@ public class JBPMServiceBean {
 		return entityManagerMain.getEntityManagerFactory();
 	}
 	
-	
 	@Inject
-	KnowledgeManagerBean knowledgeManagerManager;
+	private KnowledgeManagerBean knowledgeManagerManager;
 	
 	@Resource(mappedName="java:jboss/TransactionManager")
 	private TransactionManager transactionManager;
@@ -77,8 +76,6 @@ public class JBPMServiceBean {
 	 * @return
 	 * @throws SessionException
 	 */
-	
-	@Produces @KieSessionConfig
 	public KieSession getKnowledgeSession(KieReleaseId releaseId) throws SessionException {
 		Environment environment = KnowledgeBaseFactory.newEnvironment();
 		environment.set( EnvironmentName.ENTITY_MANAGER_FACTORY, entityManagerMain.getEntityManagerFactory());
@@ -94,14 +91,12 @@ public class JBPMServiceBean {
 	 * @return
 	 * @throws SessionException
 	 */
-	@Produces @ProcessRuntimeConfig
 	public ProcessRuntime getProcessRuntime(KieReleaseId releaseId) throws SessionException {
 		return this.getKnowledgeSession(releaseId);
 	}
 	
-	@Produces
-	public WorkItemManager getWorkItemService() {
-		return this.getProcessRuntime().getWorkItemManager();
+	public WorkItemManager getWorkItemService(KieReleaseId releaseId) {
+		return this.getProcessRuntime(releaseId).getWorkItemManager();
 	}
 	
 }
