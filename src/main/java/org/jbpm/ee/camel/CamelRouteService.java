@@ -14,7 +14,6 @@ import org.drools.core.process.instance.impl.DefaultWorkItemManager;
 import org.drools.persistence.info.WorkItemInfo;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
 import org.jbpm.ee.cdi.JBPMServiceBean;
 import org.jbpm.workitem.camel.consumer.CamelConsumerHandler;
 import org.kie.api.runtime.process.WorkItem;
