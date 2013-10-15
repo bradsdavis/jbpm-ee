@@ -9,7 +9,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-import org.jbpm.ee.cdi.TaskServiceConfig;
+import org.jbpm.ee.cdi.ProcessRuntimeConfig;
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.ProcessRuntime;
@@ -21,7 +21,7 @@ import org.kie.api.runtime.process.WorkItemManager;
 @RequestScoped
 public class ProcessRuntimeBean implements ProcessRuntime, ProcessRuntimeRemote {
 
-	@Inject @TaskServiceConfig
+	@Inject @ProcessRuntimeConfig
 	private ProcessRuntime processRuntime;
 
 	@Override

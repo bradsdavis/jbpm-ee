@@ -6,7 +6,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
-import org.apache.camel.Route;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.CdiCamelContext;
 import org.jbpm.ee.camel.CamelRouteService;
 
@@ -22,10 +22,9 @@ public class CamelBootstrap {
 	
 	
 	@PostConstruct
-	public void setup() {
-
-		for(Route route : camelRouteService.loadCamelRoutes()) {
-			//TODO: rehydrate the camel routes from the database
+	public void setup() throws Exception {
+		for(RouteBuilder routeBuilder : camelRouteService.loadCamelRoutesFromActiveWorkItems()) {
+			camelContext.addRoutes(routeBuilder);
 		}
 		
         // Start Camel Context

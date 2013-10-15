@@ -13,11 +13,13 @@ import org.drools.persistence.info.WorkItemInfo;
 
 @Entity
 @SequenceGenerator(name="processXCamelSeq", sequenceName="PROCESS_X_CAMEL_SEQ", allocationSize=1)
-public class ProcessXCamel {
+public class CamelRouteXWorkItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator="processXCamelSeq")
 	private Long id;
+	
+	private String workItemHandler;
 	
 	@OneToOne
 	private org.drools.persistence.info.WorkItemInfo workItem;
@@ -46,6 +48,11 @@ public class ProcessXCamel {
 	public void setWorkItem(WorkItemInfo workItem) {
 		this.workItem = workItem;
 	}
-
+	public String getWorkItemHandler() {
+		return workItemHandler;
+	}
+	public void setWorkItemHandler(String workItemHandler) {
+		this.workItemHandler = workItemHandler;
+	}
 	
 }

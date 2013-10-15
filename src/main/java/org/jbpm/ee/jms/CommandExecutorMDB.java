@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 		 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		 @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/JBPMCommandRequestQueue")
 })
-
 public class CommandExecutorMDB implements MessageListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CommandExecutorMDB.class);
