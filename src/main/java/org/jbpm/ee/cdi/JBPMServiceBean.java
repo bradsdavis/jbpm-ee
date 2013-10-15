@@ -64,6 +64,10 @@ public class JBPMServiceBean {
 		return htsf.newTaskService();
 	}
 	
+	@Produces
+	public EntityManager getEntityManager() {
+		return entityManagerMain;
+	}
 
 	@Produces
 	public UserGroupCallback getUserGroupCallback() {
