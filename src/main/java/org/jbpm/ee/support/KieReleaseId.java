@@ -97,4 +97,15 @@ public class KieReleaseId implements ReleaseId {
 		return null;
 	}
 
+	@Override
+	public boolean isSnapshot() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return groupId + ":" + artifactId + ":" + version;
+	}
+
 }

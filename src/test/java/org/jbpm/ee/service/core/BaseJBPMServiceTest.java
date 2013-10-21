@@ -9,16 +9,17 @@ import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 
 public class BaseJBPMServiceTest {
 
 	@Deployment
 	public static WebArchive createDeployment() throws Exception {
-		MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
+		//MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
 	
-	
+	PomEquippedResolveStage resolveStage = Maven.resolver().loadPomFromFile("pom.xml");
+		
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class, "test-jbpm-services.war");
 		archive.addAsManifestResource("jbossas-ds.xml");
 		archive.addAsManifestResource("hornetq-jms.xml");
@@ -27,6 +28,9 @@ public class BaseJBPMServiceTest {
 	         public InputStream openStream() {  
 	             OSGiManifestBuilder builder = OSGiManifestBuilder.newInstance();  
 	             builder.addManifestHeader("Dependencies", "org.osgi.core");  
+	             builder.addManifestHeader("Bundle-ManifestVersion", "2");
+	             builder.addManifestHeader("Bundle-SymbolicName", "jbpmeeservice_1.0.0-SNAPSHOT");
+	             builder.addManifestHeader("Bund-Name", "JBPM-EE");
 	             return builder.openStream();  
 	         }  
 	     });  
@@ -37,14 +41,16 @@ public class BaseJBPMServiceTest {
 	        .addAsManifestResource("test-persistence.xml", "persistence.xml");
 	    
 		archive.addAsLibraries(jar);
-		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-flow").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-flow-builder").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-bpmn2").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-persistence-jpa").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.quartz-scheduler:quartz").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.jbpm:jbpm-human-task-core").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.apache.camel:camel-cdi").resolveAsFiles());
-		archive.addAsLibraries(resolver.artifact("org.jboss.solder:solder-impl").resolveAsFiles());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow-builder").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-bpmn2").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-persistence-jpa").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.quartz-scheduler:quartz").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-human-task-core").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.kie:kie-ci").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.apache.camel:camel-cdi").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jboss.solder:solder-impl").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile());
 		return archive;
 	}
 
