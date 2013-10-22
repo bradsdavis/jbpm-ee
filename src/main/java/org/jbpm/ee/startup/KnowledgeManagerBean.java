@@ -7,8 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.resource.spi.ConfigProperty;
+import javax.inject.Inject;
 
+import org.jbpm.ee.config.Configuration;
+import org.jbpm.ee.config.ConfigurationFactory;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -32,7 +34,8 @@ public class KnowledgeManagerBean {
 	
 	private KieServices kieServices;
 	
-	@ConfigProperty
+	@Inject
+	@Configuration(value="scannerPollFrequency")
 	private Long scannerPollFrequency;
 	
 	@PostConstruct
@@ -58,9 +61,8 @@ public class KnowledgeManagerBean {
 		
 		if(!containers.containsKey(resourceKey)) {
 			//create a new container.
-			KieContainer kieContainer = kieServices.newKieContainer(resourceKey);
+			KieContainer kieContainer = kieServices.newKieContainer(resourceKey.toReleaseIdImpl());
 			KieScanner kieScanner = kieServices.newKieScanner(kieContainer);
-			
 			kieScanner.start(scannerPollFrequency);
 			
 			//register the new container and scanner.

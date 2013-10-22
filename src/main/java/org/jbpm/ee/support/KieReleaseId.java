@@ -2,6 +2,7 @@ package org.jbpm.ee.support;
 
 import javax.enterprise.context.RequestScoped;
 
+import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.kie.api.builder.ReleaseId;
 
 @RequestScoped
@@ -94,7 +95,21 @@ public class KieReleaseId implements ReleaseId {
 
 	@Override
 	public String toExternalForm() {
-		return null;
+		return toString();
+	}
+
+	@Override
+	public boolean isSnapshot() {
+		return version.endsWith("-SNAPSHOT");
+	}
+
+	@Override
+	public String toString() {
+		return groupId + ":" + artifactId + ":" + version;
+	}
+	
+	public ReleaseIdImpl toReleaseIdImpl() {
+		return new ReleaseIdImpl(groupId, artifactId, version);
 	}
 
 }
