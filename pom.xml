@@ -5,20 +5,20 @@
 	<artifactId>jbpm-ee</artifactId>
 	<version>1.0.0</version>
 	<name>jBPM EE</name>
-	
+
 	<properties>
 		<drools.version>6.0.0.CR4</drools.version>
 		<jbpm.version>6.0.0.CR4</jbpm.version>
 		<junit.version>4.8.1</junit.version>
-  		<cxf.version>2.2.3</cxf.version>
+		<cxf.version>2.2.3</cxf.version>
 		<camel.version>2.11.1</camel.version>
 		<maven-aether.version>3.1.0</maven-aether.version>
 		<version.org.jboss.bom>1.0.3.Final</version.org.jboss.bom>
 		<version.arquillian_core>1.1.1.Final</version.arquillian_core>
 		<version.shrinkwrap>1.1.1</version.shrinkwrap>
-        <version.jbossas_7>7.2.0.Final</version.jbossas_7>
-        <version.junit>4.8.1</version.junit>
-        <deltaspike.version>0.5</deltaspike.version>
+		<version.jbossas_7>7.2.0.Final</version.jbossas_7>
+		<version.junit>4.8.1</version.junit>
+		<deltaspike.version>0.5</deltaspike.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -61,10 +61,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		 
-		
-		
+
+
+
+
 		<dependency>
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-persistence-jpa</artifactId>
@@ -98,8 +98,8 @@
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-	
-			<!-- Java EE6 stack -->
+
+		<!-- Java EE6 stack -->
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-web-6.0</artifactId>
@@ -125,27 +125,14 @@
 			<scope>test</scope>
 			<version>${version.arquillian_core}</version>
 		</dependency>
-				
+
 		<dependency>
-		  <groupId>org.jboss.arquillian.extension</groupId>
-		  <artifactId>arquillian-persistence-impl</artifactId>
-		  <version>1.0.0.Alpha6</version>
-		  <scope>test</scope>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-impl</artifactId>
+			<version>1.0.0.Alpha6</version>
+			<scope>test</scope>
 		</dependency>
-		
-		<!-- Fuse ESB -->
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-core</artifactId>
-			<version>${camel.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jaxb-impl</artifactId>
-					<groupId>com.sun.xml.bind</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
+
 
 		<!-- JUnit -->
 		<dependency>
@@ -190,22 +177,22 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-            <groupId>org.jboss.solder</groupId>
-            <artifactId>solder-impl</artifactId>
-            <version>3.2.0.Final</version>
-        </dependency>
-		<dependency>
-		    <groupId>org.apache.deltaspike.core</groupId>
-		    <artifactId>deltaspike-core-api</artifactId>
-		    <version>${deltaspike.version}</version>
-		    <scope>compile</scope>
+			<groupId>org.jboss.solder</groupId>
+			<artifactId>solder-impl</artifactId>
+			<version>3.2.0.Final</version>
 		</dependency>
-		
 		<dependency>
-		    <groupId>org.apache.deltaspike.core</groupId>
-		    <artifactId>deltaspike-core-impl</artifactId>
-		    <version>${deltaspike.version}</version>
-		    <scope>runtime</scope>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-api</artifactId>
+			<version>${deltaspike.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-impl</artifactId>
+			<version>${deltaspike.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kie</groupId>
@@ -223,14 +210,14 @@
 			<artifactId>kie-ci</artifactId>
 			<version>${jbpm.version}</version>
 		</dependency>
-<dependency> 
-    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-    <artifactId>shrinkwrap-resolver-depchain</artifactId>
-    <version>2.0.0</version>
-    <scope>test</scope>
-    <type>pom</type>
-  </dependency> 
-            
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-depchain</artifactId>
+			<version>2.0.0</version>
+			<scope>test</scope>
+			<type>pom</type>
+		</dependency>
+
 	</dependencies>
 
 
@@ -256,22 +243,22 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-		     <plugin>
-		        <groupId>org.apache.felix</groupId>
-		        <artifactId>maven-bundle-plugin</artifactId>
-		        <configuration>
-		          <instructions>
-		            <Bundle-SymbolicName>org.jbpm.persistence.jpa;singleton:=true</Bundle-SymbolicName>
-		            <Import-Package>
-		              javax.transaction.*;resolution:=optional,
-		              *
-		            </Import-Package>
-		            <Export-Package>
-		              org.jbpm.persistence.*
-		            </Export-Package>
-		          </instructions>
-		        </configuration>
-		      </plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>org.jbpm.persistence.jpa;singleton:=true</Bundle-SymbolicName>
+						<Import-Package>
+							javax.transaction.*;resolution:=optional,
+							*
+						</Import-Package>
+						<Export-Package>
+							org.jbpm.persistence.*
+						</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -298,7 +285,7 @@
 		</profile>
 
 	</profiles>
-	
+
 	<repositories>
 		<!-- Bootstrap repository to locate the parent pom when the parent pom 
 			has not been build locally. -->
