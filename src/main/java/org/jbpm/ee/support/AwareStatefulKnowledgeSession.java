@@ -8,6 +8,7 @@ import org.kie.api.command.Command;
 import org.kie.api.event.process.ProcessEventListener;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.WorkingMemoryEventListener;
+import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.Calendars;
 import org.kie.api.runtime.Channel;
 import org.kie.api.runtime.Environment;
@@ -340,5 +341,11 @@ public class AwareStatefulKnowledgeSession implements KieSession {
 	@Override
 	public KieBase getKieBase() {
 		return delegate.getKieBase();
+	}
+
+	@Override
+	public KieRuntimeLogger getLogger() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

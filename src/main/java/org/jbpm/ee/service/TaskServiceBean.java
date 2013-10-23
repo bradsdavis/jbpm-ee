@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Remote;
-import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
 
 import org.jbpm.ee.service.remote.TaskServiceRemote;
-import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
@@ -19,11 +19,12 @@ import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
 @LocalBean
-@Stateful
+@Stateless
 @Remote(TaskServiceRemote.class)
-@RequestScoped
+@Alternative
 public class TaskServiceBean implements TaskService, TaskServiceRemote {
 
+	@Inject
 	private TaskService taskService;
 	
 	@Override

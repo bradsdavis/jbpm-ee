@@ -33,14 +33,14 @@ public class ConfigurationFactory {
         }
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propsFilename);
         if (inputStream == null) {
-            throw new FileNotFoundException("Properties file for environment " + environmentName + " not found in the classpath.");
+            throw new FileNotFoundException("Properties file for environment " + environmentName + " not found in the classpath: " + propsFilename);
         }
         environmentProps.load(inputStream);
         LOG.info("Reading Parameters:");
     }
     
-    //@Produces
-    //@Configuration
+    @Produces
+    @Configuration
     public String getConfigValueAsString(InjectionPoint ip) {
         Configuration config = ip.getAnnotated().getAnnotation(Configuration.class);
         String configKey = config.value();
