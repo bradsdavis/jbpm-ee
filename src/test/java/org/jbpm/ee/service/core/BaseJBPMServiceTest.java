@@ -51,6 +51,7 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow-builder").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-bpmn2").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-persistence-jpa").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-runtime-manager").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.quartz-scheduler:quartz").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-human-task-core").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.kie:kie-ci").withTransitivity().asFile());
