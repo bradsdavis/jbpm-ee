@@ -44,8 +44,9 @@ public class BaseJBPMServiceTest {
 	        .addPackages(true, "org.jbpm.ee")
 	        .addPackages(true, "org.jbpm.workitem.camel")
 	        .addAsManifestResource("META-INF/beans.xml", "beans.xml")
-	        .addAsManifestResource("test-persistence.xml", "persistence.xml");
-	    System.out.println(jar.toString(true));
+	        .addAsManifestResource("test-persistence.xml", "persistence.xml")
+	        .addAsResource("environment.properties", "environment.properties");
+	    //System.out.println(jar.toString(true));
 		archive.addAsLibraries(jar);
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow-builder").withTransitivity().asFile());
@@ -59,7 +60,7 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolveStage.resolve("org.jboss.solder:solder-impl").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile());
 		
-		System.out.println(archive.toString(true));
+		//System.out.println(archive.toString(true));
 		return archive;
 	}
 
