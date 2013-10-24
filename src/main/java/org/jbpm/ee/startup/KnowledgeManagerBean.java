@@ -5,18 +5,33 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import javax.persistence.EntityManagerFactory;
+import javax.transaction.TransactionManager;
 
 import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.config.ConfigurationFactory;
+import org.jbpm.ee.exception.SessionException;
+import org.jbpm.ee.support.AwareStatefulKnowledgeSession;
 import org.jbpm.ee.support.KieReleaseId;
+import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.PropertiesConfiguration;
 import org.kie.api.builder.KieScanner;
+import org.kie.api.runtime.Environment;
+import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.manager.RuntimeEngine;
+import org.kie.api.runtime.manager.RuntimeManager;
+import org.kie.internal.KnowledgeBaseFactory;
+import org.kie.internal.runtime.manager.RuntimeEnvironment;
+import org.kie.internal.runtime.manager.RuntimeManagerFactory;
+import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,20 +44,31 @@ import org.slf4j.LoggerFactory;
 @Singleton(name="KnowledgeAgentManager")
 public class KnowledgeManagerBean {
 	private static final Logger LOG = LoggerFactory.getLogger(KnowledgeManagerBean.class);
-	private Map<KieReleaseId, KieContainer> containers;
-	private Map<KieReleaseId, KieScanner> scanners;
 	
-	private KieServices kieServices;
+	protected Map<KieReleaseId, KieContainer> containers;
+	protected Map<KieReleaseId, KieScanner> scanners;
+	
+	protected Map<KieReleaseId, RuntimeManager> runtimeManagers;
+	
+	protected KieServices kieServices;
 	
 	@Inject
 	@Configuration(value="scannerPollFrequency")
-	private Long scannerPollFrequency;
+	protected Long scannerPollFrequency;
+	
+	@Inject
+	protected EntityManagerFactory emf;
+	
+	@Resource(mappedName="java:jboss/TransactionManager")
+	private TransactionManager transactionManager;
 	
 	@PostConstruct
 	private void setup() {
 		 kieServices = KieServices.Factory.get();
 		 containers = new HashMap<KieReleaseId, KieContainer>();
 		 scanners = new HashMap<KieReleaseId, KieScanner>();
+		 
+		 runtimeManagers = new HashMap<KieReleaseId, RuntimeManager>();
 	}
 
 	@PreDestroy
@@ -57,7 +83,7 @@ public class KnowledgeManagerBean {
 		this.scanners = null;
 	}
 
-	public KieContainer getKieContainer(KieReleaseId resourceKey) {
+	protected KieContainer getKieContainer(KieReleaseId resourceKey) {
 		
 		if(!containers.containsKey(resourceKey)) {
 			//create a new container.
@@ -72,10 +98,31 @@ public class KnowledgeManagerBean {
 		return this.containers.get(resourceKey);
 	}
 	
-	public KieBase getKieBase(KieReleaseId resourceKey) {
+	protected KieBase getKieBase(KieReleaseId resourceKey) {
 		return getKieContainer(resourceKey).getKieBase();
 	}	
 	
+	/**
+	 * Sets up a new KnowledgeSession with the Human Task Handler defined.
+	 * 
+	 * @return
+	 * @throws SessionException
+	 */
+	public KieSession getKnowledgeSession(KieReleaseId releaseId) throws SessionException {
+
+		if(!runtimeManagers.containsKey(releaseId)) {
+			RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
+			.entityManagerFactory(emf)
+			.knowledgeBase(getKieBase(releaseId))
+			.persistence(true)
+			.get();
+			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
+		}
+		RuntimeManager rm = runtimeManagers.get(releaseId);
+		RuntimeEngine rEngine = rm.getRuntimeEngine(ProcessInstanceIdContext.get());
+		
+		return new AwareStatefulKnowledgeSession(rEngine.getKieSession());
+	}
 	
 	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {
 		if(val == null) return;
