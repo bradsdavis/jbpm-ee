@@ -15,21 +15,19 @@ import org.jbpm.ee.support.AwareStatefulKnowledgeSession;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.jbpm.services.task.HumanTaskServiceFactory;
-import org.jbpm.services.task.wih.LocalHTWorkItemHandler;
 import org.jbpm.shared.services.impl.JbpmJTATransactionManager;
 import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.runtime.process.ProcessRuntime;
 import org.kie.api.runtime.process.WorkItemManager;
 import org.kie.api.task.TaskService;
 import org.kie.internal.KnowledgeBaseFactory;
-import org.kie.internal.persistence.jpa.JPAKnowledgeService;
-import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.RuntimeManagerFactory;
-import org.kie.internal.runtime.manager.cdi.qualifier.PerProcessInstance;
+import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.kie.internal.task.api.UserGroupCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,10 +55,6 @@ public class JBPMServiceBean {
 	@Inject
 	private KnowledgeManagerBean knowledgeManagerManager;
 	
-	@Inject
-	@PerProcessInstance
-	private RuntimeManager runtimeManager;
-	
 	@Resource(mappedName="java:jboss/TransactionManager")
 	private TransactionManager transactionManager;
 	
@@ -84,41 +78,6 @@ public class JBPMServiceBean {
 		return HumanTaskServiceFactory.createUserGroupCallback();
 	}
 	
-	@Produces
-	@PerProcessInstance
-	public RuntimeEnvironment getRuntimeEnvironment() {
-		RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
-		.entityManagerFactory(getEntityManagerFactory())
-		//.knowledgeBase(knowledgeManagerManager.getKieBase(releaseId))
-		.persistence(true)
-		.get();
-		return re;
-	}
-	
-	/**
-	 * Sets up a new KnowledgeSession with the Human Task Handler defined.
-	 * 
-	 * @return
-	 * @throws SessionException
-	 */
-	public KieSession getKnowledgeSession(KieReleaseId releaseId) throws SessionException {
-		Environment environment = KnowledgeBaseFactory.newEnvironment();
-		environment.set( EnvironmentName.ENTITY_MANAGER_FACTORY, entityManagerMain.getEntityManagerFactory());
-		environment.set( EnvironmentName.TRANSACTION_MANAGER, transactionManager);
-
-
-		
-//		RuntimeManager rm = RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re);
-
-		//create a session configuration that delegates timers.
-		KieSession knowledgeSession = JPAKnowledgeService.newStatefulKnowledgeSession( knowledgeManagerManager.getKieBase(releaseId), null, environment);
-		
-		LocalHTWorkItemHandler humanTaskHandler = new LocalHTWorkItemHandler();
-		//humanTaskHandler.setRuntimeManager(rm);
-		knowledgeSession.getWorkItemManager().registerWorkItemHandler("Human Task", humanTaskHandler);
-		
-		return new AwareStatefulKnowledgeSession(knowledgeSession);
-	}
 
 	/**
 	 * Cleaner API for working with the jBPM Processes.
@@ -126,7 +85,7 @@ public class JBPMServiceBean {
 	 * @throws SessionException
 	 */
 	public ProcessRuntime getProcessRuntime(KieReleaseId releaseId) throws SessionException {
-		return this.getKnowledgeSession(releaseId);
+		return knowledgeManagerManager.getKnowledgeSession(releaseId);
 	}
 	
 	public WorkItemManager getWorkItemService(KieReleaseId releaseId) {
