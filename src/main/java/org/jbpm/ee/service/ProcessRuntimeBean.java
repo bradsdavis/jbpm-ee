@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
@@ -14,12 +13,15 @@ import org.kie.api.runtime.process.WorkItemManager;
 
 @LocalBean
 @Stateful
-@Remote(ProcessRuntimeRemote.class)
 @RequestScoped
-public class ProcessRuntimeBean implements ProcessRuntime, ProcessRuntimeRemote {
+public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 	
 	private ProcessRuntime processRuntimeDelegate;
 
+	void setDelegate(ProcessRuntime processRuntimeDelegate) {
+		this.processRuntimeDelegate = processRuntimeDelegate;
+	}
+	
 	@Override
 	public ProcessInstance startProcess(String processId) {
 		return processRuntimeDelegate.startProcess(processId);

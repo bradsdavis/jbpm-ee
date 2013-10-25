@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Alternative;
 
@@ -19,11 +18,14 @@ import org.kie.api.task.model.TaskSummary;
 
 @LocalBean
 @Stateless
-@Remote(TaskServiceRemote.class)
 @Alternative
-public class TaskServiceBean implements TaskService, TaskServiceRemote {
+public class TaskServiceBean implements TaskServiceRemote {
 
 	private TaskService taskServiceDelegate;
+	
+	void setDelegate(TaskService taskServiceDelegate) {
+		this.taskServiceDelegate = taskServiceDelegate;
+	}
 	
 	@Override
 	public void activate(long taskId, String userId) {
