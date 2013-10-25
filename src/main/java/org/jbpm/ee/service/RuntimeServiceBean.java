@@ -8,7 +8,7 @@ import org.jbpm.ee.support.KieReleaseId;
 
 @Stateful
 @LocalBean
-public class RuntimeServicesBean  implements RuntimeServiceRemote{
+public class RuntimeServiceBean  implements RuntimeServiceRemote{
 
 	@Override
 	public void setRuntime(KieReleaseId releaseId) {
