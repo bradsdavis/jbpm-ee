@@ -1,8 +1,10 @@
 package org.jbpm.ee.service;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.service.remote.RuntimeServiceRemote;
@@ -16,9 +18,10 @@ import org.kie.api.task.TaskService;
 
 @Stateful
 @LocalBean
+@SessionScoped
 public class RuntimeServiceBean  implements RuntimeServiceRemote{
 
-	@EJB
+	@Inject
 	private KnowledgeManagerBean knowledgeManager;
 	
 	private RuntimeEngine runtimeEngine = null;

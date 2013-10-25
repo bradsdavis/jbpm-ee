@@ -3,10 +3,11 @@ package org.jbpm.ee.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
 
 import org.jbpm.ee.service.remote.TaskServiceRemote;
 import org.kie.api.task.TaskService;
@@ -20,9 +21,10 @@ import org.kie.api.task.model.TaskSummary;
 @LocalBean
 @Stateful
 @Alternative
+@SessionScoped
 public class TaskServiceBean implements TaskServiceRemote {
 
-	@EJB
+	@Inject
 	RuntimeServiceBean runtimeService; 
 	
 	private TaskService taskServiceDelegate;

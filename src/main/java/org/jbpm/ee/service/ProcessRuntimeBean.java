@@ -3,10 +3,10 @@ package org.jbpm.ee.service;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.kie.api.runtime.process.ProcessInstance;
@@ -15,10 +15,10 @@ import org.kie.api.runtime.process.WorkItemManager;
 
 @LocalBean
 @Stateful
-@RequestScoped
+@SessionScoped
 public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 
-	@EJB
+	@Inject
 	RuntimeServiceBean runtimeService; 
 	
 	private ProcessRuntime processRuntimeDelegate;
