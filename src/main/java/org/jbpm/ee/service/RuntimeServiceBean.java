@@ -31,9 +31,9 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 	@Override
 	public boolean runtimeIsSet() {
 		if (runtimeEngine == null) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private void runtimeCheck() {
