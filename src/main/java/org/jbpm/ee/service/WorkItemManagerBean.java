@@ -3,7 +3,6 @@ package org.jbpm.ee.service;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Remote;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import org.jbpm.ee.service.remote.WorkItemManagerRemote;
@@ -11,7 +10,6 @@ import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 
 @LocalBean
-@Remote(WorkItemManagerRemote.class)
 @Stateful
 @SessionScoped
 public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemote {
