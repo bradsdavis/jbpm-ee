@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
@@ -19,161 +19,196 @@ import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
 @LocalBean
-@Stateless
-@Remote(TaskServiceRemote.class)
+@Stateful
 @Alternative
-public class TaskServiceBean implements TaskService, TaskServiceRemote {
+@SessionScoped
+public class TaskServiceBean implements TaskServiceRemote {
 
 	@Inject
-	private TaskService taskService;
+	RuntimeServiceBean runtimeService; 
+	
+	private TaskService taskServiceDelegate;
+
+	private void delegateCheck() {
+		if (taskServiceDelegate == null) {
+			taskServiceDelegate = runtimeService.getTaskService();
+		}
+	}
 	
 	@Override
 	public void activate(long taskId, String userId) {
-		taskService.activate(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.activate(taskId, userId);
 	}
 
 	@Override
 	public void claim(long taskId, String userId) {
-		taskService.claim(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.claim(taskId, userId);
 
 	}
 
 	@Override
 	public void claimNextAvailable(String userId, String language) {
-		taskService.claimNextAvailable(userId, language);
+		delegateCheck();
+		taskServiceDelegate.claimNextAvailable(userId, language);
 
 	}
 
 	@Override
 	public void complete(long taskId, String userId, Map<String, Object> data) {
-		taskService.complete(taskId, userId, data);
+		delegateCheck();
+		taskServiceDelegate.complete(taskId, userId, data);
 
 	}
 
 	@Override
 	public void delegate(long taskId, String userId, String targetUserId) {
-		taskService.delegate(taskId, userId, targetUserId);
+		delegateCheck();
+		taskServiceDelegate.delegate(taskId, userId, targetUserId);
 
 	}
 
 	@Override
 	public void exit(long taskId, String userId) {
-		taskService.exit(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.exit(taskId, userId);
 
 	}
 
 	@Override
 	public void fail(long taskId, String userId, Map<String, Object> faultData) {
-		taskService.fail(taskId, userId, faultData);
+		delegateCheck();
+		taskServiceDelegate.fail(taskId, userId, faultData);
 
 	}
 
 	@Override
 	public void forward(long taskId, String userId, String targetEntityId) {
-		taskService.forward(taskId, userId, targetEntityId);
+		delegateCheck();
+		taskServiceDelegate.forward(taskId, userId, targetEntityId);
 
 	}
 
 	@Override
 	public Task getTaskByWorkItemId(long workItemId) {
-		return taskService.getTaskByWorkItemId(workItemId);
+		delegateCheck();
+		return taskServiceDelegate.getTaskByWorkItemId(workItemId);
 	}
 
 	@Override
 	public Task getTaskById(long taskId) {
-		return taskService.getTaskById(taskId);
+		delegateCheck();
+		return taskServiceDelegate.getTaskById(taskId);
 	}
 
 	@Override
 	public List<TaskSummary> getTasksAssignedAsBusinessAdministrator(String userId, String language) {
-		return taskService.getTasksAssignedAsBusinessAdministrator(userId, language);
+		delegateCheck();
+		return taskServiceDelegate.getTasksAssignedAsBusinessAdministrator(userId, language);
 	}
 
 	@Override
 	public List<TaskSummary> getTasksAssignedAsPotentialOwner(String userId, String language) {
-		return taskService.getTasksAssignedAsPotentialOwner(userId, language);
+		delegateCheck();
+		return taskServiceDelegate.getTasksAssignedAsPotentialOwner(userId, language);
 	}
 
 	@Override
 	public List<TaskSummary> getTasksAssignedAsPotentialOwnerByStatus(String userId, List<Status> status, String language) {
-		return taskService.getTasksAssignedAsPotentialOwnerByStatus(userId, status, language);
+		delegateCheck();
+		return taskServiceDelegate.getTasksAssignedAsPotentialOwnerByStatus(userId, status, language);
 	}
 
 	@Override
 	public List<TaskSummary> getTasksOwned(String userId, String language) {
-		return taskService.getTasksOwned(userId, language);
+		delegateCheck();
+		return taskServiceDelegate.getTasksOwned(userId, language);
 	}
 
 	@Override
 	public List<TaskSummary> getTasksOwnedByStatus(String userId, List<Status> status, String language) {
-		return taskService.getTasksOwnedByStatus(userId, status, language);
+		delegateCheck();
+		return taskServiceDelegate.getTasksOwnedByStatus(userId, status, language);
 	}
 
 	@Override
 	public List<TaskSummary> getTasksByStatusByProcessInstanceId(long processInstanceId, List<Status> status, String language) {
-		return taskService.getTasksByStatusByProcessInstanceId(processInstanceId, status, language);
+		delegateCheck();
+		return taskServiceDelegate.getTasksByStatusByProcessInstanceId(processInstanceId, status, language);
 	}
 
 	@Override
 	public List<Long> getTasksByProcessInstanceId(long processInstanceId) {
-		return taskService.getTasksByProcessInstanceId(processInstanceId);
+		delegateCheck();
+		return taskServiceDelegate.getTasksByProcessInstanceId(processInstanceId);
 	}
 
 	@Override
 	public long addTask(Task task, Map<String, Object> params) {
-		return taskService.addTask(task, params);
+		delegateCheck();
+		return taskServiceDelegate.addTask(task, params);
 	}
 
 	@Override
 	public void release(long taskId, String userId) {
-		taskService.release(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.release(taskId, userId);
 
 	}
 
 	@Override
 	public void resume(long taskId, String userId) {
-		taskService.resume(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.resume(taskId, userId);
 
 	}
 
 	@Override
 	public void skip(long taskId, String userId) {
-		taskService.skip(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.skip(taskId, userId);
 
 	}
 
 	@Override
 	public void start(long taskId, String userId) {
-		taskService.start(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.start(taskId, userId);
 
 	}
 
 	@Override
 	public void stop(long taskId, String userId) {
-		taskService.stop(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.stop(taskId, userId);
 
 	}
 
 	@Override
 	public void suspend(long taskId, String userId) {
-		taskService.suspend(taskId, userId);
+		delegateCheck();
+		taskServiceDelegate.suspend(taskId, userId);
 
 	}
 
 	@Override
 	public void nominate(long taskId, String userId, List<OrganizationalEntity> potentialOwners) {
-		taskService.nominate(taskId, userId, potentialOwners);
+		delegateCheck();
+		taskServiceDelegate.nominate(taskId, userId, potentialOwners);
 
 	}
 
 	@Override
 	public Content getContentById(long contentId) {
-		return taskService.getContentById(contentId);
+		delegateCheck();
+		return taskServiceDelegate.getContentById(contentId);
 	}
 
 	@Override
 	public Attachment getAttachmentById(long attachId) {
-		return taskService.getAttachmentById(attachId);
+		delegateCheck();
+		return taskServiceDelegate.getAttachmentById(attachId);
 	}
 	
 }

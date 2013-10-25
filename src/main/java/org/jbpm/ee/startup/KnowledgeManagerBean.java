@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.support.AwareStatefulKnowledgeSession;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
+import org.jbpm.services.task.identity.JBossUserGroupCallbackImpl;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.PropertiesConfiguration;
@@ -32,6 +34,7 @@ import org.kie.internal.KnowledgeBaseFactory;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.RuntimeManagerFactory;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
+import org.kie.internal.task.api.UserGroupCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +45,7 @@ import org.slf4j.LoggerFactory;
  */
 @Startup
 @Singleton(name="KnowledgeAgentManager")
+@DependsOn("ResourceManager")
 public class KnowledgeManagerBean {
 	private static final Logger LOG = LoggerFactory.getLogger(KnowledgeManagerBean.class);
 	
@@ -59,8 +63,8 @@ public class KnowledgeManagerBean {
 	@Inject
 	protected EntityManagerFactory emf;
 	
-	@Resource(mappedName="java:jboss/TransactionManager")
-	private TransactionManager transactionManager;
+	@Inject
+	protected UserGroupCallback userGroupCallback;
 	
 	@PostConstruct
 	private void setup() {
@@ -102,26 +106,18 @@ public class KnowledgeManagerBean {
 		return getKieContainer(resourceKey).getKieBase();
 	}	
 	
-	/**
-	 * Sets up a new KnowledgeSession with the Human Task Handler defined.
-	 * 
-	 * @return
-	 * @throws SessionException
-	 */
-	public KieSession getKnowledgeSession(KieReleaseId releaseId) throws SessionException {
-
+	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) throws SessionException {
 		if(!runtimeManagers.containsKey(releaseId)) {
 			RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
 			.entityManagerFactory(emf)
+			.userGroupCallback(userGroupCallback)
 			.knowledgeBase(getKieBase(releaseId))
 			.persistence(true)
 			.get();
 			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
 		}
 		RuntimeManager rm = runtimeManagers.get(releaseId);
-		RuntimeEngine rEngine = rm.getRuntimeEngine(ProcessInstanceIdContext.get());
-		
-		return new AwareStatefulKnowledgeSession(rEngine.getKieSession());
+		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
 	}
 	
 	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {
