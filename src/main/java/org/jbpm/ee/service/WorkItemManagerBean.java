@@ -23,11 +23,7 @@ public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemo
 	
 	private void delegateCheck() {
 		if (workItemManagerDelegate == null) {
-			if (runtimeService.runtimeIsSet()) {
-				workItemManagerDelegate = runtimeService.getWorkItemManager();
-			} else {
-				throw new RuntimeException("RuntimeService.setRuntime() must be called first! ");
-			}
+			workItemManagerDelegate = runtimeService.getWorkItemManager();
 		}
 	}
 	

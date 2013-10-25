@@ -35,7 +35,12 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 		}
 		return false;
 	}
-	
+
+	private void runtimeCheck() {
+		if (!runtimeIsSet()) {
+			throw new RuntimeException("RuntimeService.setRuntime() must be called first! ");
+		}
+	}
 	
 	/**
 	 * Sets up a new KnowledgeSession with the Human Task Handler defined.
@@ -44,14 +49,17 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 	 * @throws SessionException
 	 */
 	public KieSession getKnowledgeSession() throws SessionException {
+		runtimeCheck();
 		return new AwareStatefulKnowledgeSession(runtimeEngine.getKieSession());
 	}
 
 	public TaskService getTaskService() throws SessionException {
+		runtimeCheck();
 		return runtimeEngine.getTaskService();
 	}
 	
 	public WorkItemManager getWorkItemManager() throws SessionException {
+		runtimeCheck();
 		return runtimeEngine.getKieSession().getWorkItemManager();
 	}
 }

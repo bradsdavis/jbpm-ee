@@ -25,11 +25,7 @@ public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 
 	private void delegateCheck() {
 		if (processRuntimeDelegate == null) {
-			if (runtimeService.runtimeIsSet()) {
-				processRuntimeDelegate = runtimeService.getKnowledgeSession();
-			} else {
-				throw new RuntimeException("RuntimeService.setRuntime() must be called first! ");
-			}
+			processRuntimeDelegate = runtimeService.getKnowledgeSession();
 		}
 	}
 	

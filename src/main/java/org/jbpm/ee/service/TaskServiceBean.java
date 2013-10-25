@@ -29,11 +29,7 @@ public class TaskServiceBean implements TaskServiceRemote {
 
 	private void delegateCheck() {
 		if (taskServiceDelegate == null) {
-			if (runtimeService.runtimeIsSet()) {
-				taskServiceDelegate = runtimeService.getTaskService();
-			} else {
-				throw new RuntimeException("RuntimeService.setRuntime() must be called first! ");
-			}
+			taskServiceDelegate = runtimeService.getTaskService();
 		}
 	}
 	
