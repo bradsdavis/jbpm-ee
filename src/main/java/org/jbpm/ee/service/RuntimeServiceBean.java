@@ -11,6 +11,8 @@ import org.jbpm.ee.support.AwareStatefulKnowledgeSession;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
+import org.kie.api.runtime.process.WorkItemManager;
+import org.kie.api.task.TaskService;
 
 @Stateful
 @LocalBean
@@ -19,23 +21,11 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;
 	
-	@EJB
-	private TaskServiceBean taskService;
-	
-	@EJB
-	private ProcessRuntimeBean processRuntime;
-	
-	@EJB 
-	private WorkItemManagerBean workItemManager;
-	
 	private RuntimeEngine runtimeEngine = null;
 	
 	@Override
 	public void setRuntime(KieReleaseId releaseId) {
 		runtimeEngine = knowledgeManager.getRuntimeEngine(releaseId);
-		processRuntime.setDelegate(runtimeEngine.getKieSession());
-		taskService.setDelegate(runtimeEngine.getTaskService());
-		workItemManager.setDelegate(runtimeEngine.getKieSession().getWorkItemManager());
 	}
 
 	@Override
@@ -57,5 +47,11 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 		return new AwareStatefulKnowledgeSession(runtimeEngine.getKieSession());
 	}
 
+	public TaskService getTaskService() throws SessionException {
+		return runtimeEngine.getTaskService();
+	}
 	
+	public WorkItemManager getWorkItemManager() throws SessionException {
+		return runtimeEngine.getKieSession().getWorkItemManager();
+	}
 }

@@ -2,9 +2,11 @@ package org.jbpm.ee.service;
 
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+
 import org.jbpm.ee.service.remote.WorkItemManagerRemote;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
@@ -14,25 +16,37 @@ import org.kie.api.runtime.process.WorkItemManager;
 @SessionScoped
 public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemote {
 	
-	private WorkItemManager workItemManager;
+	@EJB
+	RuntimeServiceBean runtimeService; 
 	
-	void setDelegate(WorkItemManager workItemManager) {
-		this.workItemManager = workItemManager;
+	private WorkItemManager workItemManagerDelegate;
+	
+	private void delegateCheck() {
+		if (workItemManagerDelegate == null) {
+			if (runtimeService.runtimeIsSet()) {
+				workItemManagerDelegate = runtimeService.getWorkItemManager();
+			} else {
+				throw new RuntimeException("RuntimeService.setRuntime() must be called first! ");
+			}
+		}
 	}
 	
 	@Override
 	public void completeWorkItem(long id, Map<String, Object> results) {
-		this.workItemManager.abortWorkItem(id);
+		delegateCheck();
+		this.workItemManagerDelegate.abortWorkItem(id);
 	}
 
 	@Override
 	public void abortWorkItem(long id) {
-		this.workItemManager.abortWorkItem(id);
+		delegateCheck();
+		this.workItemManagerDelegate.abortWorkItem(id);
 	}
 
 	@Override
 	public void registerWorkItemHandler(String workItemName, WorkItemHandler handler) {
-		this.workItemManager.registerWorkItemHandler(workItemName, handler);
+		delegateCheck();
+		this.workItemManagerDelegate.registerWorkItemHandler(workItemName, handler);
 	}
 
 }
