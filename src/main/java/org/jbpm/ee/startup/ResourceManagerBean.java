@@ -6,7 +6,6 @@ import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-
 import org.jbpm.services.task.identity.JBossUserGroupCallbackImpl;
 import org.kie.internal.task.api.UserGroupCallback;
 
@@ -15,16 +14,16 @@ import org.kie.internal.task.api.UserGroupCallback;
 public class ResourceManagerBean {
 
 	@PersistenceContext(name="org.jbpm.persistence.jpa", unitName="org.jbpm.persistence.jpa")
-	private EntityManagerFactory emf;
+	private EntityManager em;
 	
 	@Produces
 	public EntityManagerFactory getEntityManagerFactory() {
-		return emf;
+		return em.getEntityManagerFactory();
 	}
 	
 	@Produces
 	public EntityManager getEntityManager() {
-		return emf.createEntityManager();
+		return em;
 	}
 	
 	@Produces
