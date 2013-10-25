@@ -25,7 +25,7 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 	@EJB 
 	private WorkItemManagerBean workItemManager;
 	
-	private RuntimeEngine runtimeEngine;
+	private RuntimeEngine runtimeEngine = null;
 	
 	@Override
 	public void setRuntime(KieReleaseId releaseId) {
@@ -35,4 +35,13 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 		workItemManager.setDelegate(runtimeEngine.getKieSession().getWorkItemManager());
 	}
 
+	@Override
+	public boolean runtimeIsSet() {
+		if (runtimeEngine == null) {
+			return true;
+		}
+		return false;
+	}
+
+	
 }

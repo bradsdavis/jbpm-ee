@@ -9,4 +9,6 @@ public interface RuntimeServiceRemote {
 
 	public void setRuntime(KieReleaseId releaseId);
 	
+	public boolean runtimeIsSet();
+	
 }
