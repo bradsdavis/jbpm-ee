@@ -45,6 +45,7 @@ public class BaseJBPMServiceTest {
 	        .addPackages(true, "org.jbpm.workitem.camel")
 	        .addAsManifestResource("META-INF/beans.xml", "beans.xml")
 	        .addAsManifestResource("test-persistence.xml", "persistence.xml")
+	        .addAsResource("usergroup.properties", "usergroup.properties")
 	        .addAsResource("environment.properties", "environment.properties");
 	    //System.out.println(jar.toString(true));
 		archive.addAsLibraries(jar);
