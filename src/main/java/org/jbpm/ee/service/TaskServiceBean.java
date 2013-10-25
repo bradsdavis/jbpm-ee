@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.enterprise.inject.Alternative;
 
 import org.jbpm.ee.service.remote.TaskServiceRemote;
@@ -17,7 +17,7 @@ import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
 @LocalBean
-@Stateless
+@Stateful
 @Alternative
 public class TaskServiceBean implements TaskServiceRemote {
 

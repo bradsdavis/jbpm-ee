@@ -16,6 +16,9 @@ public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemo
 	
 	private WorkItemManager workItemManager;
 	
+	void setDelegate(WorkItemManager workItemManager) {
+		this.workItemManager = workItemManager;
+	}
 	
 	@Override
 	public void completeWorkItem(long id, Map<String, Object> results) {

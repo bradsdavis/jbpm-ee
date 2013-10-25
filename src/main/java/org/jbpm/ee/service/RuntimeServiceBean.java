@@ -22,6 +22,9 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 	@EJB
 	private ProcessRuntimeBean processRuntime;
 	
+	@EJB 
+	private WorkItemManagerBean workItemManager;
+	
 	private RuntimeEngine runtimeEngine;
 	
 	@Override
@@ -29,6 +32,7 @@ public class RuntimeServiceBean  implements RuntimeServiceRemote{
 		runtimeEngine = knowledgeManager.getRuntimeEngine(releaseId);
 		processRuntime.setDelegate(runtimeEngine.getKieSession());
 		taskService.setDelegate(runtimeEngine.getTaskService());
+		workItemManager.setDelegate(runtimeEngine.getKieSession().getWorkItemManager());
 	}
 
 }
