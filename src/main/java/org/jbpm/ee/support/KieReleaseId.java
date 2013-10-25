@@ -1,13 +1,21 @@
 package org.jbpm.ee.support;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 
 import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.kie.api.builder.ReleaseId;
 
 @RequestScoped
-public class KieReleaseId implements ReleaseId {
+public class KieReleaseId implements ReleaseId, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -609810880974230932L;
+	
+	
 	private String groupId;
 	private String artifactId;
 	private String version;
