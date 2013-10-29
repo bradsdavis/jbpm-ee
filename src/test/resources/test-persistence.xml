@@ -20,11 +20,11 @@
 		<class>org.jbpm.persistence.correlation.CorrelationKeyInfo</class>
 		<class>org.jbpm.persistence.correlation.CorrelationPropertyInfo</class>
 
-<!-- 
+		<!-- Audit Classes -->
 		<class>org.jbpm.process.audit.ProcessInstanceLog</class>
 		<class>org.jbpm.process.audit.NodeInstanceLog</class>
 		<class>org.jbpm.process.audit.VariableInstanceLog</class>
- -->
+
 		<!-- manager -->
 		<class>org.jbpm.runtime.manager.impl.jpa.ContextMappingInfo</class>
 
