@@ -20,6 +20,7 @@ import org.kie.api.task.TaskService;
 @RequestScoped
 public class RuntimeServiceBean  implements RuntimeServiceRemote{
 
+	//TODO: I think it makes more sense for the service beans to have their delegates set by RuntimeServiceBean
 	@Inject
 	private KnowledgeManagerBean knowledgeManager;
 	
