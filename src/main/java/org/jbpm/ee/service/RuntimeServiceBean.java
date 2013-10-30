@@ -2,8 +2,7 @@ package org.jbpm.ee.service;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jbpm.ee.exception.SessionException;
@@ -18,9 +17,10 @@ import org.kie.api.task.TaskService;
 
 @Stateful
 @LocalBean
-@SessionScoped
+@RequestScoped
 public class RuntimeServiceBean  implements RuntimeServiceRemote{
 
+	//TODO: I think it makes more sense for the service beans to have their delegates set by RuntimeServiceBean
 	@Inject
 	private KnowledgeManagerBean knowledgeManager;
 	
