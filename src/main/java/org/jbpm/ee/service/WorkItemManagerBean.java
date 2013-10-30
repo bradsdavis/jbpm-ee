@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jbpm.ee.service.remote.WorkItemManagerRemote;
@@ -13,7 +13,7 @@ import org.kie.api.runtime.process.WorkItemManager;
 
 @LocalBean
 @Stateful
-@SessionScoped
+@RequestScoped
 public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemote {
 	
 	@Inject
