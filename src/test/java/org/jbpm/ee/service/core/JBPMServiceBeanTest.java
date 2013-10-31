@@ -48,7 +48,7 @@ public class JBPMServiceBeanTest extends BaseJBPMServiceTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBeanTest.class);
 	
-	@EJB
+	@Inject
 	RuntimeServiceRemote runtimeServiceBean;
 	
 	@EJB
