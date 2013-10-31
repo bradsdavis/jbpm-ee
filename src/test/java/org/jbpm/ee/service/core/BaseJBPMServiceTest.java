@@ -3,6 +3,7 @@ package org.jbpm.ee.service.core;
 import java.io.InputStream;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OverProtocol;
 import org.jboss.osgi.spi.OSGiManifestBuilder;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
@@ -19,6 +20,7 @@ public class BaseJBPMServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(BaseJBPMServiceTest.class);
 	
 	@Deployment
+	@OverProtocol("Servlet 3.0")
 	public static WebArchive createDeployment() throws Exception {
 		//MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
 	
