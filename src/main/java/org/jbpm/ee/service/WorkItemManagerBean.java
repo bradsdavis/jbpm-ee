@@ -7,6 +7,8 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
+import org.drools.core.process.instance.WorkItem;
+import org.drools.core.process.instance.impl.DefaultWorkItemManager;
 import org.jbpm.ee.service.remote.WorkItemManagerRemote;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
@@ -19,30 +21,41 @@ public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemo
 	@Inject
 	RuntimeServiceBean runtimeService; 
 	
-	private WorkItemManager workItemManagerDelegate;
+	private DefaultWorkItemManager workItemManagerDelegate;
 	
 	private void delegateCheck() {
 		if (workItemManagerDelegate == null) {
-			workItemManagerDelegate = runtimeService.getWorkItemManager();
+			workItemManagerDelegate = 
+					(DefaultWorkItemManager) runtimeService.getWorkItemManager();
 		}
 	}
 	
 	@Override
 	public void completeWorkItem(long id, Map<String, Object> results) {
 		delegateCheck();
-		this.workItemManagerDelegate.abortWorkItem(id);
+		workItemManagerDelegate.abortWorkItem(id);
 	}
 
 	@Override
 	public void abortWorkItem(long id) {
 		delegateCheck();
-		this.workItemManagerDelegate.abortWorkItem(id);
+		workItemManagerDelegate.abortWorkItem(id);
 	}
 
 	@Override
 	public void registerWorkItemHandler(String workItemName, WorkItemHandler handler) {
 		delegateCheck();
-		this.workItemManagerDelegate.registerWorkItemHandler(workItemName, handler);
+		workItemManagerDelegate.registerWorkItemHandler(workItemName, handler);
+	}
+	
+	public WorkItemHandler getWorkItemHandler(String workItemName) {
+		delegateCheck();
+		return workItemManagerDelegate.getWorkItemHandler(workItemName);
+	}
+	
+	public WorkItem getWorkItem(long id) {
+		delegateCheck();
+		return workItemManagerDelegate.getWorkItem(id);
 	}
 
 }
