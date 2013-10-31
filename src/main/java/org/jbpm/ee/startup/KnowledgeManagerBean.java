@@ -114,7 +114,7 @@ public class KnowledgeManagerBean {
 			.knowledgeBase(getKieBase(releaseId))
 			.persistence(true)
 			.get();
-			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
+			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerRequestRuntimeManager(re, releaseId.toString()));
 		}
 		RuntimeManager rm = runtimeManagers.get(releaseId);
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
