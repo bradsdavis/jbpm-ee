@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
 import org.jbpm.ee.service.remote.RemoteFactHandle;
@@ -18,7 +18,7 @@ import org.kie.api.runtime.rule.FactHandle;
 
 @Stateful
 @LocalBean
-@RequestScoped
+@ConversationScoped
 public class RuleRuntimeBean implements RuleRuntimeRemote {
 
 	@Inject
