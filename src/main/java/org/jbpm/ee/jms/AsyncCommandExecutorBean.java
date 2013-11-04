@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -24,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-@Remote(RemoteCommandExecutor.class)
 @Stateless
 public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
 
