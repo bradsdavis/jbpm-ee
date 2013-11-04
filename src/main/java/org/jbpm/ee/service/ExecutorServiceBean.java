@@ -27,8 +27,8 @@ public class ExecutorServiceBean implements ExecutorServiceRemote {
 	
 	@Override
 	public <T> T execute(Command<T> command) {
-		// TODO Auto-generated method stub
-		return null;
+		delegateCheck();
+		return commandExecutorDelegate.execute(command);
 	}
 
 }
