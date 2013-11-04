@@ -10,6 +10,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
+
 import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.support.KieReleaseId;
@@ -23,8 +24,9 @@ import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.RuntimeManagerFactory;
-import org.kie.internal.runtime.manager.context.EmptyContext;
+import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.kie.internal.task.api.UserGroupCallback;
+import org.kie.services.client.api.RemoteJmsRuntimeEngineFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +57,8 @@ public class KnowledgeManagerBean {
 	
 	@Inject
 	protected UserGroupCallback userGroupCallback;
+	
+	RemoteJmsRuntimeEngineFactory rmm;
 	
 	@PostConstruct
 	private void setup() {
@@ -104,10 +108,10 @@ public class KnowledgeManagerBean {
 			.knowledgeBase(getKieBase(releaseId))
 			.persistence(true)
 			.get();
-			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerRequestRuntimeManager(re, releaseId.toString()));
+			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
 		}
 		RuntimeManager rm = runtimeManagers.get(releaseId);
-		return rm.getRuntimeEngine(EmptyContext.get());
+		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
 	}
 	
 	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {
