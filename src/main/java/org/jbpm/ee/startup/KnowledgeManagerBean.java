@@ -26,7 +26,6 @@ import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.RuntimeManagerFactory;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.kie.internal.task.api.UserGroupCallback;
-import org.kie.services.client.api.RemoteJmsRuntimeEngineFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,8 +56,6 @@ public class KnowledgeManagerBean {
 	
 	@Inject
 	protected UserGroupCallback userGroupCallback;
-	
-	RemoteJmsRuntimeEngineFactory rmm;
 	
 	@PostConstruct
 	private void setup() {
