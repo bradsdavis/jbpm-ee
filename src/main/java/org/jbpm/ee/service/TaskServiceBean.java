@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
@@ -21,7 +21,7 @@ import org.kie.api.task.model.TaskSummary;
 @LocalBean
 @Stateful
 @Alternative
-@ConversationScoped
+@SessionScoped
 public class TaskServiceBean implements TaskServiceRemote {
 
 	@Inject
