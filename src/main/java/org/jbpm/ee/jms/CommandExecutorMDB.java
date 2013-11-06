@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.inject.Inject;
 import javax.jms.Connection;
@@ -18,9 +19,10 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.jbpm.ee.cdi.KieSessionConfig;
 import org.jbpm.ee.exception.CommandException;
-import org.kie.api.command.Command;
+import org.jbpm.ee.service.ExecutorServiceBean;
+import org.jbpm.ee.service.RuntimeServiceBean;
+import org.jbpm.ee.service.TaskServiceBean;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +40,16 @@ public class CommandExecutorMDB implements MessageListener {
 
 	private Connection connection;
 	private Session session;
-
+	
+	@Inject 
+	private RuntimeServiceBean runtimeService;
+	
+	@EJB
+	private TaskServiceBean taskService;
+	
+	@EJB
+	private ExecutorServiceBean executorService;
+	
     @PostConstruct
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
