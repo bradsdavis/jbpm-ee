@@ -62,6 +62,7 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolveStage.resolve("org.apache.camel:camel-cdi").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jboss.solder:solder-impl").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.kie.remote:kie-services-client").withTransitivity().asFile());
 		
 		//System.out.println(archive.toString(true));
 		return archive;
