@@ -218,6 +218,16 @@
 			<type>pom</type>
 		</dependency>
 
+		<dependency>
+			<groupId>org.kie.remote</groupId>
+			<artifactId>kie-services-remote</artifactId>
+			<version>${jbpm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kie.remote</groupId>
+			<artifactId>kie-services-client</artifactId>
+			<version>${jbpm.version}</version>
+		</dependency>
 	</dependencies>
 
 
@@ -296,7 +306,7 @@
 			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
+				<updatePolicy>daily</updatePolicy>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
