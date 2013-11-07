@@ -5,10 +5,14 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
+import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkItemManager;
 
@@ -16,22 +20,34 @@ import org.kie.api.runtime.process.WorkItemManager;
 @Stateless
 public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 
+	@Inject
+	private EntityManager entityManager;
+	
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;
 
 	@Override
 	public ProcessInstance startProcess(KieReleaseId releaseId, String processId) {
-		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().startProcess(processId);
+		KieSession session = knowledgeManager.getRuntimeEngine(releaseId).getKieSession();
+		session.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
+		
+		return session.startProcess(processId);
 	}
 
 	@Override
 	public ProcessInstance startProcess(KieReleaseId releaseId, String processId, Map<String, Object> parameters) {
-		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().startProcess(processId, parameters);
+		KieSession session = knowledgeManager.getRuntimeEngine(releaseId).getKieSession();
+		session.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
+		
+		return session.startProcess(processId, parameters);
 	}
 
 	@Override
 	public ProcessInstance createProcessInstance(KieReleaseId releaseId, String processId, Map<String, Object> parameters) {
-		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().createProcessInstance(processId, parameters);
+		KieSession session = knowledgeManager.getRuntimeEngine(releaseId).getKieSession();
+		session.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
+		
+		return session.createProcessInstance(processId, parameters);
 	}
 
 	@Override
