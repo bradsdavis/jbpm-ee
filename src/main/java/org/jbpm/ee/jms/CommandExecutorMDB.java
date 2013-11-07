@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -48,9 +49,20 @@ public class CommandExecutorMDB implements MessageListener {
     @PostConstruct
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
-        session = connection.createSession(); 
+        connection.start();
+        session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);; 
     }
     
+    
+    @PreDestroy
+    public void cleanup() throws JMSException {
+    	if (connection != null) {
+    		connection.close();
+    	}
+    	if (session != null) {
+    		session.close();
+    	}
+    }
     
     public RuntimeEngine getRuntimeEngine(Message request) throws JMSException {
 		String groupId = request.getStringProperty("groupId");
@@ -117,6 +129,7 @@ public class CommandExecutorMDB implements MessageListener {
 			        
 					ObjectMessage responseMessage = session.createObjectMessage();
 					responseMessage.setObject((Serializable)commandResponse);
+					responseMessage.setJMSCorrelationID(correlation);
 					producer.send(responseMessage);
 				} 
 				else {

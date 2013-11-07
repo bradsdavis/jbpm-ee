@@ -3,6 +3,7 @@ package org.jbpm.ee.jms;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
@@ -14,6 +15,7 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.Topic;
 
 import org.drools.core.command.impl.GenericCommand;
 import org.jbpm.ee.support.KieReleaseId;
@@ -34,7 +36,7 @@ public class AsyncCommandExecutorBean {
 	private Queue requestQueue;
 
 	@Resource(mappedName = "java:/jms/JBPMCommandResponseQueue")
-	private Queue responseQueue;
+	private Topic responseQueue;
 
 	private Connection connection;
 	private Session session;
@@ -44,10 +46,21 @@ public class AsyncCommandExecutorBean {
     @PostConstruct
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
-        session = connection.createSession();
+        connection.start();
+        session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);;
         producer = session.createProducer(requestQueue); 
     }
 	
+    @PreDestroy
+    public void cleanup() throws JMSException {
+    	if (connection != null) {
+    		connection.close();
+    	}
+    	if (session != null) {
+    		session.close();
+    	}
+    }
+    
 	
 	public String execute(KieReleaseId kieReleaseId, GenericCommand<?> command) {
 		String uuid = UUID.randomUUID().toString();
@@ -56,11 +69,12 @@ public class AsyncCommandExecutorBean {
 			request.setJMSCorrelationID(uuid);
 			request.setObject(command);
 			request.setJMSReplyTo(responseQueue);
-			producer.send(request);
 			
 			request.setStringProperty("groupId", kieReleaseId.getGroupId());
 			request.setStringProperty("artifactId", kieReleaseId.getArtifactId());
 			request.setStringProperty("version", kieReleaseId.getVersion());
+			
+			producer.send(request);
 			
 			return uuid.toString();
 		} catch (JMSException e) {
@@ -69,11 +83,11 @@ public class AsyncCommandExecutorBean {
 	}
 
 	public Object pollResponse(String correlation) {
-		final String correlationSelector = "JMSCorrelationID='" + correlation + "'";
+		final String correlationSelector = "JMSCorrelationID = '" + correlation + "'";
 		
 		try {
 			MessageConsumer consumer = session.createConsumer(responseQueue, correlationSelector);
-			Message response = consumer.receive(10000);
+			Message response =  consumer.receive(10000);
 
 			if(response == null) {
 				LOG.debug("Message not yet recieved: "+correlation);

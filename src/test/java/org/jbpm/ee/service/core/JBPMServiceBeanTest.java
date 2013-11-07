@@ -78,16 +78,20 @@ public class JBPMServiceBeanTest extends BaseJBPMServiceTest {
 		Map<String, Object> processVariables = new HashMap<String, Object>();
 		processVariables.put(variableKey, "Initial");
 		
-		ProcessInstance processInstance = processRuntimeBean.startProcess(this.kri, processString, processVariables);
+		List<TaskSummary> tasks = taskServicesBean.getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
+		
+		int initialCount = tasks.size();
+		LOG.info("Tasks: " + initialCount);
+		ProcessInstance processInstance = processRuntimeBean.startProcess(kri, processString, processVariables);
 		assertNotNull(processInstance);
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.getState());
 		
-		List<TaskSummary> tasks = taskServicesBean.getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
+		tasks = taskServicesBean.getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
 		for(TaskSummary summary : tasks) {
 			LOG.info("Task: " + summary.getId());
 		}
 		assertNotNull(tasks);
-        assertEquals(1, tasks.size());
+        assertEquals(initialCount + 1, tasks.size());
         
         long taskId = tasks.get(0).getId();
         
