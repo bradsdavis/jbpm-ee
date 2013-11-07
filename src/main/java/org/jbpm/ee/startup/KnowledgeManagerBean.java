@@ -1,6 +1,5 @@
 package org.jbpm.ee.startup;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,10 +9,13 @@ import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.exception.SessionException;
+import org.jbpm.ee.persistence.KieBaseXProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.kie.api.KieBase;
@@ -23,6 +25,8 @@ import org.kie.api.builder.KieScanner;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeManager;
+import org.kie.api.task.TaskService;
+import org.kie.api.task.model.Task;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.RuntimeManagerFactory;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
@@ -56,7 +60,14 @@ public class KnowledgeManagerBean {
 	protected EntityManagerFactory emf;
 	
 	@Inject
+	protected EntityManager em;
+	
+	@Inject
 	protected UserGroupCallback userGroupCallback;
+	
+	@Inject
+	protected TaskService taskService;
+	
 	
 	@PostConstruct
 	private void setup() {
@@ -98,29 +109,97 @@ public class KnowledgeManagerBean {
 		return getKieContainer(resourceKey).getKieBase();
 	}	
 	
+	public RuntimeEnvironment getRuntimeEnvironment(KieReleaseId releaseId) {
+		RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
+				.entityManagerFactory(emf)
+				.userGroupCallback(userGroupCallback)
+				.knowledgeBase(getKieBase(releaseId))
+				.persistence(true)
+				.get();
+		return re;
+	}
+	
 	protected RuntimeManager getRuntimeManager(KieReleaseId releaseId) throws SessionException {
 		if(!runtimeManagers.containsKey(releaseId)) {
-			RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
-			.entityManagerFactory(emf)
-			.userGroupCallback(userGroupCallback)
-			.knowledgeBase(getKieBase(releaseId))
-			.persistence(true)
-			.get();
+			RuntimeEnvironment re = getRuntimeEnvironment(releaseId);
 			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
 		}
+		
 		return runtimeManagers.get(releaseId);
 	}
 	
 	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) throws SessionException {
-
 		RuntimeManager rm = getRuntimeManager(releaseId);
+		
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
 	}
 	
-	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId, Long processInstanceId) {
-		RuntimeManager rm = getRuntimeManager(releaseId);
-		return rm.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
+	public RuntimeEngine getRuntimeEngineByProcessId(Long processInstanceId) {
+		ProcessInstanceIdContext context = ProcessInstanceIdContext.get(processInstanceId);
+		
+		KieReleaseId releaseId = getReleaseIdByProcessId(processInstanceId);
+		RuntimeManager manager = getRuntimeManager(releaseId);
+		
+		return manager.getRuntimeEngine(context);
 	}
+
+	public RuntimeEngine getRuntimeEngineByTaskId(Long taskId) {
+		Long processInstanceId = getProcessInstanceIdByTaskId(taskId);
+		return this.getRuntimeEngineByProcessId(processInstanceId);
+	}
+	
+	public RuntimeEngine getRuntimeEngineByWorkItemId(Long workItemId) {
+		Long processInstanceId = getProcessInstanceIdByWorkItemId(workItemId);
+		return this.getRuntimeEngineByProcessId(processInstanceId);
+	}
+	
+	public Long getProcessInstanceIdByTaskId(Long taskId) {
+		Task task = taskService.getTaskById(taskId);
+		Long processInstanceId = task.getTaskData().getProcessInstanceId();
+		
+		return processInstanceId;
+	}
+	
+	public Long getProcessInstanceIdByWorkItemId(Long workItemId) {
+		Query q = em.createQuery("select processInstanceId from WorkItemInfo wii where kb.workItemId=:workItemId");
+		q.setParameter("workItemId", workItemId);
+		Long processInstanceId = (Long)q.getSingleResult();
+		
+		return processInstanceId;
+	}
+
+	public KieReleaseId getReleaseIdByProcessId(Long processInstanceId) {
+		Query q = em.createQuery("from KieBaseXProcessInstance kb where kb.kieProcessInstanceId=:processInstanceId");
+		q.setParameter("processInstanceId", processInstanceId);
+		
+		try {
+			KieBaseXProcessInstance kb = (KieBaseXProcessInstance)q.getSingleResult();
+			
+			return new KieReleaseId(kb.getReleaseGroupId(), kb.getReleaseArtifactId(), kb.getReleaseVersion());
+		}
+		catch(Exception e) {
+			LOG.error("Exception finding KieReleaseId.", e);
+		}
+		return null;
+	}
+	
+	public KieReleaseId getReleaseIdByTaskId(Long taskId) {
+		Task task = taskService.getTaskById(taskId);
+		long processInstanceId = task.getTaskData().getProcessInstanceId();
+		
+		return this.getReleaseIdByProcessId(processInstanceId);
+	}
+	
+	public KieReleaseId getReleaseIdByWorkItemId(Long workItemId) {
+		Query q = em.createQuery("select processInstanceId from WorkItemInfo wii where kb.workItemId=:workItemId");
+		q.setParameter("workItemId", workItemId);
+		Long processInstanceId = (Long)q.getSingleResult();
+		
+		return this.getReleaseIdByProcessId(processInstanceId);
+	}
+	
+
+	
 	
 	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {
 		if(val == null) return;

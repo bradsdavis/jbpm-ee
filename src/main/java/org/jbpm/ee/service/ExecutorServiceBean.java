@@ -3,42 +3,32 @@ package org.jbpm.ee.service;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import org.jbpm.ee.service.remote.ExecutorServiceRemote;
+
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.command.Command;
-import org.kie.api.runtime.CommandExecutor;
-import org.kie.api.runtime.manager.RuntimeEngine;
-import org.kie.internal.task.api.InternalTaskService;
 
 @Stateless
 @LocalBean
-public class ExecutorServiceBean implements ExecutorServiceRemote {
+public class ExecutorServiceBean {
 	
 	@EJB
-	private KnowledgeManagerBean km;
-	
-	private RuntimeEngine runtimeEngine;
-	
-	private CommandExecutor commandExecutorDelegate;
-	
-	private InternalTaskService taskServiceDelegate;
-	
-	@Override
-	public void setDeployment(KieReleaseId releaseId, Long processInstanceId) {
-		runtimeEngine = km.getRuntimeEngine(releaseId, processInstanceId);
-		commandExecutorDelegate = runtimeEngine.getKieSession();
-		taskServiceDelegate = (InternalTaskService) runtimeEngine.getTaskService();
-	}
-	
-	@Override
-	public <T> T execute(Command<T> command) {
-		return commandExecutorDelegate.execute(command);
+	private KnowledgeManagerBean knowledgeManager;
+
+	public <T> T executeByReleaseId(KieReleaseId releaseId, Command<T> command) {
+		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().execute(command);
 	}
 
-	@Override
-	public <T> T executeTask(Command<T> command) {
-		return taskServiceDelegate.execute(command);
+	public <T> T executeByProcessInstanceId(Long processInstanceId, Command<T> command) {
+		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().execute(command);
+	}
+
+	public <T> T executeByTaskId(Long taskId, Command<T> command) {
+		return knowledgeManager.getRuntimeEngineByTaskId(taskId).getKieSession().execute(command);
+	}
+
+	public <T> T executeByWorkItemId(Long workItemId, Command<T> command) {
+		return knowledgeManager.getRuntimeEngineByWorkItemId(workItemId).getKieSession().execute(command);
 	}
 
 }

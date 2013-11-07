@@ -4,8 +4,15 @@ import java.util.Map;
 
 import javax.ejb.Remote;
 
+import org.drools.core.process.instance.WorkItem;
+
 @Remote
 public interface WorkItemManagerRemote {
-	public void completeWorkItem(long id, Map<String, Object> results);
-	public void abortWorkItem(long id);
+
+    void completeWorkItem(long id, Map<String, Object> results);
+
+    void abortWorkItem(long id);
+    
+    WorkItem getWorkItem(long id);
+
 }

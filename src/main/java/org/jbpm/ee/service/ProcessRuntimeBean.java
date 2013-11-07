@@ -1,98 +1,62 @@
 package org.jbpm.ee.service;
 
-import java.util.Collection;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
 
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
+import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.runtime.process.ProcessRuntime;
 import org.kie.api.runtime.process.WorkItemManager;
 
 @LocalBean
-@Stateful
-@SessionScoped
+@Stateless
 public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 
-	@Inject
-	RuntimeServiceBean runtimeService; 
-	
-	private ProcessRuntime processRuntimeDelegate;
+	@EJB
+	private KnowledgeManagerBean knowledgeManager;
 
-	private void delegateCheck() {
-		if (processRuntimeDelegate == null) {
-			processRuntimeDelegate = runtimeService.getKnowledgeSession();
-		}
-	}
-	
 	@Override
-	public ProcessInstance startProcess(String processId) {
-		delegateCheck();
-		return processRuntimeDelegate.startProcess(processId);
+	public ProcessInstance startProcess(KieReleaseId releaseId, String processId) {
+		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().startProcess(processId);
 	}
 
 	@Override
-	public ProcessInstance startProcess(String processId, Map<String, Object> parameters) {
-		delegateCheck();
-		return processRuntimeDelegate.startProcess(processId, parameters);
+	public ProcessInstance startProcess(KieReleaseId releaseId, String processId, Map<String, Object> parameters) {
+		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().startProcess(processId, parameters);
 	}
 
 	@Override
-	public ProcessInstance createProcessInstance(String processId, Map<String, Object> parameters) {
-		delegateCheck();
-		return processRuntimeDelegate.createProcessInstance(processId, parameters);
-	}
-
-	@Override
-	public void signalEvent(String type, Object event) {
-		delegateCheck();
-		processRuntimeDelegate.signalEvent(type, event);
+	public ProcessInstance createProcessInstance(KieReleaseId releaseId, String processId, Map<String, Object> parameters) {
+		return knowledgeManager.getRuntimeEngine(releaseId).getKieSession().createProcessInstance(processId, parameters);
 	}
 
 	@Override
 	public void signalEvent(String type, Object event, long processInstanceId) {
-		delegateCheck();
-		processRuntimeDelegate.signalEvent(type, event, processInstanceId);
-	}
-
-	@Override
-	public Collection<ProcessInstance> getProcessInstances() {
-		delegateCheck();
-		return processRuntimeDelegate.getProcessInstances();
+		knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().signalEvent(type, event);
 	}
 
 	@Override
 	public ProcessInstance getProcessInstance(long processInstanceId) {
-		delegateCheck();
-		return processRuntimeDelegate.getProcessInstance(processInstanceId);
-	}
-
-	@Override
-	public ProcessInstance getProcessInstance(long processInstanceId, boolean readonly) {
-		delegateCheck();
-		return processRuntimeDelegate.getProcessInstance(processInstanceId, readonly);
+		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().getProcessInstance(processInstanceId, true);
 	}
 
 	@Override
 	public void abortProcessInstance(long processInstanceId) {
-		delegateCheck();
-		processRuntimeDelegate.abortProcessInstance(processInstanceId);
+		knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().abortProcessInstance(processInstanceId);
 	}
 
 	@Override
-	public WorkItemManager getWorkItemManager() {
-		delegateCheck();
-		return processRuntimeDelegate.getWorkItemManager();
+	public WorkItemManager getWorkItemManager(long processInstanceId) {
+		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().getWorkItemManager();
 	}
 
 	@Override
 	public ProcessInstance startProcessInstance(long processInstanceId) {		
-		delegateCheck();
-		return processRuntimeDelegate.startProcessInstance(processInstanceId);
+		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().startProcessInstance(processInstanceId);
 	}
 
 	

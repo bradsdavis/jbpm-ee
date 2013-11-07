@@ -15,8 +15,7 @@ import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 
-import org.jbpm.ee.service.remote.RemoteCommandExecutor;
-import org.jbpm.ee.service.remote.RemoteResponseCommand;
+import org.drools.core.command.impl.GenericCommand;
 import org.jbpm.ee.support.KieReleaseId;
 import org.mvel2.sh.CommandException;
 import org.slf4j.Logger;
@@ -24,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 
 @Stateless
-public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
+public class AsyncCommandExecutorBean {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AsyncCommandExecutorBean.class);
 	
@@ -50,8 +49,7 @@ public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
     }
 	
 	
-	@Override
-	public String execute(KieReleaseId kieReleaseId, RemoteResponseCommand<?> command) {
+	public String execute(KieReleaseId kieReleaseId, GenericCommand<?> command) {
 		String uuid = UUID.randomUUID().toString();
 		try {
 			ObjectMessage request = session.createObjectMessage();
@@ -60,9 +58,9 @@ public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
 			request.setJMSReplyTo(responseQueue);
 			producer.send(request);
 			
-			request.setObjectProperty("groupId", kieReleaseId.getGroupId());
-			request.setObjectProperty("artifactId", kieReleaseId.getArtifactId());
-			request.setObjectProperty("version", kieReleaseId.getVersion());
+			request.setStringProperty("groupId", kieReleaseId.getGroupId());
+			request.setStringProperty("artifactId", kieReleaseId.getArtifactId());
+			request.setStringProperty("version", kieReleaseId.getVersion());
 			
 			return uuid.toString();
 		} catch (JMSException e) {
@@ -70,7 +68,6 @@ public class AsyncCommandExecutorBean implements RemoteCommandExecutor {
 		}
 	}
 
-	@Override
 	public Object pollResponse(String correlation) {
 		final String correlationSelector = "JMSCorrelationID='" + correlation + "'";
 		

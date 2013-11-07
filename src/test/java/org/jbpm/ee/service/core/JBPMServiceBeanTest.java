@@ -5,6 +5,7 @@ import static org.jbpm.ee.test.util.KJarUtil.getPom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.kie.scanner.MavenRepository.getMavenRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,18 +15,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.inject.Inject;
 
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
-import org.jbpm.ee.service.remote.RuntimeServiceRemote;
 import org.jbpm.ee.service.remote.TaskServiceRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +31,6 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.model.TaskSummary;
 import org.kie.scanner.MavenRepository;
-
-import static org.kie.scanner.MavenRepository.getMavenRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +38,6 @@ import org.slf4j.LoggerFactory;
 public class JBPMServiceBeanTest extends BaseJBPMServiceTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JBPMServiceBeanTest.class);
-	
-	@Inject
-	RuntimeServiceRemote runtimeServiceBean;
 	
 	@EJB
 	KnowledgeManagerBean knowledgeManagerBean;
@@ -77,32 +69,16 @@ public class JBPMServiceBeanTest extends BaseJBPMServiceTest {
         repository.deployArtifact(kri.toReleaseIdImpl(), kjar, pom);
     }
 	
-	//@Test
-	@Transactional(value=TransactionMode.DEFAULT)
-	public void testJBPMServiceLookup() throws Exception {
-		Assert.assertTrue(runtimeServiceBean != null);
-		
-		LOG.info("Hello world!");
-		runtimeServiceBean.setRuntime(kri);
-		//KieSession sns1 = runtimeServiceBean.getKnowledgeSession();
-		//KieSession sns2 = runtimeServiceBean.getKnowledgeSession();
-		
-		//Assert.assertEquals(sns1, sns2);
-		
-		//LOG.info("IDs: "+sns1.getId()+" , "+sns2.getId());
-	}
-	
 	@Test
 	@Transactional(value=TransactionMode.DEFAULT)
 	public void testSimpleProcess() throws Exception {
-		runtimeServiceBean.setRuntime(kri);
 		final String processString = "testProj.testProcess";
 		final String variableKey = "processString";
 		
 		Map<String, Object> processVariables = new HashMap<String, Object>();
 		processVariables.put(variableKey, "Initial");
 		
-		ProcessInstance processInstance = processRuntimeBean.startProcess(processString, processVariables);
+		ProcessInstance processInstance = processRuntimeBean.startProcess(this.kri, processString, processVariables);
 		assertNotNull(processInstance);
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.getState());
 		

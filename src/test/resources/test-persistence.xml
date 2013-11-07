@@ -13,6 +13,10 @@
 		<mapping-file>META-INF/JBPMorm.xml</mapping-file>
 		<mapping-file>META-INF/Taskorm.xml</mapping-file>
 
+
+		<class>org.jbpm.ee.persistence.KieBaseXProcessInstance</class>
+
+
 		<class>org.drools.persistence.info.SessionInfo</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
 		<class>org.drools.persistence.info.WorkItemInfo</class>
