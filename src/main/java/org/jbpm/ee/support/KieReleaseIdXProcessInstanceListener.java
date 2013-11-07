@@ -1,6 +1,7 @@
 package org.jbpm.ee.support;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
 import org.kie.api.event.process.ProcessCompletedEvent;
@@ -10,9 +11,13 @@ import org.kie.api.event.process.ProcessNodeTriggeredEvent;
 import org.kie.api.event.process.ProcessStartedEvent;
 import org.kie.api.event.process.ProcessVariableChangedEvent;
 import org.kie.api.runtime.process.ProcessInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KieReleaseIdXProcessInstanceListener implements ProcessEventListener {
 
+	private static final Logger LOG = LoggerFactory.getLogger(KieReleaseIdXProcessInstanceListener.class);
+	
 	private final EntityManager entityManager;
 	private final KieReleaseId kieReleaseId;
 	
@@ -32,6 +37,8 @@ public class KieReleaseIdXProcessInstanceListener implements ProcessEventListene
 		kbx.setReleaseGroupId(kieReleaseId.getGroupId());
 		
 		entityManager.persist(kbx);
+		
+		LOG.info("Created KieBaseXProcessInstance for Process Instance ID: "+kbx.getKieProcessInstanceId());
 	}
 
 	@Override
@@ -46,7 +53,15 @@ public class KieReleaseIdXProcessInstanceListener implements ProcessEventListene
 
 	@Override
 	public void afterProcessCompleted(ProcessCompletedEvent event) {
+		Long processInstanceId = event.getProcessInstance().getId();
 		
+		Query q = entityManager.createQuery("from KieBaseXProcessInstance kb where kb.kieProcessInstanceId=:processInstanceId");
+		q.setParameter("processInstanceId", processInstanceId);
+		
+		KieBaseXProcessInstance xref = (KieBaseXProcessInstance)q.getSingleResult();
+		entityManager.remove(xref);
+		
+		LOG.info("Deleted KieBaseXProcessInstance for Process Instance ID: "+event.getProcessInstance().getId());
 	}
 
 	@Override
