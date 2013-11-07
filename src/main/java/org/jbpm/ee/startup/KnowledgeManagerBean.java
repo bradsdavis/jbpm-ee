@@ -117,7 +117,7 @@ public class KnowledgeManagerBean {
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
 	}
 	
-	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId, long processInstanceId) {
+	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId, Long processInstanceId) {
 		RuntimeManager rm = getRuntimeManager(releaseId);
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
 	}
