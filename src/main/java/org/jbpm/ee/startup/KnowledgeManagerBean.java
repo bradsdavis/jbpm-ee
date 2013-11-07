@@ -2,6 +2,7 @@ package org.jbpm.ee.startup;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -60,10 +61,10 @@ public class KnowledgeManagerBean {
 	@PostConstruct
 	private void setup() {
 		 kieServices = KieServices.Factory.get();
-		 containers = new HashMap<KieReleaseId, KieContainer>();
-		 scanners = new HashMap<KieReleaseId, KieScanner>();
+		 containers = new ConcurrentHashMap<KieReleaseId, KieContainer>();
+		 scanners = new ConcurrentHashMap<KieReleaseId, KieScanner>();
 		 
-		 runtimeManagers = new HashMap<KieReleaseId, RuntimeManager>();
+		 runtimeManagers = new ConcurrentHashMap<KieReleaseId, RuntimeManager>();
 	}
 
 	@PreDestroy
@@ -97,7 +98,7 @@ public class KnowledgeManagerBean {
 		return getKieContainer(resourceKey).getKieBase();
 	}	
 	
-	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) throws SessionException {
+	protected RuntimeManager getRuntimeManager(KieReleaseId releaseId) throws SessionException {
 		if(!runtimeManagers.containsKey(releaseId)) {
 			RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
 			.entityManagerFactory(emf)
@@ -107,8 +108,18 @@ public class KnowledgeManagerBean {
 			.get();
 			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
 		}
-		RuntimeManager rm = runtimeManagers.get(releaseId);
+		return runtimeManagers.get(releaseId);
+	}
+	
+	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) throws SessionException {
+
+		RuntimeManager rm = getRuntimeManager(releaseId);
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
+	}
+	
+	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId, long processInstanceId) {
+		RuntimeManager rm = getRuntimeManager(releaseId);
+		return rm.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
 	}
 	
 	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {

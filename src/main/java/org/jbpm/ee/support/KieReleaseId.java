@@ -24,6 +24,13 @@ public class KieReleaseId implements ReleaseId, Serializable {
 		
 	}
 	
+	public KieReleaseId(String deploymentId) {
+		String[] splitId = deploymentId.split(":");
+		this.groupId = splitId[0];
+		this.artifactId = splitId[1];
+		this.version = splitId[2];
+	}
+	
 	public KieReleaseId(String groupId, String artifactId, String version) {
 		this.groupId = groupId;
 		this.artifactId = artifactId;
