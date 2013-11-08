@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.api.KieServices;
+import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.scanner.MavenRepository;
 
 @RunWith(Arquillian.class)
@@ -65,13 +66,13 @@ public class BaseJMSTest extends BaseJBPMServiceTest {
 		
 		StartProcessCommand startProcess = new StartProcessCommand(processString, processVariables);
 		String correlationId = cmdExecutor.execute(kri, startProcess);
-		String correlationReturnId = null;
+		ProcessInstance processInstance = null;
 		int count = 0;
-		while (correlationReturnId == null && count < 1) {
-			correlationReturnId = (String) cmdExecutor.pollResponse(correlationId);
+		while (processInstance == null && count < 1) {
+			processInstance = (ProcessInstance) cmdExecutor.pollResponse(correlationId);
 			count += 1;
 		}
 		
-		assertEquals(correlationId, correlationReturnId);
+		assertEquals(1, processInstance.getState());
 	}
 }
