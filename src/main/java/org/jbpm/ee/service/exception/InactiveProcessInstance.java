@@ -2,6 +2,12 @@ package org.jbpm.ee.service.exception;
 
 import javax.ejb.ApplicationException;
 
+/**
+ * Thrown when the client tries to act on a completed process
+ * 
+ * @author bdavis
+ *
+ */
 @ApplicationException(rollback=false)
 public class InactiveProcessInstance extends RuntimeException {
 
