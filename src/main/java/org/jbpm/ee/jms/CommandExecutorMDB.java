@@ -128,7 +128,7 @@ public class CommandExecutorMDB implements MessageListener {
 			        MessageProducer producer = session.createProducer(responseQueue);
 			        
 					ObjectMessage responseMessage = session.createObjectMessage();
-					responseMessage.setObject(correlation);
+					responseMessage.setObject((Serializable) commandResponse);
 					responseMessage.setJMSCorrelationID(correlation);
 					LOG.info("Sending message");
 					producer.send(responseMessage);
