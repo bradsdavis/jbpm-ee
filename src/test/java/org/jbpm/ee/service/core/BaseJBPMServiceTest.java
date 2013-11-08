@@ -30,6 +30,7 @@ public class BaseJBPMServiceTest {
 		archive.addAsManifestResource("jbossas-ds.xml");
 		archive.addAsManifestResource("hornetq-jms.xml");
 		archive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+		archive.addAsWebInfResource("web.xml");
 		
 		archive.setManifest(new Asset() {  
 	         public InputStream openStream() {  

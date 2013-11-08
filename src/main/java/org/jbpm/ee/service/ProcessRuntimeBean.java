@@ -76,11 +76,6 @@ public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 	}
 
 	@Override
-	public WorkItemManager getWorkItemManager(long processInstanceId) {
-		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().getWorkItemManager();
-	}
-
-	@Override
 	public ProcessInstance startProcessInstance(long processInstanceId) {		
 		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().startProcessInstance(processInstanceId);
 	}

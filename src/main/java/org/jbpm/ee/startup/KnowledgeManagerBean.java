@@ -208,8 +208,6 @@ public class KnowledgeManagerBean {
 		return this.getReleaseIdByProcessId(processInstanceId);
 	}
 	
-
-	
 	
 	private static void setDefaultingProperty(String name, String val, PropertiesConfiguration config) {
 		if(val == null) return;
