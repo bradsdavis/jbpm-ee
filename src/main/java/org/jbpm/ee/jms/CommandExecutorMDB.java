@@ -177,6 +177,8 @@ public class CommandExecutorMDB implements MessageListener {
 		return getLongFromCommand("getProcessInstanceId", command);
 	}
 	
+	//TODO: Is it better to explicitly look for commands?
+	
 	private Long getLongFromCommand(final String methodName, final GenericCommand<?> command) {
 		try {
 			Method longMethod = command.getClass().getMethod(methodName);
