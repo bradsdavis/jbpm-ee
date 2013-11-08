@@ -5,6 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+/**
+ * Links a given processInstanceId to the KieReleaseId that it was started from
+ * 
+ * @author bdavis, abaxter
+ *
+ */
 @Entity
 public class KieBaseXProcessInstance {
 
