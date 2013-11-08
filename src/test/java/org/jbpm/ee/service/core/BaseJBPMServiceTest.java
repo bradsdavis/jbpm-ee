@@ -12,6 +12,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
+import org.jboss.shrinkwrap.resolver.api.maven.strategy.RejectDependenciesStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,13 +25,15 @@ public class BaseJBPMServiceTest {
 	public static WebArchive createDeployment() throws Exception {
 		//MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
 	
-	PomEquippedResolveStage resolveStage = Maven.resolver().loadPomFromFile("pom.xml");
+		PomEquippedResolveStage resolveStage = Maven.resolver().loadPomFromFile("pom.xml");
 		
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class, "test-jbpm-services.war");
 		archive.addAsManifestResource("jbossas-ds.xml");
 		archive.addAsManifestResource("hornetq-jms.xml");
 		archive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-		archive.addAsWebInfResource("web.xml");
+		archive.addAsWebInfResource("test-web.xml", "web.xml");
+		
+		System.out.println(archive);
 		
 		archive.setManifest(new Asset() {  
 	         public InputStream openStream() {  
@@ -63,7 +66,8 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolveStage.resolve("org.apache.camel:camel-cdi").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jboss.solder:solder-impl").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile());
-		archive.addAsLibraries(resolveStage.resolve("org.kie.remote:kie-services-client").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.kie.remote:kie-services-client").withoutTransitivity().asFile());
+		
 		
 		//System.out.println(archive.toString(true));
 		return archive;
