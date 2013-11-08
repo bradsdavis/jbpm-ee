@@ -3,16 +3,7 @@ package org.jbpm.ee.service.rest;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Remote;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import org.jbpm.ee.service.TaskServiceBean;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
@@ -20,7 +11,6 @@ import org.jbpm.services.task.impl.model.xml.JaxbContent;
 import org.jbpm.services.task.impl.model.xml.JaxbTask;
 import org.kie.api.task.model.OrganizationalEntity;
 import org.kie.api.task.model.Status;
-import org.kie.api.task.model.TaskSummary;
 import org.kie.services.client.serialization.jaxb.impl.JaxbLongListResponse;
 import org.kie.services.client.serialization.jaxb.impl.JaxbTaskSummaryListResponse;
 

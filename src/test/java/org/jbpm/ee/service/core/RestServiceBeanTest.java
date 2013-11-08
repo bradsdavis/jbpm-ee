@@ -19,8 +19,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.resteasy.client.ProxyFactory;
-import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
-import org.jbpm.ee.service.remote.TaskServiceRemote;
+import org.jbpm.ee.service.rest.ProcessRuntimeRest;
 import org.jbpm.ee.service.rest.TaskServiceRest;
 import org.jbpm.ee.support.KieReleaseId;
 import org.junit.BeforeClass;
@@ -30,7 +29,6 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.model.TaskSummary;
 import org.kie.scanner.MavenRepository;
-import org.kie.services.client.serialization.jaxb.impl.JaxbTaskSummaryListResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +38,8 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(RestServiceBeanTest.class);
 	
 
-	public ProcessRuntimeRemote getProcessRuntimeBean() {
-		ProcessRuntimeRemote client = ProxyFactory.create(ProcessRuntimeRemote.class, "http://localhost:8080/test-jbpm-services/rest");
+	public ProcessRuntimeRest getProcessRuntimeBean() {
+		ProcessRuntimeRest client = ProxyFactory.create(ProcessRuntimeRest.class, "http://localhost:8080/test-jbpm-services/rest");
 		return client;
 	}
 	
