@@ -15,7 +15,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.jbpm.ee.config.Configuration;
-import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
 import org.jbpm.ee.service.exception.InactiveProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
@@ -154,7 +153,7 @@ public class KnowledgeManagerBean {
 	 * @return
 	 * @throws SessionException
 	 */
-	protected RuntimeManager getRuntimeManager(KieReleaseId releaseId) throws SessionException {
+	protected RuntimeManager getRuntimeManager(KieReleaseId releaseId) {
 		if(!runtimeManagers.containsKey(releaseId)) {
 			RuntimeEnvironment re = getRuntimeEnvironment(releaseId);
 			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
@@ -170,7 +169,7 @@ public class KnowledgeManagerBean {
 	 * @return
 	 * @throws SessionException
 	 */
-	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) throws SessionException {
+	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) {
 		RuntimeManager rm = getRuntimeManager(releaseId);
 		
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
