@@ -24,7 +24,7 @@ import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.service.remote.TaskServiceRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.api.KieServices;
@@ -50,8 +50,8 @@ public class JBPMServiceBeanTest extends BaseJBPMServiceTest {
 	
 	private static final KieReleaseId kri = new KieReleaseId("com.redhat.demo", "testProj", "1.0-SNAPSHOT");
 	
-	@Before
-    public void prepare() {
+	@BeforeClass
+    public static void prepare() {
 		KieServices ks = KieServices.Factory.get();
         List<String> processes = new ArrayList<String>();
         processes.add("src/test/resources/kjar/testProcess.bpmn2");
@@ -107,7 +107,6 @@ public class JBPMServiceBeanTest extends BaseJBPMServiceTest {
         assertEquals(0, tasks.size());
         
         processInstance = processRuntimeBean.getProcessInstance(processInstance.getId());
-        
         assertNull(processInstance);
 	}
 }

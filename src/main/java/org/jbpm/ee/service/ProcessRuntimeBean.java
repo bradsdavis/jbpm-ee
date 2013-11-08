@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.jbpm.ee.service.exception.InactiveProcessInstance;
 import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
@@ -15,10 +16,14 @@ import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkItemManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @LocalBean
 @Stateless
 public class ProcessRuntimeBean implements ProcessRuntimeRemote {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ProcessRuntimeBean.class);
 
 	@Inject
 	private EntityManager entityManager;
@@ -57,7 +62,12 @@ public class ProcessRuntimeBean implements ProcessRuntimeRemote {
 
 	@Override
 	public ProcessInstance getProcessInstance(long processInstanceId) {
-		return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().getProcessInstance(processInstanceId, true);
+		try {
+			return knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().getProcessInstance(processInstanceId, true);
+		} 
+		catch(InactiveProcessInstance e) {
+			return null;
+		}
 	}
 
 	@Override

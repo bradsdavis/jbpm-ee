@@ -11,11 +11,13 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
+import org.jbpm.ee.service.exception.InactiveProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.kie.api.KieBase;
@@ -135,9 +137,19 @@ public class KnowledgeManagerBean {
 	}
 	
 	public RuntimeEngine getRuntimeEngineByProcessId(Long processInstanceId) {
+		LOG.info("Loading instance: "+processInstanceId);
 		ProcessInstanceIdContext context = ProcessInstanceIdContext.get(processInstanceId);
 		
+		LOG.info("Context: "+context);
+		
 		KieReleaseId releaseId = getReleaseIdByProcessId(processInstanceId);
+		if(releaseId == null) {
+			throw new InactiveProcessInstance(processInstanceId);
+		}
+
+		LOG.info("Kie Release: "+releaseId);
+		
+		
 		RuntimeManager manager = getRuntimeManager(releaseId);
 		
 		return manager.getRuntimeEngine(context);
@@ -174,13 +186,11 @@ public class KnowledgeManagerBean {
 		
 		try {
 			KieBaseXProcessInstance kb = (KieBaseXProcessInstance)q.getSingleResult();
-			
 			return new KieReleaseId(kb.getReleaseGroupId(), kb.getReleaseArtifactId(), kb.getReleaseVersion());
 		}
-		catch(Exception e) {
-			LOG.error("Exception finding KieReleaseId.", e);
+		catch(NoResultException e) {
+			return null;
 		}
-		return null;
 	}
 	
 	public KieReleaseId getReleaseIdByTaskId(Long taskId) {
