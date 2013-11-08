@@ -5,6 +5,10 @@ import javax.ejb.ApplicationException;
 @ApplicationException(rollback=false)
 public class InactiveProcessInstance extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4248542124773720848L;
 	private Long processInstanceId;
 	
 	public InactiveProcessInstance(Long processInstanceId, String message, Throwable t) {
