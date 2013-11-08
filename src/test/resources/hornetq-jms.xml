@@ -5,9 +5,6 @@
             <jms-queue name="JBPMCommandRequestQueue">
                 <entry name="jms/JBPMCommandRequestQueue"/>
             </jms-queue>
-            <jms-queue name="BaseCommandRequestQueue">
-                <entry name="jms/BaseCommandRequestQueue"/>
-            </jms-queue>
             <jms-topic name="JBPMCommandResponseQueue">
                 <entry name="jms/JBPMCommandResponseQueue"/>
             </jms-topic>
