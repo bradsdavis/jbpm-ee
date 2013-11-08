@@ -1,6 +1,7 @@
 package org.jbpm.ee.jms;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.annotation.PostConstruct;
@@ -181,8 +182,11 @@ public class CommandExecutorMDB implements MessageListener {
 			Method longMethod = command.getClass().getMethod(methodName);
 			Long result = (Long) longMethod.invoke(command, (Object[]) null);
 			return result;
-		} catch (Exception e) {
-			
+		} catch (NoSuchMethodException e) {
+			//We expect this
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// We do not expect this
+			throw new CommandException(e);
 		}
 		return null;		
 	}
