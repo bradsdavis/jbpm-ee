@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Remote;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
@@ -17,6 +20,9 @@ import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
+
+@Consumes(MediaType.APPLICATION_XML)
+@Produces(MediaType.APPLICATION_XML)
 @Path("/task")
 @Remote
 public interface TaskServiceRemote {
@@ -98,36 +104,36 @@ public interface TaskServiceRemote {
     Task getTaskById(@PathParam("taskId") long taskId);
 
 
-    @GET
+    @PUT
     @Path("assigned/{userId}/administrator")
     List<TaskSummary> getTasksAssignedAsBusinessAdministrator(@PathParam("userId") String userId, String language);
 
-    @GET
+    @PUT
     @Path("assigned/{userId}/potential/all")
     List<TaskSummary> getTasksAssignedAsPotentialOwner(@PathParam("userId") String userId, String language);
 
 
-    @GET
+    @PUT
     @Path("assigned/{userId}/potential/status")
     List<TaskSummary> getTasksAssignedAsPotentialOwnerByStatus(@PathParam("userId") String userId, List<Status> status, String language);
 
 
-    @GET
+    @PUT
     @Path("assigned/{userId}/owner/all")
     List<TaskSummary> getTasksOwned(@PathParam("userId") String userId, String language);
 
 
-    @GET
+    @PUT
     @Path("assigned/{userId}/owner/status")
     List<TaskSummary> getTasksOwnedByStatus(@PathParam("userId") String userId, List<Status> status, String language);
 
 
-    @GET
+    @PUT
     @Path("/process/instance/{processInstanceId}/tasks/all")
     List<Long> getTasksByProcessInstanceId(@PathParam("processInstanceId") long processInstanceId);
 
     
-    @GET
+    @PUT
     @Path("/process/instance/{processInstanceId}/tasks/status")
     List<TaskSummary> getTasksByStatusByProcessInstanceId(@PathParam("processInstanceId") long processInstanceId, List<Status> status, String language);
 
