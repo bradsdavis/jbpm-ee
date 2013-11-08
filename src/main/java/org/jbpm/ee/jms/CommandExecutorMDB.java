@@ -170,11 +170,21 @@ public class CommandExecutorMDB implements MessageListener {
 
 
 	private Long getWorkItemIdFromCommand(final GenericCommand<?> command) {
-		return getLongFromCommand("getWorkItemId", command);
+		if(AcceptedCommandSets.getCommandsWithWorkItemid().contains(command.getClass())) {
+			return getLongFromCommand("getWorkItemId", command);
+		} else {
+			return null;
+		}
+		
 	}
 	
 	private Long getProcessInstanceIdFromCommand(final GenericCommand<?> command) {
-		return getLongFromCommand("getProcessInstanceId", command);
+		if(AcceptedCommandSets.getCommandsWithProcessInstanceId().contains(command.getClass())) {
+			return getLongFromCommand("getProcessInstanceId", command);	
+		} else {
+			return null;
+		}
+		
 	}
 	
 	//TODO: Is it better to explicitly look for commands?
@@ -184,13 +194,10 @@ public class CommandExecutorMDB implements MessageListener {
 			Method longMethod = command.getClass().getMethod(methodName);
 			Long result = (Long) longMethod.invoke(command, (Object[]) null);
 			return result;
-		} catch (NoSuchMethodException e) {
-			//We expect this
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			// We do not expect this
 			throw new CommandException(e);
-		}
-		return null;		
+		}	
 	}
 	
 }
