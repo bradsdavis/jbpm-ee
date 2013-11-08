@@ -177,24 +177,14 @@ public class CommandExecutorMDB implements MessageListener {
 	}
 	
 	private Long getLongFromCommand(final String methodName, final GenericCommand<?> command) {
-		Method[] methods = command.getClass().getDeclaredMethods();
-		
-		if(methods != null) {
-			for(Method method : methods) {
-				if(method.getName().equals(methodName)) {
-					Object result;
-					try {
-						result = method.invoke(command, null);
-						return (Long)result;
-					} catch (Exception e) {
-						LOG.error("Exception invoking method: "+methodName, e);
-					}
-				}
-			}
+		try {
+			Method longMethod = command.getClass().getMethod(methodName);
+			Long result = (Long) longMethod.invoke(command, (Object[]) null);
+			return result;
+		} catch (Exception e) {
+			
 		}
-		
-		return null;
-		
+		return null;		
 	}
 	
 }
