@@ -13,6 +13,14 @@ import javax.enterprise.inject.spi.InjectionPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
  
+/**
+  * Based off of: http://codebias.blogspot.com/2013/04/environment-configuration-property.html
+  * 
+  * Reads environment.properties files at startup and makes them available for injecting
+  * 
+  * @author abaxter
+  * 
+  */
 @ApplicationScoped
 public class ConfigurationFactory {
  
@@ -36,7 +44,6 @@ public class ConfigurationFactory {
             throw new FileNotFoundException("Properties file for environment " + environmentName + " not found in the classpath: " + propsFilename);
         }
         environmentProps.load(inputStream);
-        LOG.info("Reading Parameters:");
     }
     
     @Produces

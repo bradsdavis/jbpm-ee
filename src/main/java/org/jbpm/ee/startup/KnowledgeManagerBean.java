@@ -15,7 +15,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.jbpm.ee.config.Configuration;
-import org.jbpm.ee.exception.SessionException;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
 import org.jbpm.ee.service.exception.InactiveProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
@@ -37,8 +36,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Starts up and listens for changes to the change set.
- * @author bradsdavis
+ * Handles loading, scanning, and providing runtime information.
+ * 
+ * 1 RuntimeManager per application, loaded from kjar in a maven repository
+ * 1 RuntimeEngine per session
+ * 1 Process per RuntimeEngine
+ * 
+ * No two processes will share the same KieSession/RuntimeEngine
+ * 
+ * @author bradsdavis, abaxter
  *
  */
 @Startup
@@ -92,6 +98,13 @@ public class KnowledgeManagerBean {
 		this.scanners = null;
 	}
 
+	/**
+	 * Loads a kjar via the given Release Id (maven deployment information)
+	 * Additionally, sets up scanning to monitor for kjar changes
+	 * 
+	 * @param resourceKey The maven deployment information for the kjar
+	 * @return The in-memory loaded kjar
+	 */
 	protected KieContainer getKieContainer(KieReleaseId resourceKey) {
 		
 		if(!containers.containsKey(resourceKey)) {
@@ -107,10 +120,22 @@ public class KnowledgeManagerBean {
 		return this.containers.get(resourceKey);
 	}
 	
+	/**
+	 * Returns the kjar resources for the given kjar deployment information
+	 * 
+	 * @param resourceKey The maven deployment information for the kjar
+	 * @return
+	 */
 	protected KieBase getKieBase(KieReleaseId resourceKey) {
 		return getKieContainer(resourceKey).getKieBase();
 	}	
 	
+	/**
+	 * Creates the RuntimeEnvironment for the RuntimeManager to use
+	 * 
+	 * @param releaseId  The maven deployment information for the kjar
+	 * @return
+	 */
 	public RuntimeEnvironment getRuntimeEnvironment(KieReleaseId releaseId) {
 		RuntimeEnvironment re = RuntimeEnvironmentBuilder.getDefault()
 				.entityManagerFactory(emf)
@@ -121,7 +146,14 @@ public class KnowledgeManagerBean {
 		return re;
 	}
 	
-	protected RuntimeManager getRuntimeManager(KieReleaseId releaseId) throws SessionException {
+	/**
+	 * Creates/returns the RuntimeManager for the specified kjar
+	 * 
+	 * @param releaseId  The maven deployment information for the kjar
+	 * @return
+	 * @throws SessionException
+	 */
+	protected RuntimeManager getRuntimeManager(KieReleaseId releaseId) {
 		if(!runtimeManagers.containsKey(releaseId)) {
 			RuntimeEnvironment re = getRuntimeEnvironment(releaseId);
 			runtimeManagers.put(releaseId, RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(re, releaseId.toString()));
@@ -130,12 +162,28 @@ public class KnowledgeManagerBean {
 		return runtimeManagers.get(releaseId);
 	}
 	
-	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) throws SessionException {
+	/**
+	 * Returns the default RuntimeEngine for a specified kjar
+	 * 
+	 * @param releaseId The maven deployment information for the kjar
+	 * @return
+	 * @throws SessionException
+	 */
+	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) {
 		RuntimeManager rm = getRuntimeManager(releaseId);
 		
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
 	}
 	
+	/**
+	 * Returns the RuntimeEngine for the specified ProcessInstance
+	 * 
+	 * Note: At this point, the Process must have been started by jbpm-ee or we will
+	 * be unable to find the deployment information 
+	 * 
+	 * @param processInstanceId
+	 * @return
+	 */
 	public RuntimeEngine getRuntimeEngineByProcessId(Long processInstanceId) {
 		LOG.info("Loading instance: "+processInstanceId);
 		ProcessInstanceIdContext context = ProcessInstanceIdContext.get(processInstanceId);
@@ -155,16 +203,33 @@ public class KnowledgeManagerBean {
 		return manager.getRuntimeEngine(context);
 	}
 
+	/**
+	 * Returns the RuntimeEngine for a given Task
+	 * 
+	 * @param taskId
+	 * @return
+	 */
 	public RuntimeEngine getRuntimeEngineByTaskId(Long taskId) {
 		Long processInstanceId = getProcessInstanceIdByTaskId(taskId);
 		return this.getRuntimeEngineByProcessId(processInstanceId);
 	}
 	
+	/**
+	 * Returns the RuntimeEngine for a given WorkItem
+	 * @param workItemId
+	 * @return
+	 */
 	public RuntimeEngine getRuntimeEngineByWorkItemId(Long workItemId) {
 		Long processInstanceId = getProcessInstanceIdByWorkItemId(workItemId);
 		return this.getRuntimeEngineByProcessId(processInstanceId);
 	}
 	
+	/**
+	 * Returns the ProcessInstance associated with the given Task
+	 * 
+	 * @param taskId
+	 * @return
+	 */
 	public Long getProcessInstanceIdByTaskId(Long taskId) {
 		Task task = taskService.getTaskById(taskId);
 		Long processInstanceId = task.getTaskData().getProcessInstanceId();
@@ -172,6 +237,12 @@ public class KnowledgeManagerBean {
 		return processInstanceId;
 	}
 	
+	/**
+	 * Returns the ProcessInstance associated with the given WorkItem
+	 * 
+	 * @param workItemId
+	 * @return
+	 */
 	public Long getProcessInstanceIdByWorkItemId(Long workItemId) {
 		Query q = em.createQuery("select processInstanceId from WorkItemInfo wii where kb.workItemId=:workItemId");
 		q.setParameter("workItemId", workItemId);
@@ -180,6 +251,15 @@ public class KnowledgeManagerBean {
 		return processInstanceId;
 	}
 
+	/**
+	 * Returns the KieReleaseId associated with a given ProcessInstance
+	 * 
+	 * Note: At this point, the Process must have been started by jbpm-ee or we will
+	 * be unable to find the deployment information 
+	 * 
+	 * @param processInstanceId
+	 * @return
+	 */
 	public KieReleaseId getReleaseIdByProcessId(Long processInstanceId) {
 		Query q = em.createQuery("from KieBaseXProcessInstance kb where kb.kieProcessInstanceId=:processInstanceId");
 		q.setParameter("processInstanceId", processInstanceId);
@@ -192,7 +272,15 @@ public class KnowledgeManagerBean {
 			return null;
 		}
 	}
-	
+	/**
+	 * Returns the KieReleaseId associated with a given Task
+	 * 
+	 * Note: At this point, the Process must have been started by jbpm-ee or we will
+	 * be unable to find the deployment information 
+	 * 
+	 * @param taskId
+	 * @return
+	 */
 	public KieReleaseId getReleaseIdByTaskId(Long taskId) {
 		Task task = taskService.getTaskById(taskId);
 		long processInstanceId = task.getTaskData().getProcessInstanceId();
@@ -200,6 +288,15 @@ public class KnowledgeManagerBean {
 		return this.getReleaseIdByProcessId(processInstanceId);
 	}
 	
+	/**
+	 * Returns the KieReleaseId associated with a given WorkItem
+	 * 
+	 * Note: At this point, the Process must have been started by jbpm-ee or we will
+	 * be unable to find the deployment information 
+	 * 
+	 * @param workItemId
+	 * @return
+	 */
 	public KieReleaseId getReleaseIdByWorkItemId(Long workItemId) {
 		Query q = em.createQuery("select processInstanceId from WorkItemInfo wii where kb.workItemId=:workItemId");
 		q.setParameter("workItemId", workItemId);

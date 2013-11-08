@@ -2,6 +2,11 @@ package org.jbpm.ee.support.test;
 
 import java.io.Serializable;
 
+/**
+ * TestLoan class for Rules test. Should be removed soon
+ * @author abaxter
+ *
+ */
 public class TestLoan implements Serializable {
 
 	/**

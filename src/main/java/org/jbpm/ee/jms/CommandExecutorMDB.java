@@ -29,6 +29,12 @@ import org.kie.api.runtime.manager.RuntimeEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Executes a single command and returns a response object
+ * 
+ * @author bdavis, abaxter
+ *
+ */
 @MessageDriven(name = "CommandRequestMDB", activationConfig = {
 		 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		 @ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/JBPMCommandRequestQueue")
