@@ -3,6 +3,8 @@ package org.jbpm.ee.service.remote;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.Remote;
+
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
 import org.kie.api.task.model.OrganizationalEntity;
@@ -10,7 +12,7 @@ import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
 import org.kie.api.task.model.TaskSummary;
 
-
+@Remote
 public interface TaskServiceRemote {
 
 	void activate(long taskId, String userId);
