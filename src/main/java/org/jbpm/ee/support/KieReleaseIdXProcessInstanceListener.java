@@ -14,6 +14,13 @@ import org.kie.api.runtime.process.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * ProcessEventListener to insert and delete KieBaseXProcessInstance JPA entities
+ * based on the Process starting and stopping, respectively
+ *  
+ * @author bdavis
+ *
+ */
 public class KieReleaseIdXProcessInstanceListener implements ProcessEventListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(KieReleaseIdXProcessInstanceListener.class);
