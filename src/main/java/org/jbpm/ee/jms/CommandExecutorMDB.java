@@ -49,8 +49,6 @@ public class CommandExecutorMDB implements MessageListener {
     @PostConstruct
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
-        connection.start();
-        session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);; 
     }
     
     
@@ -116,6 +114,7 @@ public class CommandExecutorMDB implements MessageListener {
 			if (!(commandResponse instanceof Void)) {
 				// see if there is a correlation and reply to.
 
+				
 				String correlation = message.getJMSCorrelationID();
 				Destination responseQueue = message.getJMSReplyTo();
 
@@ -125,11 +124,13 @@ public class CommandExecutorMDB implements MessageListener {
 						throw new CommandException("Unable to send response for command, since it is not serializable.");
 					}
 					
+					session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
 			        MessageProducer producer = session.createProducer(responseQueue);
 			        
 					ObjectMessage responseMessage = session.createObjectMessage();
-					responseMessage.setObject((Serializable)commandResponse);
+					responseMessage.setObject((Serializable) commandResponse);
 					responseMessage.setJMSCorrelationID(correlation);
+					LOG.info("Sending message");
 					producer.send(responseMessage);
 				} 
 				else {
