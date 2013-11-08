@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
+import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -18,13 +19,16 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.persistence.EntityManager;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.drools.core.command.impl.GenericCommand;
 import org.jbpm.ee.exception.CommandException;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
+import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
 import org.jbpm.services.task.commands.TaskCommand;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +56,9 @@ public class CommandExecutorMDB implements MessageListener {
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;
 	
+	@Inject
+	private EntityManager entityManager;
+	
     @PostConstruct
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
@@ -68,16 +75,21 @@ public class CommandExecutorMDB implements MessageListener {
     	}
     }
     
-    public RuntimeEngine getRuntimeEngine(Message request) throws JMSException {
+    public KieReleaseId getReleaseIdFromMessage(Message request) throws JMSException {
 		String groupId = request.getStringProperty("groupId");
 		String artifactId = request.getStringProperty("artifactId");
 		String version = request.getStringProperty("version");
 		
-		return knowledgeManager.getRuntimeEngine(new KieReleaseId(groupId, artifactId, version));
+		return new KieReleaseId(groupId, artifactId, version);
+    }
+    
+    public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) {
+
+		
+		return knowledgeManager.getRuntimeEngine(releaseId);
     }
     
     public RuntimeEngine getRuntimeEngine(GenericCommand<?> command) {
-    	RuntimeEngine runtimeEngine = null;
 		
 		if(TaskCommand.class.isAssignableFrom(command.getClass())) {
 			TaskCommand<?> taskCommand = (TaskCommand<?>)command;
@@ -108,14 +120,20 @@ public class CommandExecutorMDB implements MessageListener {
 			GenericCommand<?> command = (GenericCommand<?>)objectMessage.getObject();
 			
 			RuntimeEngine engine = getRuntimeEngine(command);
-
+			KieSession kSession = null;
+			
 			//build it from the message properties...
-			if(engine == null) {
-				engine = getRuntimeEngine(message);
+			if(engine != null) {
+				kSession = engine.getKieSession();
+			} else {
+				KieReleaseId releaseId = getReleaseIdFromMessage(message);
+				engine = getRuntimeEngine(releaseId);
+				kSession = engine.getKieSession();
+				kSession.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
 			}
 			
 			// this should be the command object.
-			Object commandResponse = engine.getKieSession().execute(command);
+			Object commandResponse = kSession.execute(command);
 
 			if (!(commandResponse instanceof Void)) {
 				// see if there is a correlation and reply to.
