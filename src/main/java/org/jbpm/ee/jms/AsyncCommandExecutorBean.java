@@ -46,9 +46,9 @@ public class AsyncCommandExecutorBean {
     @PostConstruct
     public void init() throws JMSException {
         connection = connectionFactory.createConnection();
-        connection.start();
         session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);;
         producer = session.createProducer(requestQueue); 
+        connection.start();
     }
 	
     @PreDestroy
@@ -84,7 +84,7 @@ public class AsyncCommandExecutorBean {
 
 	public Object pollResponse(String correlation) {
 		final String correlationSelector = "JMSCorrelationID = '" + correlation + "'";
-		
+
 		try {
 			MessageConsumer consumer = session.createConsumer(responseQueue, correlationSelector);
 			Message response =  consumer.receive(10000);
