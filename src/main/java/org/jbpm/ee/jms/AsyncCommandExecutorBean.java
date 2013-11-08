@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 
 @Stateless
+@LocalBean
 public class AsyncCommandExecutorBean {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AsyncCommandExecutorBean.class);
