@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.rest;
+package org.jbpm.ee.service.rest.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.jbpm.ee.service.TaskServiceBean;
+import org.jbpm.ee.service.rest.TaskServiceRest;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
 import org.jbpm.services.task.impl.model.xml.JaxbContent;
 import org.jbpm.services.task.impl.model.xml.JaxbTask;
@@ -163,5 +164,6 @@ public class TaskServiceRestImpl implements TaskServiceRest {
 	public JaxbAttachment getAttachmentById(long attachId) {
 		return new JaxbAttachment(taskService.getAttachmentById(attachId));
 	}
+
 
 }

@@ -28,6 +28,8 @@ public class RuleRuntimeBean implements RuleRuntimeRemote {
 	public void insert(Long processInstanceId, Object object) {
 		knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().insert(object);
 	}
+	
+	
 
 	
 	

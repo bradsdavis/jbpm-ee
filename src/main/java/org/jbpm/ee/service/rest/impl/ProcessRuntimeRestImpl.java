@@ -1,10 +1,11 @@
-package org.jbpm.ee.service.rest;
+package org.jbpm.ee.service.rest.impl;
 
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.jbpm.ee.service.ProcessRuntimeBean;
+import org.jbpm.ee.service.rest.ProcessRuntimeRest;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
