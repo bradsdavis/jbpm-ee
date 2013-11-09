@@ -17,9 +17,9 @@ import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jboss.resteasy.client.ProxyFactory;
-import org.jbpm.ee.services.rest.ProcessServiceRest;
-import org.jbpm.ee.services.rest.TaskServiceRest;
+import org.jbpm.ee.client.api.RestServiceFactory;
+import org.jbpm.ee.services.ProcessService;
+import org.jbpm.ee.services.TaskService;
 import org.jbpm.ee.support.KieReleaseId;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,14 +37,12 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(RestServiceBeanTest.class);
 	
 
-	public ProcessServiceRest getProcessRuntimeBean() {
-		ProcessServiceRest client = ProxyFactory.create(ProcessServiceRest.class, "http://localhost:8080/test-jbpm-services/rest");
-		return client;
+	public ProcessService getProcessRuntimeBean() {
+		return RestServiceFactory.getProcessService("http://localhost:8080/test-jbpm-services/rest");
 	}
 	
-	public TaskServiceRest getTaskServicesBean() {
-		TaskServiceRest client = ProxyFactory.create(TaskServiceRest.class, "http://localhost:8080/test-jbpm-services/rest");
-		return client;
+	public TaskService getTaskServicesBean() {
+		return RestServiceFactory.getTaskService("http://localhost:8080/test-jbpm-services/rest");
 	}
 	
 	private static final KieReleaseId kri = new KieReleaseId("com.redhat.demo", "testProj", "1.0-SNAPSHOT");
@@ -77,7 +75,7 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 		Map<String, Object> processVariables = new HashMap<String, Object>();
 		processVariables.put(variableKey, "Initial");
 		
-		List<TaskSummary> tasks = getTaskServicesBean().getTasksAssignedAsPotentialOwner("abaxter", "en-UK").getResult();
+		List<TaskSummary> tasks = getTaskServicesBean().getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
 		LOG.info("Tasks: "+tasks);
 		int initialCount = tasks.size();
 		LOG.info("Tasks: " + initialCount);

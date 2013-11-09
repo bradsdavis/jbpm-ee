@@ -16,7 +16,7 @@ import org.jbpm.ee.services.rest.WorkItemServiceRest;
 
 public class RestServiceFactory {
 
-	public static ProcessService getProcessRuntime(String url) {
+	public static ProcessService getProcessService(String url) {
 		ProcessServiceRest client = ProxyFactory.create(ProcessServiceRest.class, url);
 		return new ProcessServiceAdapter(client);
 	}
@@ -35,9 +35,4 @@ public class RestServiceFactory {
 		RuleServiceRest client = ProxyFactory.create(RuleServiceRest.class, url);
 		return new RuleServiceAdapter(client);
 	}
-
-	
-	
-		
-	
 }
