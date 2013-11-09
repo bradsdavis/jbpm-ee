@@ -1,4 +1,4 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.ejb.local;
 
 import java.util.Map;
 
@@ -8,8 +8,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.jbpm.ee.ejb.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.service.exception.InactiveProcessInstance;
-import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;

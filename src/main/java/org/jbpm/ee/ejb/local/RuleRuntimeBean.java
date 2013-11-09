@@ -1,10 +1,10 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.ejb.local;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import org.jbpm.ee.service.remote.RuleRuntimeRemote;
+import org.jbpm.ee.ejb.remote.RuleRuntimeRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 
 @Stateless

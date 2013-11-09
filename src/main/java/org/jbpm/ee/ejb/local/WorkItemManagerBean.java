@@ -1,4 +1,4 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.ejb.local;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import javax.persistence.Query;
 import org.drools.core.common.InternalRuleBase;
 import org.drools.core.process.instance.WorkItem;
 import org.drools.persistence.info.WorkItemInfo;
-import org.jbpm.ee.service.remote.WorkItemManagerRemote;
+import org.jbpm.ee.ejb.remote.WorkItemManagerRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;

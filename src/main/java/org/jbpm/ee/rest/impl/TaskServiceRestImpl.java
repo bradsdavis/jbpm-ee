@@ -1,12 +1,12 @@
-package org.jbpm.ee.service.rest.impl;
+package org.jbpm.ee.rest.impl;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.jbpm.ee.service.TaskServiceBean;
-import org.jbpm.ee.service.rest.TaskServiceRest;
+import org.jbpm.ee.ejb.local.TaskServiceBean;
+import org.jbpm.ee.rest.TaskServiceRest;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
 import org.jbpm.services.task.impl.model.xml.JaxbContent;
 import org.jbpm.services.task.impl.model.xml.JaxbTask;

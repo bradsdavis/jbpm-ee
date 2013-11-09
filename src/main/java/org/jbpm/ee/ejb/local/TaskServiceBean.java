@@ -1,4 +1,4 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.ejb.local;
 
 import java.util.Comparator;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.jbpm.ee.service.remote.TaskServiceRemote;
+import org.jbpm.ee.ejb.remote.TaskServiceRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;

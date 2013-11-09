@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.rest;
+package org.jbpm.ee.rest;
 
 import javax.ejb.Remote;
 import javax.ws.rs.Consumes;

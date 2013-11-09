@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.remote;
+package org.jbpm.ee.ejb.remote;
 
 import java.util.List;
 import java.util.Map;

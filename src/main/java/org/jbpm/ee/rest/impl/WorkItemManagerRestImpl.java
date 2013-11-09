@@ -1,11 +1,11 @@
-package org.jbpm.ee.service.rest.impl;
+package org.jbpm.ee.rest.impl;
 
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.jbpm.ee.service.WorkItemManagerBean;
-import org.jbpm.ee.service.rest.WorkItemManagerRest;
+import org.jbpm.ee.ejb.local.WorkItemManagerBean;
+import org.jbpm.ee.rest.WorkItemManagerRest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbWorkItem;
 
 public class WorkItemManagerRestImpl implements WorkItemManagerRest {

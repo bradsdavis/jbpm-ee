@@ -4,7 +4,6 @@ import static org.jbpm.ee.test.util.KJarUtil.createKieJar;
 import static org.jbpm.ee.test.util.KJarUtil.getPom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.kie.scanner.MavenRepository.getMavenRepository;
 
 import java.io.File;
@@ -19,8 +18,8 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.resteasy.client.ProxyFactory;
-import org.jbpm.ee.service.rest.ProcessRuntimeRest;
-import org.jbpm.ee.service.rest.TaskServiceRest;
+import org.jbpm.ee.rest.ProcessRuntimeRest;
+import org.jbpm.ee.rest.TaskServiceRest;
 import org.jbpm.ee.support.KieReleaseId;
 import org.junit.BeforeClass;
 import org.junit.Test;
