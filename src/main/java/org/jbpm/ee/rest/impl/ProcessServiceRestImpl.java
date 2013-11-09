@@ -6,12 +6,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.jbpm.ee.ejb.local.ProcessRuntimeBean;
-import org.jbpm.ee.rest.ProcessRuntimeRest;
+import org.jbpm.ee.rest.ProcessServiceRest;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
 
-public class ProcessRuntimeRestImpl implements ProcessRuntimeRest {
+public class ProcessServiceRestImpl implements ProcessServiceRest {
 
 	@Inject
 	private ProcessRuntimeBean processRuntimeService;

@@ -2,8 +2,6 @@ package org.jbpm.ee.services;
 
 import java.util.Map;
 
-import javax.ws.rs.PathParam;
-
 import org.drools.core.process.instance.WorkItem;
 
 /**
@@ -12,7 +10,7 @@ import org.drools.core.process.instance.WorkItem;
  *
  * Interface for completing, aborting, and getting a WorkItem
  */
-public interface WorkItemManager {
+public interface WorkItemService {
 
 	/**
 	 * Completes the specified WorkItem with the given results

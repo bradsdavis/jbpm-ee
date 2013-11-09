@@ -20,7 +20,7 @@ import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceRespon
 @Produces(MediaType.APPLICATION_XML)
 @Path("/process")
 @Remote
-public interface ProcessRuntimeRest {
+public interface ProcessServiceRest {
 
 	@POST
     @Path("/{processId}/start")

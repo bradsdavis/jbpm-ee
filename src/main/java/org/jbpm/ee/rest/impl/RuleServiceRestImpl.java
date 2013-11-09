@@ -3,9 +3,9 @@ package org.jbpm.ee.rest.impl;
 import javax.inject.Inject;
 
 import org.jbpm.ee.ejb.local.RuleRuntimeBean;
-import org.jbpm.ee.rest.RuleRuntimeRest;
+import org.jbpm.ee.rest.RuleServiceRest;
 
-public class RuleRuntimeRestImpl implements RuleRuntimeRest {
+public class RuleServiceRestImpl implements RuleServiceRest {
 
 	@Inject
 	private RuleRuntimeBean ruleRuntime;

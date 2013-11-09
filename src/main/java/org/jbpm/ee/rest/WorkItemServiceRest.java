@@ -11,14 +11,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.drools.core.process.instance.WorkItem;
 import org.kie.services.client.serialization.jaxb.impl.JaxbWorkItem;
 
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
 @Path("/workitem")
 @Remote
-public interface WorkItemManagerRest {
+public interface WorkItemServiceRest {
 
     @PUT
     @Path("{id}/complete")

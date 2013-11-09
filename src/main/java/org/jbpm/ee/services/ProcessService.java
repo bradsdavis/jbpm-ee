@@ -16,7 +16,7 @@ import org.kie.api.runtime.process.ProcessInstance;
  * For starting, creating, and aborting processes and signaling events to a process
  */
 @Remote
-public interface ProcessRuntime {
+public interface ProcessService {
 	
 	/**
 	 * Starts a process with no variables

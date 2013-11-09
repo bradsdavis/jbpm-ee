@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_XML)
 @Path("/process")
 @Remote
-public interface RuleRuntimeRest {
+public interface RuleServiceRest {
 
 
 	/**

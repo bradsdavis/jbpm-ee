@@ -2,7 +2,7 @@ package org.jbpm.ee.ejb.remote;
 
 import javax.ejb.Remote;
 
-import org.jbpm.ee.services.WorkItemManager;
+import org.jbpm.ee.services.WorkItemService;
 
 /**
  * 
@@ -10,6 +10,6 @@ import org.jbpm.ee.services.WorkItemManager;
  *
  */
 @Remote
-public interface WorkItemManagerRemote extends WorkItemManager {
+public interface WorkItemManagerRemote extends WorkItemService {
 
 }

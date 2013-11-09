@@ -17,7 +17,7 @@ import javax.ws.rs.Path;
  * executed, including rules in ruleflow-groups
  *
  */
-public interface RuleRuntime {
+public interface RuleService {
 
 
 	/**
