@@ -1,4 +1,4 @@
-package org.jbpm.ee.ejb.remote;
+package org.jbpm.ee.services.ejb.remote;
 
 import javax.ejb.Remote;
 
@@ -11,6 +11,6 @@ import org.jbpm.ee.services.RuleService;
  *
  */
 @Remote
-public interface RuleRuntimeRemote extends RuleService {
+public interface RuleServiceRemote extends RuleService {
 
 }

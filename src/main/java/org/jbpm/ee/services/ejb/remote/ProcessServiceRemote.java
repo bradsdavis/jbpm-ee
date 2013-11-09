@@ -1,4 +1,4 @@
-package org.jbpm.ee.ejb.remote;
+package org.jbpm.ee.services.ejb.remote;
 
 import javax.ejb.Remote;
 
@@ -10,6 +10,6 @@ import org.jbpm.ee.services.ProcessService;
  *
  */
 @Remote
-public interface ProcessRuntimeRemote extends ProcessService {
+public interface ProcessServiceRemote extends ProcessService {
 	
 }

@@ -2,8 +2,8 @@ package org.jbpm.ee.client.rest;
 
 import java.util.Map;
 
-import org.jbpm.ee.rest.ProcessServiceRest;
 import org.jbpm.ee.services.ProcessService;
+import org.jbpm.ee.services.rest.ProcessServiceRest;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.runtime.process.ProcessInstance;
 
@@ -15,11 +15,11 @@ import org.kie.api.runtime.process.ProcessInstance;
  * @author bradsdavis
  *
  */
-public class ProcessRuntimeAdapter implements ProcessService {
+public class ProcessServiceAdapter implements ProcessService {
 
 	private final ProcessServiceRest restService;
 	
-	public ProcessRuntimeAdapter(ProcessServiceRest restService) {
+	public ProcessServiceAdapter(ProcessServiceRest restService) {
 		this.restService = restService;
 	}
 	

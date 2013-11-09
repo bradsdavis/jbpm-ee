@@ -1,16 +1,16 @@
-package org.jbpm.ee.ejb.local;
+package org.jbpm.ee.services.ejb.local;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import org.jbpm.ee.ejb.remote.RuleRuntimeRemote;
-import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.services.RuleService;
+import org.jbpm.ee.services.ejb.remote.RuleServiceRemote;
+import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 
 @Stateless
 @LocalBean
-public class RuleRuntimeBean implements RuleService, RuleRuntimeRemote {
+public class RuleServiceBean implements RuleService, RuleServiceRemote {
 
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;

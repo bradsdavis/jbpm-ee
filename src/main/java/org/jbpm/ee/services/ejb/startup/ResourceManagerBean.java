@@ -1,4 +1,4 @@
-package org.jbpm.ee.ejb.startup;
+package org.jbpm.ee.services.ejb.startup;
 
 import javax.ejb.Singleton;
 import javax.ejb.Startup;

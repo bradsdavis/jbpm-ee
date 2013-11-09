@@ -1,4 +1,4 @@
-package org.jbpm.ee.rest;
+package org.jbpm.ee.services.rest;
 
 import java.util.Map;
 

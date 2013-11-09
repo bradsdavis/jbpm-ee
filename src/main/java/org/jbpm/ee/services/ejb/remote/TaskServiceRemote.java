@@ -1,4 +1,4 @@
-package org.jbpm.ee.ejb.remote;
+package org.jbpm.ee.services.ejb.remote;
 
 import javax.ejb.Remote;
 

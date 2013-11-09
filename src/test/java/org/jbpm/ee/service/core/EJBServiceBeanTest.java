@@ -20,9 +20,9 @@ import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jbpm.ee.ejb.remote.ProcessRuntimeRemote;
-import org.jbpm.ee.ejb.remote.TaskServiceRemote;
-import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.ejb.remote.ProcessServiceRemote;
+import org.jbpm.ee.services.ejb.remote.TaskServiceRemote;
+import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -44,12 +44,12 @@ public class EJBServiceBeanTest extends BaseJBPMServiceTest {
 	KnowledgeManagerBean knowledgeManagerBean;
 	
 	@EJB
-	ProcessRuntimeRemote processRuntimeBean;
+	ProcessServiceRemote processRuntimeBean;
 	
 	@EJB
 	TaskServiceRemote taskServicesBean;
 	
-	public ProcessRuntimeRemote getProcessRuntimeBean() {
+	public ProcessServiceRemote getProcessRuntimeBean() {
 		return processRuntimeBean;
 	}
 	

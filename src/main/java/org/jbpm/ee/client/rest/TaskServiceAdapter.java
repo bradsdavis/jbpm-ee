@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.dbunit.util.concurrent.Takable;
-import org.jbpm.ee.rest.TaskServiceRest;
 import org.jbpm.ee.services.TaskService;
+import org.jbpm.ee.services.rest.TaskServiceRest;
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
 import org.kie.api.task.model.OrganizationalEntity;

@@ -3,14 +3,14 @@ package org.jbpm.ee.client.rest;
 import java.util.Map;
 
 import org.drools.core.process.instance.WorkItem;
-import org.jbpm.ee.rest.WorkItemServiceRest;
 import org.jbpm.ee.services.WorkItemService;
+import org.jbpm.ee.services.rest.WorkItemServiceRest;
 
-public class WorkItemManagerAdapter implements WorkItemService {
+public class WorkItemServiceAdapter implements WorkItemService {
 
 	private WorkItemServiceRest restService;
 	
-	public WorkItemManagerAdapter(WorkItemServiceRest restManager) {
+	public WorkItemServiceAdapter(WorkItemServiceRest restManager) {
 		this.restService = restManager;
 	}
 	
