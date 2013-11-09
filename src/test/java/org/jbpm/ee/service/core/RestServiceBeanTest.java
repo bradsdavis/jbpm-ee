@@ -17,7 +17,7 @@ import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jbpm.ee.client.api.RestServiceFactory;
+import org.jbpm.ee.client.api.RestClientFactory;
 import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.services.TaskService;
 import org.jbpm.ee.support.KieReleaseId;
@@ -38,11 +38,11 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 	
 
 	public ProcessService getProcessRuntimeBean() {
-		return RestServiceFactory.getProcessService("http://localhost:8080/test-jbpm-services/rest");
+		return RestClientFactory.getProcessService("http://localhost:8080/test-jbpm-services/rest");
 	}
 	
 	public TaskService getTaskServicesBean() {
-		return RestServiceFactory.getTaskService("http://localhost:8080/test-jbpm-services/rest");
+		return RestClientFactory.getTaskService("http://localhost:8080/test-jbpm-services/rest");
 	}
 	
 	private static final KieReleaseId kri = new KieReleaseId("com.redhat.demo", "testProj", "1.0-SNAPSHOT");
