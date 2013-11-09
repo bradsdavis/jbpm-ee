@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jbpm.ee.services.TaskService;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
 import org.jbpm.services.task.impl.model.xml.JaxbContent;
 import org.jbpm.services.task.impl.model.xml.JaxbTask;
@@ -21,7 +22,13 @@ import org.kie.api.task.model.Status;
 import org.kie.services.client.serialization.jaxb.impl.JaxbLongListResponse;
 import org.kie.services.client.serialization.jaxb.impl.JaxbTaskSummaryListResponse;
 
-
+/**
+ * Rest interface equivalent to {@link TaskService}.  Returns JAXB types.
+ * 
+ * @see TaskService
+ * @author bradsdavis
+ *
+ */
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
 @Path("/task")

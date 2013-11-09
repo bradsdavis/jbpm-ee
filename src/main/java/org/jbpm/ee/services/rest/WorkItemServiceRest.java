@@ -11,8 +11,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jbpm.ee.services.WorkItemService;
 import org.kie.services.client.serialization.jaxb.impl.JaxbWorkItem;
 
+/**
+ * Rest interface equivalent to {@link WorkItemService}.  Returns JAXB types.
+ * 
+ * @see WorkItemService
+ * @author bradsdavis
+ *
+ */
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
 @Path("/workitem")
