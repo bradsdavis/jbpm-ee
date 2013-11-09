@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.jbpm.ee.ejb.remote.ProcessRuntimeRemote;
-import org.jbpm.ee.service.exception.InactiveProcessInstance;
+import org.jbpm.ee.exception.InactiveProcessInstance;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;

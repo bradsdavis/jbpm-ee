@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.exception;
+package org.jbpm.ee.exception;
 
 import javax.ejb.ApplicationException;
 
