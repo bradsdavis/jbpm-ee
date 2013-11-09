@@ -9,19 +9,19 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.jbpm.ee.ejb.remote.ProcessRuntimeRemote;
+import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.exception.InactiveProcessInstance;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.ProcessRuntime;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.runtime.process.WorkItemManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @LocalBean
 @Stateless
-public class ProcessRuntimeBean implements ProcessRuntimeRemote {
+public class ProcessRuntimeBean implements ProcessRuntime, ProcessRuntimeRemote {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ProcessRuntimeBean.class);
 

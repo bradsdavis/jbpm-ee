@@ -14,14 +14,15 @@ import org.drools.core.common.InternalRuleBase;
 import org.drools.core.process.instance.WorkItem;
 import org.drools.persistence.info.WorkItemInfo;
 import org.jbpm.ee.ejb.remote.WorkItemManagerRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.WorkItemManager;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 
 @LocalBean
 @Stateful
 @SessionScoped
-public class WorkItemManagerBean implements WorkItemManagerRemote {
+public class WorkItemManagerBean implements WorkItemManager, WorkItemManagerRemote {
 
 	@Inject
 	private EntityManager entityManager;

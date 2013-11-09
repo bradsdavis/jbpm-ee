@@ -5,11 +5,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import org.jbpm.ee.ejb.remote.RuleRuntimeRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.RuleRuntime;
 
 @Stateless
 @LocalBean
-public class RuleRuntimeBean implements RuleRuntimeRemote {
+public class RuleRuntimeBean implements RuleRuntime, RuleRuntimeRemote {
 
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;

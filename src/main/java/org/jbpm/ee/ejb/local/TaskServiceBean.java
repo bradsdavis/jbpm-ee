@@ -11,7 +11,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.jbpm.ee.ejb.remote.TaskServiceRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.TaskService;
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
 import org.kie.api.task.model.OrganizationalEntity;
@@ -24,7 +25,7 @@ import org.kie.internal.task.api.TaskQueryService;
 
 @Stateless
 @LocalBean
-public class TaskServiceBean implements TaskServiceRemote {
+public class TaskServiceBean implements TaskService, TaskServiceRemote {
 
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;

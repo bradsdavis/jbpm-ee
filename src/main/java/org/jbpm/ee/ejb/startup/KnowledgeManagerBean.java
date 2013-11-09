@@ -1,4 +1,4 @@
-package org.jbpm.ee.startup;
+package org.jbpm.ee.ejb.startup;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

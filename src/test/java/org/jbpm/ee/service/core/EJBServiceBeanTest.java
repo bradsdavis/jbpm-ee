@@ -22,7 +22,7 @@ import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jbpm.ee.ejb.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.ejb.remote.TaskServiceRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.junit.BeforeClass;
 import org.junit.Test;
