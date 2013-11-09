@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -23,8 +24,14 @@ import org.mvel2.sh.CommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * Provides simple wrapper to send a Command via JMS and expect a response
+ * 
+ * @author bdavis, abaxter
+ *
+ */
 @Stateless
+@LocalBean
 public class AsyncCommandExecutorBean {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AsyncCommandExecutorBean.class);
@@ -61,7 +68,15 @@ public class AsyncCommandExecutorBean {
     	}
     }
     
-	
+	/**
+	 * Executes a command asynchronously, via JMS. Returns a correlation id
+	 * 
+	 * At this time, only one command at a time
+	 * 
+	 * @param kieReleaseId
+	 * @param command
+	 * @return
+	 */
 	public String execute(KieReleaseId kieReleaseId, GenericCommand<?> command) {
 		String uuid = UUID.randomUUID().toString();
 		try {
@@ -82,6 +97,12 @@ public class AsyncCommandExecutorBean {
 		}
 	}
 
+	/**
+	 * Waits for the response object for a given correlation id.
+	 * 
+	 * @param correlation
+	 * @return
+	 */
 	public Object pollResponse(String correlation) {
 		final String correlationSelector = "JMSCorrelationID = '" + correlation + "'";
 

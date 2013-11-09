@@ -9,6 +9,11 @@ import javax.persistence.PersistenceContext;
 import org.jbpm.services.task.identity.JBossUserGroupCallbackImpl;
 import org.kie.internal.task.api.UserGroupCallback;
 
+/**
+ * Provides CDI Resources
+ * @author abaxter
+ *
+ */
 @Startup
 @Singleton(name="ResourceManager")
 public class ResourceManagerBean {
@@ -28,6 +33,8 @@ public class ResourceManagerBean {
 	
 	@Produces
 	public UserGroupCallback getUserGroupCallback() {
+		// will be JAASUserGroupCallbackImpl() once we switch to LDAP
+		// JAASUserGroupCallbackImpl will require a security context, which means changing quite a bit
 		return new JBossUserGroupCallbackImpl("classpath:/usergroup.properties");
 	}
 }

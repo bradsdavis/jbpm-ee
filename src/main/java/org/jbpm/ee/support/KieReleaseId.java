@@ -2,12 +2,17 @@ package org.jbpm.ee.support;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
-
 import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.kie.api.builder.ReleaseId;
 
-@RequestScoped
+/**
+ * 
+ * @author bdavis, abaxter
+ *
+ * Serializable ReleaseId until the update to the Kie libraries 
+ * making ReleaseIdImpl Serializable comes out
+ *
+ */
 public class KieReleaseId implements ReleaseId, Serializable {
 
 	/**
@@ -123,6 +128,10 @@ public class KieReleaseId implements ReleaseId, Serializable {
 		return groupId + ":" + artifactId + ":" + version;
 	}
 	
+	/**
+	 * Returns the ReleaseIdImpl for times when BRMS expects it
+	 * @return
+	 */
 	public ReleaseIdImpl toReleaseIdImpl() {
 		return new ReleaseIdImpl(groupId, artifactId, version);
 	}

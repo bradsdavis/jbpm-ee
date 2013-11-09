@@ -24,7 +24,6 @@ import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
 import org.jbpm.ee.service.remote.TaskServiceRemote;
 import org.jbpm.ee.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
-import org.jbpm.services.task.query.TaskSummaryImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
