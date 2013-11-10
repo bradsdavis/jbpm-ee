@@ -79,6 +79,9 @@ public class KnowledgeManagerBean {
 	
 	@PostConstruct
 	private void setup() {
+		
+		
+		
 		 kieServices = KieServices.Factory.get();
 		 containers = new ConcurrentHashMap<KieReleaseId, KieContainer>();
 		 scanners = new ConcurrentHashMap<KieReleaseId, KieScanner>();

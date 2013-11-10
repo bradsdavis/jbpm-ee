@@ -1,7 +1,5 @@
 package org.jbpm.ee.services.rest;
 
-import java.util.Map;
-
 import javax.ejb.Remote;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.drools.core.xml.jaxb.util.JaxbStringObjectPair;
 import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
@@ -36,13 +35,13 @@ public interface ProcessServiceRest {
 
     @POST
     @Path("/{processId}/start")
-    JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, @PathParam("processId") String processId, Map<String, Object> parameters);
+    JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, @PathParam("processId") String processId, JaxbStringObjectPair[] parameters);
     
 
     @POST
     @Path("/{processId}")
     @Produces({ "application/xml" })
-    JaxbProcessInstanceResponse createProcessInstance(KieReleaseId releaseId, @PathParam("processId") String processId, Map<String, Object> parameters);
+    JaxbProcessInstanceResponse createProcessInstance(KieReleaseId releaseId, @PathParam("processId") String processId, JaxbStringObjectPair[] parameters);
 
 
     @PUT

@@ -37,11 +37,11 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(RestServiceBeanTest.class);
 	
 
-	public ProcessService getProcessRuntimeBean() {
+	public ProcessService getProcessService() {
 		return RestClientFactory.getProcessService("http://localhost:8080/test-jbpm-services/rest");
 	}
 	
-	public TaskService getTaskServicesBean() {
+	public TaskService getTaskService() {
 		return RestClientFactory.getTaskService("http://localhost:8080/test-jbpm-services/rest");
 	}
 	
@@ -72,14 +72,17 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 		final String processString = "testProj.testProcess";
 		final String variableKey = "processString";
 		
+		ProcessService processService = getProcessService();
+		TaskService taskService = getTaskService();
+		
 		Map<String, Object> processVariables = new HashMap<String, Object>();
 		processVariables.put(variableKey, "Initial");
 		
-		List<TaskSummary> tasks = getTaskServicesBean().getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
+		List<TaskSummary> tasks = taskService.getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
 		LOG.info("Tasks: "+tasks);
 		int initialCount = tasks.size();
 		LOG.info("Tasks: " + initialCount);
-		ProcessInstance processInstance = getProcessRuntimeBean().startProcess(kri, processString, processVariables);
+		ProcessInstance processInstance = processService.startProcess(kri, processString, processVariables);
 		assertNotNull(processInstance);
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.getState());
 		

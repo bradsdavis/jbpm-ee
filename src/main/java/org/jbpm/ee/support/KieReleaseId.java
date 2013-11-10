@@ -2,6 +2,11 @@ package org.jbpm.ee.support;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.kie.api.builder.ReleaseId;
 
@@ -13,13 +18,14 @@ import org.kie.api.builder.ReleaseId;
  * making ReleaseIdImpl Serializable comes out
  *
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class KieReleaseId implements ReleaseId, Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -609810880974230932L;
-	
 	
 	private String groupId;
 	private String artifactId;
