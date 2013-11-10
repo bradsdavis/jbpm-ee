@@ -1,4 +1,4 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.services.ejb.local;
 
 import java.util.Map;
 
@@ -8,22 +8,22 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.jbpm.ee.service.exception.InactiveProcessInstance;
-import org.jbpm.ee.service.remote.ProcessRuntimeRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.exception.InactiveProcessInstance;
+import org.jbpm.ee.services.ProcessService;
+import org.jbpm.ee.services.ejb.remote.ProcessServiceRemote;
+import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.runtime.process.WorkItemManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @LocalBean
 @Stateless
-public class ProcessRuntimeBean implements ProcessRuntimeRemote {
+public class ProcessServiceBean implements ProcessService, ProcessServiceRemote {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(ProcessRuntimeBean.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProcessServiceBean.class);
 
 	@Inject
 	private EntityManager entityManager;

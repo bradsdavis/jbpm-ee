@@ -25,7 +25,7 @@ import javax.persistence.EntityManager;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.drools.core.command.impl.GenericCommand;
 import org.jbpm.ee.exception.CommandException;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
 import org.jbpm.services.task.commands.TaskCommand;

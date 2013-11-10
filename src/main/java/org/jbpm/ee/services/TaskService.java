@@ -1,9 +1,7 @@
-package org.jbpm.ee.service.remote;
+package org.jbpm.ee.services;
 
 import java.util.List;
 import java.util.Map;
-
-import javax.ejb.Remote;
 
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
@@ -17,8 +15,7 @@ import org.kie.api.task.model.TaskSummary;
  * @author bdavis, abaxter
  *
  */
-@Remote
-public interface TaskServiceRemote {
+public interface TaskService {
 
 	/**
 	 * Reactivate a previously suspended task (?)

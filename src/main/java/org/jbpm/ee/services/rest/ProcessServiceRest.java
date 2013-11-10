@@ -1,4 +1,4 @@
-package org.jbpm.ee.service.rest;
+package org.jbpm.ee.services.rest;
 
 import java.util.Map;
 
@@ -12,15 +12,22 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
-
+/**
+ * Rest interface equivalent to {@link ProcessService}.  Returns JAXB types.
+ * 
+ * @see ProcessService
+ * @author bradsdavis
+ *
+ */
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
 @Path("/process")
 @Remote
-public interface ProcessRuntimeRest {
+public interface ProcessServiceRest {
 
 	@POST
     @Path("/{processId}/start")

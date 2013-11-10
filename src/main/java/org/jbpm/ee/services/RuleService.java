@@ -1,12 +1,8 @@
-package org.jbpm.ee.service.remote;
+package org.jbpm.ee.services;
 
-import javax.ejb.Remote;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 
 /**
@@ -21,11 +17,7 @@ import javax.ws.rs.core.MediaType;
  * executed, including rules in ruleflow-groups
  *
  */
-@Consumes(MediaType.APPLICATION_XML)
-@Produces(MediaType.APPLICATION_XML)
-@Path("/process")
-@Remote
-public interface RuleRuntimeRemote {
+public interface RuleService {
 
 
 	/**
@@ -34,8 +26,6 @@ public interface RuleRuntimeRemote {
 	 * @param processInstanceId The process instance's unique identifier
 	 * @return The number of rules fired
 	 */
-    @PUT
-    @Path("/instance/{processInstanceId}/rule/fire/all")
 	int fireAllRules(Long processInstanceId);
 	
 
@@ -46,8 +36,6 @@ public interface RuleRuntimeRemote {
      * @param max The maximum number of rules to fire
      * @return The number of rules fired
      */
-    @PUT
-    @Path("/instance/{processInstanceId}/rule/fire/max")
 	int fireAllRules(Long processInstanceId, int max);
 	
 
@@ -57,8 +45,6 @@ public interface RuleRuntimeRemote {
      * @param processInstanceId The process instance's unique identifier
      * @param object The fact to be inserted
      */
-    @POST
-    @Path("/instance/{processInstanceId}/rule/insert")
     void insert(Long processInstanceId, Object object);
     
 }

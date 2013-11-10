@@ -1,4 +1,4 @@
-package org.jbpm.ee.startup;
+package org.jbpm.ee.services.ejb.startup;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,8 +15,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.jbpm.ee.config.Configuration;
+import org.jbpm.ee.exception.InactiveProcessInstance;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
-import org.jbpm.ee.service.exception.InactiveProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.kie.api.KieBase;

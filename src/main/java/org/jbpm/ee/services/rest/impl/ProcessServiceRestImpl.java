@@ -1,18 +1,20 @@
-package org.jbpm.ee.service.rest;
+
+package org.jbpm.ee.services.rest.impl;
 
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.jbpm.ee.service.ProcessRuntimeBean;
+import org.jbpm.ee.services.ejb.local.ProcessServiceBean;
+import org.jbpm.ee.services.rest.ProcessServiceRest;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
 
-public class ProcessRuntimeRestImpl implements ProcessRuntimeRest {
+public class ProcessServiceRestImpl implements ProcessServiceRest {
 
 	@Inject
-	private ProcessRuntimeBean processRuntimeService;
+	private ProcessServiceBean processRuntimeService;
 	
 	@Override
 	public JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, String processId) {

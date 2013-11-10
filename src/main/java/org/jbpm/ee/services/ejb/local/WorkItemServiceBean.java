@@ -1,4 +1,4 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.services.ejb.local;
 
 import java.util.Map;
 
@@ -13,15 +13,16 @@ import javax.persistence.Query;
 import org.drools.core.common.InternalRuleBase;
 import org.drools.core.process.instance.WorkItem;
 import org.drools.persistence.info.WorkItemInfo;
-import org.jbpm.ee.service.remote.WorkItemManagerRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.WorkItemService;
+import org.jbpm.ee.services.ejb.remote.WorkItemServiceRemote;
+import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 
 @LocalBean
 @Stateful
 @SessionScoped
-public class WorkItemManagerBean implements WorkItemManagerRemote {
+public class WorkItemServiceBean implements WorkItemService, WorkItemServiceRemote {
 
 	@Inject
 	private EntityManager entityManager;

@@ -1,15 +1,16 @@
-package org.jbpm.ee.service;
+package org.jbpm.ee.services.ejb.local;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import org.jbpm.ee.service.remote.RuleRuntimeRemote;
-import org.jbpm.ee.startup.KnowledgeManagerBean;
+import org.jbpm.ee.services.RuleService;
+import org.jbpm.ee.services.ejb.remote.RuleServiceRemote;
+import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 
 @Stateless
 @LocalBean
-public class RuleRuntimeBean implements RuleRuntimeRemote {
+public class RuleServiceBean implements RuleService, RuleServiceRemote {
 
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;
@@ -28,6 +29,8 @@ public class RuleRuntimeBean implements RuleRuntimeRemote {
 	public void insert(Long processInstanceId, Object object) {
 		knowledgeManager.getRuntimeEngineByProcessId(processInstanceId).getKieSession().insert(object);
 	}
+	
+	
 
 	
 	
