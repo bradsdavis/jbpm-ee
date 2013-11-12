@@ -5,6 +5,7 @@ import java.util.Map;
 import org.drools.core.process.instance.WorkItem;
 import org.jbpm.ee.services.WorkItemService;
 import org.jbpm.ee.services.rest.WorkItemServiceRest;
+import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 
 public class WorkItemServiceAdapter implements WorkItemService {
 
@@ -16,7 +17,7 @@ public class WorkItemServiceAdapter implements WorkItemService {
 	
 	@Override
 	public void completeWorkItem(long id, Map<String, Object> results) {
-		this.restService.completeWorkItem(id, results);
+		this.restService.completeWorkItem(id, new JaxbMapRequest(results));
 	}
 
 	@Override
