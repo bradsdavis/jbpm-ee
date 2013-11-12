@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jbpm.ee.services.TaskService;
+import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
 import org.jbpm.services.task.impl.model.xml.JaxbContent;
 import org.jbpm.services.task.impl.model.xml.JaxbTask;
@@ -52,7 +53,7 @@ public interface TaskServiceRest {
 
     @PUT
     @Path("{taskId}/complete")
-    void complete(@PathParam("taskId") long taskId, @QueryParam("userId") String userId, Map<String, Object> data);
+    void complete(@PathParam("taskId") long taskId, @QueryParam("userId") String userId, JaxbMapRequest data);
 
 
     @PUT
@@ -67,7 +68,7 @@ public interface TaskServiceRest {
 
     @PUT
     @Path("{taskId}/fail")
-    void fail(@PathParam("taskId") long taskId, @QueryParam("userId") String userId, Map<String, Object> faultData);
+    void fail(@PathParam("taskId") long taskId, @QueryParam("userId") String userId, JaxbMapRequest faultData);
 
 
     @PUT

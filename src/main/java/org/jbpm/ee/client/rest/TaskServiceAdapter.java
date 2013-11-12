@@ -6,6 +6,7 @@ import java.util.Map;
 import org.dbunit.util.concurrent.Takable;
 import org.jbpm.ee.services.TaskService;
 import org.jbpm.ee.services.rest.TaskServiceRest;
+import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.kie.api.task.model.Attachment;
 import org.kie.api.task.model.Content;
 import org.kie.api.task.model.OrganizationalEntity;
@@ -38,7 +39,7 @@ public class TaskServiceAdapter implements TaskService {
 
 	@Override
 	public void complete(long taskId, String userId, Map<String, Object> data) {
-		this.taskService.complete(taskId, userId, data);
+		this.taskService.complete(taskId, userId, new JaxbMapRequest(data));
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class TaskServiceAdapter implements TaskService {
 
 	@Override
 	public void fail(long taskId, String userId, Map<String, Object> faultData) {
-		this.taskService.fail(taskId, userId, faultData);
+		this.taskService.fail(taskId, userId, new JaxbMapRequest(faultData));
 	}
 
 	@Override

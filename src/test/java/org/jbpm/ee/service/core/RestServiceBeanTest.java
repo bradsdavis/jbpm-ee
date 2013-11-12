@@ -4,6 +4,7 @@ import static org.jbpm.ee.test.util.KJarUtil.createKieJar;
 import static org.jbpm.ee.test.util.KJarUtil.getPom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.kie.scanner.MavenRepository.getMavenRepository;
 
 import java.io.File;
@@ -21,6 +22,7 @@ import org.jbpm.ee.client.api.RestClientFactory;
 import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.services.TaskService;
 import org.jbpm.ee.support.KieReleaseId;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,29 +90,27 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 		assertNotNull(processInstance);
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.getState());
 		
-        /*
-		tasks = getTaskServicesBean().getTasksAssignedAsPotentialOwner("abaxter", "en-UK").getResult();
+		tasks = taskService.getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
 		for(TaskSummary summary : tasks) {
-			LOG.info("Task: " + summary.getId());
+			LOG.info("Task: " + summary.getId() + ", Status: "+summary.getStatus());
 		}
 		assertNotNull(tasks);
         assertEquals(initialCount + 1, tasks.size());
         
-        long taskId = tasks.get(0).getId();
+        //get the last status.
+        long taskId = tasks.get(tasks.size()-1).getId();
         
         Map<String,Object> testResults = new HashMap<String,Object>();
         
-        getTaskServicesBean().claim(taskId, "abaxter");
-        getTaskServicesBean().start(taskId, "abaxter");
-        getTaskServicesBean().complete(taskId, "abaxter", testResults);
-     // check the state of process instance
+        taskService.claim(taskId, "abaxter");
+        taskService.start(taskId, "abaxter");
+        taskService.complete(taskId, "abaxter", testResults);
         
-        tasks = getTaskServicesBean().getTasksAssignedAsPotentialOwner("abaxter", "en-UK").getResult();
+        tasks = taskService.getTasksAssignedAsPotentialOwner("abaxter", "en-UK");
 		assertNotNull(tasks);
-        assertEquals(0, tasks.size());
+        assertEquals(initialCount, tasks.size());
         
-        processInstance = getProcessRuntimeBean().getProcessInstance(processInstance.getId());
+        processInstance = processService.getProcessInstance(processInstance.getId());
         assertNull(processInstance);
-        */
 	}
 }
