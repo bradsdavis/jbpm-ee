@@ -328,5 +328,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>jbpm-ee-client</module>
+		<module>jbpm-ee-services</module>
 	</modules>
 </project>
