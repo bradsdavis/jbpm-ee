@@ -6,6 +6,11 @@
  		<param-name>resteasy.scan.providers</param-name>
  		<param-value>true</param-value>
  	</context-param>
+ 	<context-param>
+		<param-name>resteasy.scan</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
  	<servlet-mapping>
         <servlet-name>javax.ws.rs.core.Application</servlet-name>
 	    <url-pattern>/rest/*</url-pattern>

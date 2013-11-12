@@ -82,6 +82,8 @@ public class RestServiceBeanTest extends BaseJBPMServiceTest {
 		LOG.info("Tasks: "+tasks);
 		int initialCount = tasks.size();
 		LOG.info("Tasks: " + initialCount);
+		
+		LOG.info("KRI: "+kri);
 		ProcessInstance processInstance = processService.startProcess(kri, processString, processVariables);
 		assertNotNull(processInstance);
         assertEquals(ProcessInstance.STATE_ACTIVE, processInstance.getState());

@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.hibernate.SessionException;
 import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.exception.InactiveProcessInstance;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
@@ -79,9 +80,6 @@ public class KnowledgeManagerBean {
 	
 	@PostConstruct
 	private void setup() {
-		
-		
-		
 		 kieServices = KieServices.Factory.get();
 		 containers = new ConcurrentHashMap<KieReleaseId, KieContainer>();
 		 scanners = new ConcurrentHashMap<KieReleaseId, KieScanner>();

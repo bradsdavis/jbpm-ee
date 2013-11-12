@@ -59,6 +59,10 @@
 					<artifactId>weld-core</artifactId>
 					<groupId>org.jboss.weld</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>jackson-core-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -127,6 +131,12 @@
 			<artifactId>arquillian-persistence-impl</artifactId>
 			<version>1.0.0.Alpha6</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>jackson-core-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 
@@ -204,6 +214,12 @@
 			<groupId>org.kie</groupId>
 			<artifactId>kie-ci</artifactId>
 			<version>${jbpm.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>javax.inject</artifactId>
+					<groupId>javax.inject</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
@@ -217,11 +233,31 @@
 			<groupId>org.kie.remote</groupId>
 			<artifactId>kie-services-remote</artifactId>
 			<version>${jbpm.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jaxrs-api</artifactId>
+					<groupId>org.jboss.resteasy</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>javax.inject</artifactId>
+					<groupId>javax.inject</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.kie.remote</groupId>
 			<artifactId>kie-services-client</artifactId>
 			<version>${jbpm.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jaxrs-api</artifactId>
+					<groupId>org.jboss.resteasy</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jaxb-impl</artifactId>
+					<groupId>com.sun.xml.bind</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 

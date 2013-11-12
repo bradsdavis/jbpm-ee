@@ -9,27 +9,25 @@ import org.drools.core.xml.jaxb.util.JaxbMapAdapter;
 import org.drools.core.xml.jaxb.util.JaxbStringObjectPair;
 import org.jbpm.ee.services.ejb.local.ProcessServiceBean;
 import org.jbpm.ee.services.rest.ProcessServiceRest;
-import org.jbpm.ee.support.KieReleaseId;
+import org.jbpm.ee.services.rest.request.JaxbInitializeProcessRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
 
 public class ProcessServiceRestImpl implements ProcessServiceRest {
 
-	private static final JaxbMapAdapter MAP_ADAPTER = new JaxbMapAdapter();
-	
 	@Inject
 	private ProcessServiceBean processRuntimeService;
 	
 	@Override
-	public JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, String processId) {
-		return new JaxbProcessInstanceResponse(processRuntimeService.startProcess(releaseId, processId));
-	}
-
-	@Override
-	public JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, String processId, JaxbStringObjectPair[] params) {
+	public JaxbProcessInstanceResponse startProcess(String processId, JaxbInitializeProcessRequest request) {
 		try {
-			Map<String, Object> parameters = toMap(params);
-			return new JaxbProcessInstanceResponse(processRuntimeService.startProcess(releaseId, processId, parameters));
+			if(request.getVariables() == null) {
+				return new JaxbProcessInstanceResponse(processRuntimeService.startProcess(request.getReleaseId(), processId));
+			}
+			else {
+				return new JaxbProcessInstanceResponse(processRuntimeService.startProcess(request.getReleaseId(), processId, request.getVariables()));
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,10 +36,9 @@ public class ProcessServiceRestImpl implements ProcessServiceRest {
 	}
 
 	@Override
-	public JaxbProcessInstanceResponse createProcessInstance(KieReleaseId releaseId, String processId, JaxbStringObjectPair[] params) {
+	public JaxbProcessInstanceResponse createProcessInstance(String processId, JaxbInitializeProcessRequest request) {
 		try {
-			Map<String, Object> parameters = toMap(params);
-			return new JaxbProcessInstanceResponse(processRuntimeService.createProcessInstance(releaseId, processId, parameters));
+			return new JaxbProcessInstanceResponse(processRuntimeService.createProcessInstance(request.getReleaseId(), processId, request.getVariables()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,9 +68,4 @@ public class ProcessServiceRestImpl implements ProcessServiceRest {
 		this.processRuntimeService.abortProcessInstance(processInstanceId);
 	}
 
-	
-	private Map<String, Object> toMap(JaxbStringObjectPair[] parameters) throws Exception {
-		return MAP_ADAPTER.unmarshal(parameters);
-	}
-	
 }
