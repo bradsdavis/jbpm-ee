@@ -5,8 +5,8 @@ import javax.ejb.EJB;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.services.TaskService;
-import org.jbpm.ee.services.ejb.local.ProcessServiceBean;
-import org.jbpm.ee.services.ejb.local.TaskServiceBean;
+import org.jbpm.ee.services.ejb.remote.ProcessServiceRemote;
+import org.jbpm.ee.services.ejb.remote.TaskServiceRemote;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.junit.runner.RunWith;
 
@@ -17,10 +17,10 @@ public class RemoteEJBServiceBeanTest extends JBPMServiceTest {
 	KnowledgeManagerBean knowledgeManagerBean;
 	
 	@EJB
-	ProcessServiceBean processRuntimeBean;
+	ProcessServiceRemote processRuntimeBean;
 	
 	@EJB
-	TaskServiceBean taskServicesBean;
+	TaskServiceRemote taskServicesBean;
 
 	@Override
 	public TaskService getTaskService() {

@@ -13,7 +13,7 @@ import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.services.ejb.remote.ProcessServiceRemote;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
-import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
+import org.jbpm.ee.services.support.KieReleaseIdXProcessInstanceListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.slf4j.Logger;

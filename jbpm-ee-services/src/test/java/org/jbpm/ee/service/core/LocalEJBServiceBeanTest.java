@@ -5,8 +5,8 @@ import javax.ejb.EJB;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.services.TaskService;
-import org.jbpm.ee.services.ejb.remote.ProcessServiceRemote;
-import org.jbpm.ee.services.ejb.remote.TaskServiceRemote;
+import org.jbpm.ee.services.ejb.local.ProcessServiceLocal;
+import org.jbpm.ee.services.ejb.local.TaskServiceLocal;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.junit.runner.RunWith;
 
@@ -17,10 +17,10 @@ public class LocalEJBServiceBeanTest extends JBPMServiceTest {
 	KnowledgeManagerBean knowledgeManagerBean;
 	
 	@EJB
-	ProcessServiceRemote processRuntimeBean;
+	ProcessServiceLocal processRuntimeBean;
 	
 	@EJB
-	TaskServiceRemote taskServicesBean;
+	TaskServiceLocal taskServicesBean;
 
 	@Override
 	public TaskService getTaskService() {

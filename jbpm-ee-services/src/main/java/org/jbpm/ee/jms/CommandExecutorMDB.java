@@ -27,7 +27,7 @@ import org.drools.core.command.impl.GenericCommand;
 import org.jbpm.ee.exception.CommandException;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
-import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
+import org.jbpm.ee.services.support.KieReleaseIdXProcessInstanceListener;
 import org.jbpm.services.task.commands.TaskCommand;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;

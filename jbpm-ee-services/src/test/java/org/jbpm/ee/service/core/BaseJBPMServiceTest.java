@@ -47,9 +47,8 @@ public class BaseJBPMServiceTest {
 		
 		JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test-jbpm-services.jar")
 	        .addPackages(true, "org.jbpm.ee")
-	        .addPackages(true, "org.jbpm.workitem.camel")
 	        .addAsManifestResource("META-INF/beans.xml", "beans.xml")
-	        .addAsManifestResource("test-persistence.xml", "persistence.xml")
+	        .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
 	        .addAsResource("usergroup.properties", "usergroup.properties")
 	        .addAsResource("environment.properties", "environment.properties");
 	    //System.out.println(jar.toString(true));
