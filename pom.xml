@@ -256,6 +256,7 @@
 					<groupId>org.jboss.arquillian.protocol</groupId>
 					<artifactId>arquillian-protocol-servlet</artifactId>
 					<version>${version.arquillian_core}</version>
+					<scope>test</scope>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -287,5 +288,6 @@
 		<module>jbpm-ee-services</module>
 		<module>jbpm-ee-rest</module>
 		<module>jbpm-ee-soap</module>
+		<module>jbpm-ee-ear</module>
 	</modules>
 </project>
