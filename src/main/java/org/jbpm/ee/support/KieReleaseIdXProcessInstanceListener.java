@@ -1,6 +1,7 @@
 package org.jbpm.ee.support;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
@@ -65,10 +66,14 @@ public class KieReleaseIdXProcessInstanceListener implements ProcessEventListene
 		Query q = entityManager.createQuery("from KieBaseXProcessInstance kb where kb.kieProcessInstanceId=:processInstanceId");
 		q.setParameter("processInstanceId", processInstanceId);
 		
-		KieBaseXProcessInstance xref = (KieBaseXProcessInstance)q.getSingleResult();
-		entityManager.remove(xref);
-		
-		LOG.info("Deleted KieBaseXProcessInstance for Process Instance ID: "+event.getProcessInstance().getId());
+		try {
+			KieBaseXProcessInstance xref = (KieBaseXProcessInstance)q.getSingleResult();
+			entityManager.remove(xref);
+			LOG.info("Deleted KieBaseXProcessInstance for Process Instance ID: "+event.getProcessInstance().getId());
+		}
+		catch(NoResultException e) {
+			LOG.warn("No result found for ProcessInstance: "+processInstanceId, e);
+		}
 	}
 
 	@Override

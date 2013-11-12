@@ -1,7 +1,5 @@
 package org.jbpm.ee.services.rest;
 
-import java.util.Map;
-
 import javax.ejb.Remote;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jbpm.ee.services.ProcessService;
-import org.jbpm.ee.support.KieReleaseId;
+import org.jbpm.ee.services.rest.request.JaxbInitializeProcessRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
 /**
@@ -29,20 +27,15 @@ import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceRespon
 @Remote
 public interface ProcessServiceRest {
 
-	@POST
-    @Path("/{processId}/start")
-    JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, @PathParam("processId") String processId);
-
-
     @POST
     @Path("/{processId}/start")
-    JaxbProcessInstanceResponse startProcess(KieReleaseId releaseId, @PathParam("processId") String processId, Map<String, Object> parameters);
+    JaxbProcessInstanceResponse startProcess(@PathParam("processId") String processId, JaxbInitializeProcessRequest request);
     
 
     @POST
     @Path("/{processId}")
     @Produces({ "application/xml" })
-    JaxbProcessInstanceResponse createProcessInstance(KieReleaseId releaseId, @PathParam("processId") String processId, Map<String, Object> parameters);
+    JaxbProcessInstanceResponse createProcessInstance(@PathParam("processId") String processId, JaxbInitializeProcessRequest request);
 
 
     @PUT

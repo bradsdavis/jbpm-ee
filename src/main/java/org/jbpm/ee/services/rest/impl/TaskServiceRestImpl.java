@@ -5,8 +5,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.jboss.resteasy.plugins.providers.jaxb.JaxbMap;
 import org.jbpm.ee.services.ejb.local.TaskServiceBean;
 import org.jbpm.ee.services.rest.TaskServiceRest;
+import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
 import org.jbpm.services.task.impl.model.xml.JaxbContent;
 import org.jbpm.services.task.impl.model.xml.JaxbTask;
@@ -37,8 +39,8 @@ public class TaskServiceRestImpl implements TaskServiceRest {
 	}
 
 	@Override
-	public void complete(long taskId, String userId, Map<String, Object> data) {
-		taskService.complete(taskId, userId, data);
+	public void complete(long taskId, String userId, JaxbMapRequest data) {
+		taskService.complete(taskId, userId, data.getMap());
 	}
 
 	@Override
@@ -52,8 +54,8 @@ public class TaskServiceRestImpl implements TaskServiceRest {
 	}
 
 	@Override
-	public void fail(long taskId, String userId, Map<String, Object> faultData) {
-		taskService.fail(taskId, userId, faultData);
+	public void fail(long taskId, String userId, JaxbMapRequest faultData) {
+		taskService.fail(taskId, userId, faultData.getMap());
 	}
 
 	@Override

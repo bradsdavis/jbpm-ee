@@ -14,20 +14,25 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.hibernate.SessionException;
 import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.exception.InactiveProcessInstance;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
+import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.PropertiesConfiguration;
 import org.kie.api.builder.KieScanner;
+import org.kie.api.event.process.ProcessEventListener;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Task;
+import org.kie.internal.runtime.manager.RegisterableItemsFactory;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 import org.kie.internal.runtime.manager.RuntimeManagerFactory;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
@@ -171,7 +176,6 @@ public class KnowledgeManagerBean {
 	 */
 	public RuntimeEngine getRuntimeEngine(KieReleaseId releaseId) {
 		RuntimeManager rm = getRuntimeManager(releaseId);
-		
 		return rm.getRuntimeEngine(ProcessInstanceIdContext.get());
 	}
 	
@@ -189,18 +193,31 @@ public class KnowledgeManagerBean {
 		ProcessInstanceIdContext context = ProcessInstanceIdContext.get(processInstanceId);
 		
 		LOG.info("Context: "+context);
-		
 		KieReleaseId releaseId = getReleaseIdByProcessId(processInstanceId);
 		if(releaseId == null) {
 			throw new InactiveProcessInstance(processInstanceId);
 		}
-
 		LOG.info("Kie Release: "+releaseId);
 		
-		
 		RuntimeManager manager = getRuntimeManager(releaseId);
-		
+		if(!hasDisposalListener(manager, processInstanceId)) {
+			//add the listener.
+			LOG.info("Adding the disposal listener to existing runtime for process ID: "+processInstanceId);
+			manager.getRuntimeEngine(context).getKieSession().addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, em));
+		}
 		return manager.getRuntimeEngine(context);
+	}
+	
+	protected boolean hasDisposalListener(RuntimeManager manager, long processInstanceId) {
+		
+		 RuntimeEngine engine = manager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
+		 for(ProcessEventListener pel : (engine.getKieSession().getProcessEventListeners())) {
+			if(KieReleaseIdXProcessInstanceListener.class.isAssignableFrom(pel.getClass())) {
+				return true;
+			}
+		}
+		 
+		return false;
 	}
 
 	/**
