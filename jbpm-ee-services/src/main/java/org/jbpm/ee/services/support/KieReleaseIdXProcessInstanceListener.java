@@ -1,10 +1,11 @@
-package org.jbpm.ee.support;
+package org.jbpm.ee.services.support;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
+import org.jbpm.ee.support.KieReleaseId;
 import org.kie.api.event.process.ProcessCompletedEvent;
 import org.kie.api.event.process.ProcessEventListener;
 import org.kie.api.event.process.ProcessNodeLeftEvent;

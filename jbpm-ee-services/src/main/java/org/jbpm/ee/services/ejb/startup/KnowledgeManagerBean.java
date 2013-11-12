@@ -19,7 +19,7 @@ import org.jbpm.ee.config.Configuration;
 import org.jbpm.ee.exception.InactiveProcessInstance;
 import org.jbpm.ee.persistence.KieBaseXProcessInstance;
 import org.jbpm.ee.support.KieReleaseId;
-import org.jbpm.ee.support.KieReleaseIdXProcessInstanceListener;
+import org.jbpm.ee.services.support.KieReleaseIdXProcessInstanceListener;
 import org.jbpm.runtime.manager.impl.RuntimeEnvironmentBuilder;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
