@@ -1,4 +1,4 @@
-package org.jbpm.ee.services.ejb.local;
+package org.jbpm.ee.services.ejb.impl;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;

@@ -1,4 +1,4 @@
-package org.jbpm.ee.services.ejb.local;
+package org.jbpm.ee.services.ejb.impl;
 
 import java.util.Map;
 
@@ -21,7 +21,6 @@ import org.kie.internal.runtime.manager.RuntimeEnvironment;
 
 @LocalBean
 @Stateful
-@SessionScoped
 public class WorkItemServiceBean implements WorkItemService, WorkItemServiceRemote {
 
 	@Inject

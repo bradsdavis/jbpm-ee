@@ -1,4 +1,4 @@
-package org.jbpm.ee.services.ejb.local;
+package org.jbpm.ee.services.ejb.impl;
 
 import java.util.Comparator;
 import java.util.List;
