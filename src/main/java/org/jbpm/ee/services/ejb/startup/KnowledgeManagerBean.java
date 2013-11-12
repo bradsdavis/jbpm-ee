@@ -206,6 +206,13 @@ public class KnowledgeManagerBean {
 		return manager.getRuntimeEngine(context);
 	}
 	
+	/**
+	 * Checks to see whether the given runtime engine has the KieReleaseIdXProcessInstanceListener for disposing the cross reference when the process is completed.
+	 * 
+	 * @param manager
+	 * @param processInstanceId
+	 * @return
+	 */
 	protected boolean hasDisposalListener(RuntimeManager manager, long processInstanceId) {
 		
 		 RuntimeEngine engine = manager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId));
