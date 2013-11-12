@@ -5,6 +5,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -26,16 +27,16 @@ public interface RuleServiceRest {
 
     @PUT
     @Path("/instance/{processInstanceId}/rule/fire/all")
-	int fireAllRules(Long processInstanceId);
+	int fireAllRules(@PathParam("processInstanceId") Long processInstanceId);
 	
 
     @PUT
-    @Path("/instance/{processInstanceId}/rule/fire/max")
-	int fireAllRules(Long processInstanceId, int max);
+    @Path("/instance/{processInstanceId}/rule/fire/max/{max}")
+	int fireAllRules(@PathParam("processInstanceId") Long processInstanceId, @PathParam("max") int max);
 	
 
     @POST
     @Path("/instance/{processInstanceId}/rule/insert")
-    void insert(Long processInstanceId, Object object);
+    void insert( @PathParam("processInstanceId") Long processInstanceId, Object object);
     
 }
