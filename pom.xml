@@ -231,21 +231,6 @@
 
 		<dependency>
 			<groupId>org.kie.remote</groupId>
-			<artifactId>kie-services-remote</artifactId>
-			<version>${jbpm.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>jaxrs-api</artifactId>
-					<groupId>org.jboss.resteasy</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>javax.inject</artifactId>
-					<groupId>javax.inject</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.kie.remote</groupId>
 			<artifactId>kie-services-client</artifactId>
 			<version>${jbpm.version}</version>
 			<exclusions>

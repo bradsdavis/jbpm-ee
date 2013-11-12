@@ -1,8 +1,6 @@
 package org.jbpm.ee.client.api;
 
 import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jbpm.ee.client.rest.ProcessServiceAdapter;
 import org.jbpm.ee.client.rest.RuleServiceAdapter;
 import org.jbpm.ee.client.rest.TaskServiceAdapter;
