@@ -335,4 +335,7 @@
 	</repositories>
 
 	<packaging>pom</packaging>
+	<modules>
+		<module>jbpm-ee-client</module>
+	</modules>
 </project>
