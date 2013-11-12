@@ -1,9 +1,10 @@
 package org.jbpm.ee.services.rest.impl;
 
 import java.util.List;
-import javax.inject.Inject;
 
-import org.jbpm.ee.services.ejb.local.TaskServiceBean;
+import javax.ejb.EJB;
+
+import org.jbpm.ee.services.ejb.local.TaskServiceLocal;
 import org.jbpm.ee.services.rest.TaskServiceRest;
 import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.jbpm.services.task.impl.model.xml.JaxbAttachment;
@@ -17,8 +18,8 @@ import org.kie.services.client.serialization.jaxb.impl.JaxbTaskSummaryListRespon
 
 public class TaskServiceRestImpl implements TaskServiceRest {
 
-	@Inject
-	private TaskServiceBean taskService;
+	@EJB
+	private TaskServiceLocal taskService;
 	
 	@Override
 	public void activate(long taskId, String userId) {

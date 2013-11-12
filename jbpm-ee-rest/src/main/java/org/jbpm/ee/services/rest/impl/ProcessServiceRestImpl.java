@@ -1,9 +1,9 @@
 
 package org.jbpm.ee.services.rest.impl;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
-import org.jbpm.ee.services.ejb.local.ProcessServiceBean;
+import org.jbpm.ee.services.ejb.local.ProcessServiceLocal;
 import org.jbpm.ee.services.rest.ProcessServiceRest;
 import org.jbpm.ee.services.rest.request.JaxbInitializeProcessRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
@@ -11,8 +11,8 @@ import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceRespon
 
 public class ProcessServiceRestImpl implements ProcessServiceRest {
 
-	@Inject
-	private ProcessServiceBean processRuntimeService;
+	@EJB
+	private ProcessServiceLocal processRuntimeService;
 	
 	@Override
 	public JaxbProcessInstanceResponse startProcess(String processId, JaxbInitializeProcessRequest request) {

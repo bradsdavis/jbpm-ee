@@ -1,16 +1,15 @@
 package org.jbpm.ee.services.rest.impl;
 
-import javax.inject.Inject;
-
-import org.jbpm.ee.services.ejb.local.WorkItemServiceBean;
+import javax.ejb.EJB;
+import org.jbpm.ee.services.ejb.local.WorkItemServiceLocal;
 import org.jbpm.ee.services.rest.WorkItemServiceRest;
 import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbWorkItem;
 
 public class WorkItemServiceRestImpl implements WorkItemServiceRest {
 
-	@Inject
-	private WorkItemServiceBean workItemManager;
+	@EJB
+	private WorkItemServiceLocal workItemManager;
 	
 	@Override
 	public void completeWorkItem(long id, JaxbMapRequest results) {

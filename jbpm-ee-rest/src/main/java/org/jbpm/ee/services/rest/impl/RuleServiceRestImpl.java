@@ -1,14 +1,14 @@
 package org.jbpm.ee.services.rest.impl;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
-import org.jbpm.ee.services.ejb.local.RuleServiceBean;
+import org.jbpm.ee.services.ejb.local.RuleServiceLocal;
 import org.jbpm.ee.services.rest.RuleServiceRest;
 
 public class RuleServiceRestImpl implements RuleServiceRest {
 
-	@Inject
-	private RuleServiceBean ruleRuntime;
+	@EJB
+	private RuleServiceLocal ruleRuntime;
 	
 	@Override
 	public int fireAllRules(Long processInstanceId) {
