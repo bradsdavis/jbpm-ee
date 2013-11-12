@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jbpm.ee.services.WorkItemService;
+import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbWorkItem;
 
 /**
@@ -29,7 +30,7 @@ public interface WorkItemServiceRest {
 
     @PUT
     @Path("{id}/complete")
-    void completeWorkItem(@PathParam("id") long id, Map<String, Object> results);
+    void completeWorkItem(@PathParam("id") long id, JaxbMapRequest results);
 
     @PUT
     @Path("{id}/abort")

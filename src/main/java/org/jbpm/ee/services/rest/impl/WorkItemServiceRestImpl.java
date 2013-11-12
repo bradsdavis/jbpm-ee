@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.jbpm.ee.services.ejb.local.WorkItemServiceBean;
 import org.jbpm.ee.services.rest.WorkItemServiceRest;
+import org.jbpm.ee.services.rest.request.JaxbMapRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbWorkItem;
 
 public class WorkItemServiceRestImpl implements WorkItemServiceRest {
@@ -14,8 +15,8 @@ public class WorkItemServiceRestImpl implements WorkItemServiceRest {
 	private WorkItemServiceBean workItemManager;
 	
 	@Override
-	public void completeWorkItem(long id, Map<String, Object> results) {
-		this.workItemManager.completeWorkItem(id, results);
+	public void completeWorkItem(long id, JaxbMapRequest results) {
+		this.workItemManager.completeWorkItem(id, results.getMap());
 	}
 
 	@Override
