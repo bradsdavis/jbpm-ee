@@ -35,7 +35,6 @@ public class ProcessServiceBean implements ProcessService, ProcessServiceRemote 
 	public ProcessInstance startProcess(KieReleaseId releaseId, String processId) {
 		KieSession session = knowledgeManager.getRuntimeEngine(releaseId).getKieSession();
 		session.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
-		
 		return session.startProcess(processId);
 	}
 
@@ -43,7 +42,6 @@ public class ProcessServiceBean implements ProcessService, ProcessServiceRemote 
 	public ProcessInstance startProcess(KieReleaseId releaseId, String processId, Map<String, Object> parameters) {
 		KieSession session = knowledgeManager.getRuntimeEngine(releaseId).getKieSession();
 		session.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
-		
 		return session.startProcess(processId, parameters);
 	}
 
@@ -51,7 +49,6 @@ public class ProcessServiceBean implements ProcessService, ProcessServiceRemote 
 	public ProcessInstance createProcessInstance(KieReleaseId releaseId, String processId, Map<String, Object> parameters) {
 		KieSession session = knowledgeManager.getRuntimeEngine(releaseId).getKieSession();
 		session.addEventListener(new KieReleaseIdXProcessInstanceListener(releaseId, entityManager));
-		
 		return session.createProcessInstance(processId, parameters);
 	}
 

@@ -10,6 +10,7 @@ import org.drools.core.xml.jaxb.util.JaxbStringObjectPair;
 import org.jbpm.ee.services.ejb.local.ProcessServiceBean;
 import org.jbpm.ee.services.rest.ProcessServiceRest;
 import org.jbpm.ee.services.rest.request.JaxbInitializeProcessRequest;
+import org.jbpm.process.instance.ProcessInstance;
 import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceResponse;
 
 
@@ -60,7 +61,15 @@ public class ProcessServiceRestImpl implements ProcessServiceRest {
 
 	@Override
 	public JaxbProcessInstanceResponse getProcessInstance(long processInstanceId) {
-		return new JaxbProcessInstanceResponse(processRuntimeService.getProcessInstance(processInstanceId));
+		org.kie.api.runtime.process.ProcessInstance instance = processRuntimeService.getProcessInstance(processInstanceId);
+		
+		if(instance != null) {
+			return new JaxbProcessInstanceResponse(instance);
+		}
+		else {
+			return null;
+		}
+		
 	}
 
 	@Override
