@@ -1,7 +1,5 @@
 package org.jbpm.ee.services.rest;
 
-import java.util.Map;
-
 import javax.ejb.Remote;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

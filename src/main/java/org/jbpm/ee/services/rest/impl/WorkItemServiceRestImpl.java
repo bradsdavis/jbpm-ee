@@ -1,7 +1,5 @@
 package org.jbpm.ee.services.rest.impl;
 
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import org.jbpm.ee.services.ejb.local.WorkItemServiceBean;
