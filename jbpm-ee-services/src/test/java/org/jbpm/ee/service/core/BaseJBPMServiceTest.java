@@ -30,7 +30,7 @@ public class BaseJBPMServiceTest {
 		archive.addAsManifestResource("jbossas-ds.xml");
 		archive.addAsManifestResource("hornetq-jms.xml");
 		archive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-		//archive.addAsWebInfResource("test-web.xml", "web.xml");
+		archive.addAsWebInfResource("test-web.xml", "web.xml");
 		
 		System.out.println(archive);
 		
@@ -54,6 +54,7 @@ public class BaseJBPMServiceTest {
 	    //System.out.println(jar.toString(true));
 		archive.addAsLibraries(jar);
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm.jbpm-ee:jbpm-ee-client").withTransitivity().asFile());
+		archive.addAsLibraries(resolveStage.resolve("org.jbpm.jbpm-ee:jbpm-ee-rest-client").withoutTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-flow-builder").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-bpmn2").withTransitivity().asFile());
@@ -63,8 +64,6 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-human-task-core").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.kie:kie-ci").withTransitivity().asFile());
 		
-		
-		//System.out.println(archive.toString(true));
 		return archive;
 	}
 

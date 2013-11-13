@@ -1,6 +1,5 @@
 package org.jbpm.ee.services.rest;
 
-import javax.ejb.Remote;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,7 +23,6 @@ import org.kie.services.client.serialization.jaxb.impl.JaxbProcessInstanceRespon
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
 @Path("/process")
-@Remote
 public interface ProcessServiceRest {
 
     @POST

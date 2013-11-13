@@ -1,10 +1,10 @@
-package org.jbpm.ee.client.api;
+package org.jbpm.ee.client.rest;
 
 import org.jboss.resteasy.client.ProxyFactory;
-import org.jbpm.ee.client.rest.ProcessServiceAdapter;
-import org.jbpm.ee.client.rest.RuleServiceAdapter;
-import org.jbpm.ee.client.rest.TaskServiceAdapter;
-import org.jbpm.ee.client.rest.WorkItemServiceAdapter;
+import org.jbpm.ee.client.rest.adapter.ProcessServiceAdapter;
+import org.jbpm.ee.client.rest.adapter.RuleServiceAdapter;
+import org.jbpm.ee.client.rest.adapter.TaskServiceAdapter;
+import org.jbpm.ee.client.rest.adapter.WorkItemServiceAdapter;
 import org.jbpm.ee.services.ProcessService;
 import org.jbpm.ee.services.RuleService;
 import org.jbpm.ee.services.TaskService;

@@ -13,12 +13,7 @@
   		<type>pom</type>
   		<scope>provided</scope>
   	</dependency>
-  	<dependency>
-	<groupId>org.jboss.resteasy</groupId>
-	<artifactId>resteasy-client</artifactId>
-	<version>3.0.5.Final</version>
-</dependency>
-            
+
   	<dependency>
   		<groupId>org.kie.remote</groupId>
   		<artifactId>kie-services-client</artifactId>

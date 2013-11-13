@@ -1,4 +1,4 @@
-package org.jbpm.ee.client.rest;
+package org.jbpm.ee.client.rest.adapter;
 
 import java.util.List;
 import java.util.Map;

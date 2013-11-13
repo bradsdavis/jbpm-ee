@@ -1,4 +1,4 @@
-package org.jbpm.ee.client.rest;
+package org.jbpm.ee.client.rest.adapter;
 
 import org.jbpm.ee.services.RuleService;
 import org.jbpm.ee.services.rest.RuleServiceRest;

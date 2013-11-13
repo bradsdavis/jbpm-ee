@@ -1,6 +1,5 @@
 package org.jbpm.ee.services.rest;
 
-import javax.ejb.Remote;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -22,7 +21,6 @@ import org.jbpm.ee.services.RuleService;
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
 @Path("/process")
-@Remote
 public interface RuleServiceRest {
 
     @PUT
