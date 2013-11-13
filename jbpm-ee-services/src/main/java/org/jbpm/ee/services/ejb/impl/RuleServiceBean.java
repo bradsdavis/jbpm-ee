@@ -4,11 +4,12 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.jbpm.ee.services.RuleService;
+import org.jbpm.ee.services.ejb.local.RuleServiceLocal;
 import org.jbpm.ee.services.ejb.remote.RuleServiceRemote;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 
 @Stateless
-public class RuleServiceBean implements RuleService, RuleServiceRemote {
+public class RuleServiceBean implements RuleService, RuleServiceLocal, RuleServiceRemote {
 
 	@EJB
 	private KnowledgeManagerBean knowledgeManager;

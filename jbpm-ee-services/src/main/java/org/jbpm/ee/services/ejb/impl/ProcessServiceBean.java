@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 
 import org.jbpm.ee.exception.InactiveProcessInstance;
 import org.jbpm.ee.services.ProcessService;
+import org.jbpm.ee.services.ejb.local.ProcessServiceLocal;
 import org.jbpm.ee.services.ejb.remote.ProcessServiceRemote;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
@@ -19,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Stateless
-public class ProcessServiceBean implements ProcessService, ProcessServiceRemote {
+public class ProcessServiceBean implements ProcessService, ProcessServiceLocal, ProcessServiceRemote {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ProcessServiceBean.class);
 
