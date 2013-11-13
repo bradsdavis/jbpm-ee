@@ -27,8 +27,8 @@ public class BaseJBPMServiceTest {
 		PomEquippedResolveStage resolveStage = Maven.resolver().loadPomFromFile("pom.xml");
 		
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class, "test-jbpm-services.war");
-		archive.addAsManifestResource("META-INF/jbossas-ds.xml", "jboss-ds.xml");
-		archive.addAsManifestResource("META-INF/hornetq-jms.xml", "hornetq-jms.xml");
+		archive.addAsManifestResource("jbossas-ds.xml");
+		archive.addAsManifestResource("hornetq-jms.xml");
 		archive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 		//archive.addAsWebInfResource("test-web.xml", "web.xml");
 		
@@ -62,10 +62,6 @@ public class BaseJBPMServiceTest {
 		archive.addAsLibraries(resolveStage.resolve("org.quartz-scheduler:quartz").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.jbpm:jbpm-human-task-core").withTransitivity().asFile());
 		archive.addAsLibraries(resolveStage.resolve("org.kie:kie-ci").withTransitivity().asFile());
-/*		archive.addAsLibraries(resolveStage.resolve("org.apache.camel:camel-cdi").withTransitivity().asFile());
-		archive.addAsLibraries(resolveStage.resolve("org.jboss.solder:solder-impl").withTransitivity().asFile());
-		archive.addAsLibraries(resolveStage.resolve("org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile());
-		archive.addAsLibraries(resolveStage.resolve("org.kie.remote:kie-services-client").withoutTransitivity().asFile());*/
 		
 		
 		//System.out.println(archive.toString(true));
