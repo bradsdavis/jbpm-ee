@@ -27,10 +27,10 @@ public class BaseJBPMServiceTest {
 		PomEquippedResolveStage resolveStage = Maven.resolver().loadPomFromFile("pom.xml");
 		
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class, "test-jbpm-services.war");
-		archive.addAsManifestResource("jbossas-ds.xml");
-		archive.addAsManifestResource("hornetq-jms.xml");
+		//archive.addAsManifestResource("jbossas-ds.xml");
+		//archive.addAsManifestResource("hornetq-jms.xml");
 		archive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-		archive.addAsWebInfResource("test-web.xml", "web.xml");
+		//archive.addAsWebInfResource("test-web.xml", "web.xml");
 		
 		System.out.println(archive);
 		
