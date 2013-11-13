@@ -1,7 +1,6 @@
 package org.jbpm.ee.services.ejb.impl;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import org.jbpm.ee.services.RuleService;
@@ -9,7 +8,6 @@ import org.jbpm.ee.services.ejb.remote.RuleServiceRemote;
 import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 
 @Stateless
-@LocalBean
 public class RuleServiceBean implements RuleService, RuleServiceRemote {
 
 	@EJB

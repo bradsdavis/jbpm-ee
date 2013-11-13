@@ -3,9 +3,7 @@ package org.jbpm.ee.services.ejb.impl;
 import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -19,7 +17,6 @@ import org.jbpm.ee.services.ejb.startup.KnowledgeManagerBean;
 import org.jbpm.ee.support.KieReleaseId;
 import org.kie.internal.runtime.manager.RuntimeEnvironment;
 
-@LocalBean
 @Stateful
 public class WorkItemServiceBean implements WorkItemService, WorkItemServiceRemote {
 

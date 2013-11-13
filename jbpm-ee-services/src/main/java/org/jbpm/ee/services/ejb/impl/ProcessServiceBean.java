@@ -3,7 +3,6 @@ package org.jbpm.ee.services.ejb.impl;
 import java.util.Map;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -19,7 +18,6 @@ import org.kie.api.runtime.process.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@LocalBean
 @Stateless
 public class ProcessServiceBean implements ProcessService, ProcessServiceRemote {
 	

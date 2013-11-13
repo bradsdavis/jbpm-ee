@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -24,7 +23,6 @@ import org.kie.internal.task.api.TaskContentService;
 import org.kie.internal.task.api.TaskQueryService;
 
 @Stateless
-@LocalBean
 public class TaskServiceBean implements TaskService, TaskServiceRemote {
 
 	@EJB
