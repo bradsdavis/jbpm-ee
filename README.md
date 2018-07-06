@@ -1,4 +1,4 @@
-jbpm-ee
+DEPRECATED - jbpm-ee
 =======
 Enterprise Services for jBPM 6.
 
